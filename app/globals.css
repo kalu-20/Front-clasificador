@@ -4,9 +4,7 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Inter', system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 
     --canvas:  #FCF291;
     --cream:   #FFF6C2;
@@ -32,7 +30,7 @@
   }
 
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-alice), Georgia, serif;
     min-height: 100vh;
     background:
       radial-gradient(900px 600px at 85% -8%, rgba(68, 122, 0, 0.10), transparent 60%),

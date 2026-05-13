@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Alice } from 'next/font/google';
 import './globals.css';
 import { SmoothScroll } from '@/components/providers/smooth-scroll';
 import { LoadingScreen } from '@/components/loading-screen';
@@ -6,13 +7,20 @@ import { ScrollProgress } from '@/components/scroll-progress';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 
+const alice = Alice({
+  weight: '400',
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-alice',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: {
     default: 'EcoClasificador · Visión computacional para reciclar mejor',
     template: '%s · EcoClasificador',
   },
   description:
-    'Plataforma de clasificación de residuos con IA. Subí una foto y un modelo ResNet50 entrenado sobre RealWaste te dice a qué contenedor pertenece.',
+    'Si hoy clasificamos y reciclamos correctamente los residuos, ayudamos a proteger el medio ambiente y conservar los recursos para el futuro.',
   keywords: [
     'reciclaje',
     'clasificación de residuos',
@@ -24,9 +32,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'EcoClasificador' }],
   openGraph: {
-    title: 'EcoClasificador',
+    title: 'EcoClasificador · Separar hoy, preservar mañana.',
     description:
-      'Reciclá mejor con IA. Subí una foto y obtené la categoría correcta al instante.',
+      'Si hoy clasificamos y reciclamos correctamente los residuos, ayudamos a proteger el medio ambiente y conservar los recursos para el futuro.',
     type: 'website',
     locale: 'es_AR',
   },
@@ -48,11 +56,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      </head>
+    <html lang="es" suppressHydrationWarning className={alice.variable}>
       <body className="font-sans">
         <LoadingScreen />
         <ScrollProgress />

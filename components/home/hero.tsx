@@ -58,9 +58,9 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
             className="mt-7 max-w-xl text-balance text-[17px] leading-relaxed text-ink-dim sm:text-[19px]"
           >
-            Subí una foto del residuo y un modelo de visión computacional te dice
-            a qué contenedor pertenece — en menos de un segundo, con la
-            recomendación correcta de reciclaje.
+            Si hoy clasificamos y reciclamos correctamente los residuos,
+            ayudamos a proteger el medio ambiente y conservar los recursos para
+            el futuro.
           </motion.p>
 
           <motion.div
