@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220" width="240" height="220">
+  <defs>
+    <style>
+      .label { font-family: Georgia, serif; font-weight: 700; fill: #7C1155; }
+      .frame { fill: #FCF291; stroke: #7C1155; stroke-width: 4; }
+      .leaf  { fill: #447A00; }
+      .bottle { fill: #447A00; }
+      .recycle { fill: #7C1155; }
+    </style>
+  </defs>
+
+  <!-- marco redondeado tipo etiqueta -->
+  <rect x="20" y="14" width="200" height="160" rx="40" ry="40" class="frame"/>
+
+  <!-- hojas decorativas a los lados -->
+  <path class="leaf" d="M20 90 q-18 -10 -16 -34 q24 -2 32 18 q-4 12 -16 16 z"/>
+  <path class="leaf" d="M220 90 q18 -10 16 -34 q-24 -2 -32 18 q4 12 16 16 z"/>
+
+  <!-- botella reciclaje (izquierda) -->
+  <path class="bottle" d="M78 60 v-10 h12 v10 c0 4 6 6 6 14 v44 c0 6 -4 8 -8 8 h-10 c-4 0 -8 -2 -8 -8 v-44 c0 -8 6 -10 8 -14 z"/>
+
+  <!-- contenedor + flecha reciclaje central -->
+  <g transform="translate(120 96)">
+    <!-- triángulo reciclaje -->
+    <path class="recycle" d="M0 -28 l24 14 l-8 0 l-4 8 l-12 -6 l-12 6 l-4 -8 l-8 0 z"/>
+    <circle cx="0" cy="-2" r="8" fill="#FCF291"/>
+    <path class="recycle" d="M-4 -4 l4 -6 l4 6 z"/>
+  </g>
+
+  <!-- cartón derecho -->
+  <rect class="bottle" x="148" y="60" width="32" height="58" rx="4"/>
+  <line x1="164" y1="60" x2="164" y2="118" stroke="#FCF291" stroke-width="2"/>
+
+  <!-- texto ECO -->
+  <text class="label" x="120" y="146" font-size="34" text-anchor="middle">ECO</text>
+  <!-- texto CLASIFICADOR -->
+  <text class="label" x="120" y="204" font-size="22" text-anchor="middle" letter-spacing="2">CLASIFICADOR</text>
+
+  <!-- coronitas pequeñas -->
+  <path class="leaf" d="M55 200 q-6 -8 -12 -8 q4 6 6 10 z"/>
+  <path class="leaf" d="M185 200 q6 -8 12 -8 q-4 6 -6 10 z"/>
+</svg>
