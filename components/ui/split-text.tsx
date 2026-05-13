@@ -12,7 +12,8 @@ type Props = {
   stagger?: number;
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
   splitBy?: 'word' | 'char';
-  once?: boolean;
+  /** Si true (default), dispara al montar. Si false, espera al scroll. */
+  immediate?: boolean;
 };
 
 const itemVariants: Variants = {
@@ -35,7 +36,7 @@ export function SplitText({
   stagger = 0.05,
   as = 'h2',
   splitBy = 'word',
-  once = true,
+  immediate = true,
 }: Props) {
   const tokens = useMemo(() => {
     return splitBy === 'word' ? text.split(/(\s+)/) : Array.from(text);
@@ -43,13 +44,19 @@ export function SplitText({
 
   const MotionTag = motion[as] as typeof motion.h2;
 
+  const animationProps = immediate
+    ? { initial: 'hidden' as const, animate: 'show' as const }
+    : {
+        initial: 'hidden' as const,
+        whileInView: 'show' as const,
+        viewport: { once: true, amount: 0, margin: '200px 0px 200px 0px' },
+      };
+
   return (
     <MotionTag
       className={cn('inline-block', className)}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, margin: '-10%' }}
       aria-label={text}
+      {...animationProps}
     >
       {tokens.map((token, i) => {
         if (/^\s+$/.test(token)) {
