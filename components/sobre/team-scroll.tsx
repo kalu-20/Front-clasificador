@@ -10,11 +10,23 @@ import { TEAM } from '@/lib/data';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
 
-const GRADIENTS = [
-  'linear-gradient(135deg, #FFF6C2 0%, #FCF291 60%, #F0D33C 100%)',
-  'linear-gradient(135deg, #E1F6A8 0%, #C8EE6E 60%, #8AC81F 100%)',
-  'linear-gradient(135deg, #FBE9F3 0%, #F4C0DC 60%, #D45991 100%)',
-];
+const TAG_STYLES: Record<
+  'Frontend' | 'Backend',
+  { gradient: string; avatarBg: string; chipBg: string; chipText: string }
+> = {
+  Frontend: {
+    gradient: 'linear-gradient(135deg, #FBE9F3 0%, #F4C0DC 55%, #D45991 100%)',
+    avatarBg: '#7C1155',
+    chipBg: '#7C1155',
+    chipText: '#FFF6C2',
+  },
+  Backend: {
+    gradient: 'linear-gradient(135deg, #F2FBD9 0%, #C8EE6E 55%, #8AC81F 100%)',
+    avatarBg: '#447A00',
+    chipBg: '#447A00',
+    chipText: '#FFF6C2',
+  },
+};
 
 export function TeamScroll() {
   return (
@@ -69,7 +81,7 @@ function TeamCard({
 }: {
   name: string;
   role: string;
-  tag: string;
+  tag: 'Frontend' | 'Backend';
   index: number;
 }) {
   const initials = name
@@ -77,6 +89,8 @@ function TeamCard({
     .map((w) => w[0])
     .slice(0, 2)
     .join('');
+
+  const style = TAG_STYLES[tag];
 
   return (
     <motion.div
@@ -89,7 +103,7 @@ function TeamCard({
       <div
         aria-hidden
         className="absolute inset-0 opacity-90"
-        style={{ background: GRADIENTS[index % GRADIENTS.length] }}
+        style={{ background: style.gradient }}
       />
 
       <div className="relative flex h-full flex-col justify-between p-8">
@@ -97,19 +111,25 @@ function TeamCard({
           <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-wine/70">
             {String(index + 1).padStart(2, '0')} / {String(TEAM.length).padStart(2, '0')}
           </span>
-          <span className="rounded-full border border-wine/25 bg-cream/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-wine">
+          <span
+            className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em]"
+            style={{ backgroundColor: style.chipBg, color: style.chipText }}
+          >
             {tag}
           </span>
         </div>
 
         <div className="flex items-center justify-center">
-          <div className="grid h-36 w-36 place-items-center rounded-full bg-wine text-5xl font-bold text-cream shadow-glow">
+          <div
+            className="grid h-36 w-36 place-items-center rounded-full text-5xl font-bold text-cream shadow-glow"
+            style={{ backgroundColor: style.avatarBg }}
+          >
             {initials}
           </div>
         </div>
 
         <div>
-          <h3 className="font-display text-[clamp(1.4rem,2.4vw,1.85rem)] font-bold tracking-tight text-wine">
+          <h3 className="font-display text-[clamp(1.25rem,2vw,1.65rem)] font-bold tracking-tight text-wine">
             {name}
           </h3>
           <p className="mt-2 text-[14px] text-ink-dim">{role}</p>

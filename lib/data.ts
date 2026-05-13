@@ -146,12 +146,33 @@ export const STEPS: Step[] = [
   },
 ];
 
-export type TeamMember = { name: string; role: string; tag: string };
+export type TeamMember = {
+  name: string;
+  role: string;
+  tag: 'Frontend' | 'Backend';
+};
 
 export const TEAM: TeamMember[] = [
-  { name: 'María Claudia Fabián', role: 'Coordinación general · Modelo de IA', tag: 'IA · Visión' },
-  { name: 'Equipo de desarrollo', role: 'Frontend, UX e integración con API', tag: 'Producto' },
-  { name: 'Lic. Walter Gabriel Ramirez', role: 'Formador y tutor académico', tag: 'Mentoría' },
+  {
+    name: 'María Claudia Fabián',
+    role: 'Frontend · UI, animaciones e integración con la API',
+    tag: 'Frontend',
+  },
+  {
+    name: 'Fátima Isabel Sumbaine',
+    role: 'Frontend · Diseño, UX y construcción de componentes',
+    tag: 'Frontend',
+  },
+  {
+    name: 'Daniel Marcelo Chachagua Garrido',
+    role: 'Backend · API REST, modelo ResNet50 e inferencia ONNX',
+    tag: 'Backend',
+  },
+  {
+    name: 'Victoria Macarena Alvarez',
+    role: 'Backend · Datos, pipeline de entrenamiento y evaluación',
+    tag: 'Backend',
+  },
 ];
 
 export type Pillar = { title: string; copy: string; icon: string };
