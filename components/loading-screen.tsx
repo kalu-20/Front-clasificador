@@ -2,12 +2,13 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { EcoLogo } from '@/components/ui/eco-logo';
 
 export function LoadingScreen() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setDone(true), 700);
+    const t = setTimeout(() => setDone(true), 750);
     return () => clearTimeout(t);
   }, []);
 
@@ -22,17 +23,11 @@ export function LoadingScreen() {
         >
           <div className="flex flex-col items-center gap-5">
             <motion.div
-              initial={{ scale: 0.92, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-2.5"
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-wine text-base text-cream shadow-glow">
-                ♻
-              </span>
-              <span className="font-display text-lg font-semibold tracking-tight text-wine">
-                EcoClasificador
-              </span>
+              <EcoLogo size={96} priority />
             </motion.div>
 
             <div className="h-[2px] w-32 overflow-hidden rounded-full bg-wine/10">
@@ -40,7 +35,7 @@ export function LoadingScreen() {
                 className="block h-full bg-olive"
                 initial={{ x: '-100%' }}
                 animate={{ x: '0%' }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
           </div>

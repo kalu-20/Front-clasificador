@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/motion';
+import { EcoLogo } from '@/components/ui/eco-logo';
 
 const LINKS = [
   { label: 'Inicio', href: '/' },
@@ -24,9 +25,7 @@ export function SiteFooter() {
       >
         <motion.div variants={fadeUp} className="md:col-span-5">
           <div className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-olive text-[14px] font-bold text-cream">
-              ♻
-            </span>
+            <EcoLogo size={48} ringed />
             <span className="font-display text-lg font-semibold tracking-tight text-cream">
               EcoClasificador
             </span>

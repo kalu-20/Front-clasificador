@@ -1,5 +1,6 @@
 import { Hero } from '@/components/home/hero';
 import { MarqueeBand } from '@/components/home/marquee-band';
+import { BinsBanner } from '@/components/home/bins-banner';
 import { HowItWorks } from '@/components/home/how-it-works';
 import { Categories } from '@/components/home/categories';
 import { Pillars } from '@/components/home/pillars';
@@ -10,6 +11,7 @@ export default function HomePage() {
     <>
       <Hero />
       <MarqueeBand />
+      <BinsBanner />
       <HowItWorks />
       <Categories />
       <Pillars />

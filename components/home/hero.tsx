@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { SplitText } from '@/components/ui/split-text';
 import { MagneticButton } from '@/components/ui/magnetic-button';
+import { EcoLogo } from '@/components/ui/eco-logo';
 import { STATS } from '@/lib/data';
 
 export function Hero() {
@@ -171,9 +172,7 @@ function HeroArt() {
               className="absolute inset-0 -m-6 rounded-full"
               style={{ background: 'radial-gradient(closest-side, rgba(68,122,0,0.35), transparent 70%)' }}
             />
-            <div className="relative grid h-28 w-28 place-items-center rounded-full bg-wine text-5xl text-cream shadow-glow">
-              ♻
-            </div>
+            <EcoLogo size={160} priority className="relative drop-shadow-[0_18px_40px_rgba(124,17,85,0.35)]" />
           </div>
         </div>
 

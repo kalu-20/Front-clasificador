@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MagneticButton } from '@/components/ui/magnetic-button';
 import { SplitText } from '@/components/ui/split-text';
+import { EcoLogo } from '@/components/ui/eco-logo';
 
 export function CTA() {
   return (
@@ -79,9 +80,7 @@ export function CTA() {
               <div className="relative aspect-square w-full max-w-[340px]">
                 <div className="absolute inset-0 rounded-3xl border border-cream/15 bg-cream/5" />
                 <div className="absolute inset-0 grid place-items-center">
-                  <div className="grid h-32 w-32 place-items-center rounded-full bg-canvas text-6xl text-wine shadow-glow">
-                    ♻
-                  </div>
+                  <EcoLogo size={180} className="drop-shadow-[0_18px_40px_rgba(0,0,0,0.4)]" />
                 </div>
 
                 <div className="absolute left-5 right-5 top-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-cream/55">

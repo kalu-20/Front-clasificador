@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/cn';
+import { EcoLogo } from '@/components/ui/eco-logo';
 
 const NAV = [
   { href: '/', label: 'Inicio' },
@@ -45,10 +46,8 @@ export function SiteHeader() {
         className="group flex items-center gap-2.5 rounded-xl px-2 py-1.5"
         aria-label="EcoClasificador — Inicio"
       >
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-olive text-[12px] font-bold text-cream shadow-soft">
-          ♻
-        </span>
-        <span className="font-display text-[15px] font-semibold tracking-tight text-wine">
+        <EcoLogo size={36} priority className="transition-transform duration-300 group-hover:scale-105" />
+        <span className="hidden font-display text-[15px] font-semibold tracking-tight text-wine sm:inline">
           EcoClasificador
         </span>
       </Link>
