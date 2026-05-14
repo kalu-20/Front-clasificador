@@ -132,6 +132,8 @@ npm run build:pages     # GitHub Pages (basePath /Front-clasificador)
 
 ### Deploy del backend en Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template?template=https%3A%2F%2Fgithub.com%2Fkalu-20%2FFront-clasificador&rootDirectory=backend)
+
 Ver guía paso a paso en [`backend/README.md`](backend/README.md#-desplegar-en-railway-recomendado). Resumen:
 
 1. `railway.app/new` → Deploy from GitHub repo.
