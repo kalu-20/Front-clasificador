@@ -6,6 +6,7 @@
 
 **Reciclá mejor. Una foto basta.**
 
+Proyecto integrador universitario · **UPATecO Salta · 2026**.
 Plataforma full-stack que clasifica residuos en 9 categorías usando una red neuronal **ResNet50** entrenada sobre el dataset abierto **RealWaste**.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-000?logo=next.js&logoColor=white)](https://nextjs.org/)
@@ -24,7 +25,7 @@ Plataforma full-stack que clasifica residuos en 9 categorías usando una red neu
 
 ## 🧬 Visión general
 
-EcoClasificador es un **proyecto educativo** que demuestra cómo bajar la fricción del reciclaje doméstico usando visión computacional. El usuario sube una foto del residuo y el sistema:
+EcoClasificador es un **proyecto académico integrador** desarrollado en la cátedra de Ciencia de Datos e IA Aplicada (UPATecO Salta). Demuestra cómo bajar la fricción del reciclaje doméstico usando visión computacional. El usuario sube una foto del residuo y el sistema:
 
 1. **Procesa la imagen** (resize 224×224, normalización ImageNet).
 2. **Infiere** sobre un modelo ResNet50 fine-tuned (ONNX Runtime, CPU).
@@ -191,7 +192,7 @@ Documentación interactiva: **`/docs`** (Swagger UI).
 | **Backend**  | Daniel Marcelo Chachagua Garrido         |
 | **Backend**  | Victoria Macarena Alvarez                |
 
-Proyecto educativo · **UPATecO Salta · 2026**.
+**Contexto académico**: Proyecto integrador de la cátedra de Ciencia de Datos e Inteligencia Artificial Aplicada — **UPATecO Salta · 2026**.
 
 ---
 
