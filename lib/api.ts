@@ -1,4 +1,26 @@
-export const DEFAULT_API_URL = 'http://127.0.0.1:8000/api/v1/predict';
+/**
+ * Cliente del backend de EcoClasificador.
+ *
+ * La URL por defecto se resuelve en este orden:
+ *   1. `NEXT_PUBLIC_API_URL` definida en build (Vercel / .env.local).
+ *   2. Fallback hardcoded a la API pública de Railway.
+ *   3. localStorage `ecoApi` — sobreescribe ambas si el usuario tocó "Cambiar URL".
+ */
+
+const ENV_URL = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+const PRODUCTION_API_URL =
+  ENV_URL && ENV_URL.length > 0
+    ? ENV_URL
+    : 'https://ecoclasificador-api-production.up.railway.app/api/v1/predict';
+
+const LOCAL_API_URL = 'http://127.0.0.1:8000/api/v1/predict';
+
+/** URL inicial que ve el usuario al entrar a /clasificar. */
+export const DEFAULT_API_URL =
+  typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? LOCAL_API_URL
+    : PRODUCTION_API_URL;
 
 export type Probability = {
   class_name: string;
@@ -20,16 +42,65 @@ export function setStoredApiUrl(url: string): void {
   localStorage.setItem('ecoApi', url);
 }
 
+export function resetStoredApiUrl(): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem('ecoApi');
+}
+
+export class ApiError extends Error {
+  readonly kind: 'mixed_content' | 'network' | 'http' | 'unknown';
+  readonly status?: number;
+
+  constructor(
+    kind: ApiError['kind'],
+    message: string,
+    status?: number,
+  ) {
+    super(message);
+    this.kind = kind;
+    this.status = status;
+    this.name = 'ApiError';
+  }
+}
+
+function detectMixedContent(apiUrl: string): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.location.protocol === 'https:' && apiUrl.startsWith('http://');
+}
+
 export async function predictImage(
   apiUrl: string,
   file: File,
 ): Promise<PredictionResponse> {
+  if (detectMixedContent(apiUrl)) {
+    throw new ApiError(
+      'mixed_content',
+      'La página está servida por HTTPS y la URL de la API es HTTP. Los navegadores bloquean este tipo de llamadas. Usá una URL https:// o serví esta web localmente.',
+    );
+  }
+
   const form = new FormData();
   form.append('file', file);
-  const resp = await fetch(apiUrl, { method: 'POST', body: form });
-  if (!resp.ok) {
-    const text = await resp.text().catch(() => '');
-    throw new Error(`API respondió ${resp.status}: ${text.slice(0, 200)}`);
+
+  let response: Response;
+  try {
+    response = await fetch(apiUrl, { method: 'POST', body: form });
+  } catch (err) {
+    const reason = err instanceof Error ? err.message : String(err);
+    throw new ApiError(
+      'network',
+      `No se pudo conectar con la API. Verificá que esté online y que tenga CORS habilitado. (${reason})`,
+    );
   }
-  return (await resp.json()) as PredictionResponse;
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new ApiError(
+      'http',
+      `La API respondió ${response.status}: ${text.slice(0, 200)}`,
+      response.status,
+    );
+  }
+
+  return (await response.json()) as PredictionResponse;
 }

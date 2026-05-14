@@ -125,15 +125,10 @@ function ErrorView({ message }: { message: string }) {
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-red-100 text-base">
           ⚠️
         </div>
-        <div>
-          <h3 className="font-display text-base font-bold tracking-tight text-red-700">
-            No pude conectar con la API
-          </h3>
-          <p
-            className="mt-1.5 text-[13px] leading-relaxed text-red-900/80"
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        </div>
+        <div
+          className="flex-1 text-[13px] leading-relaxed text-red-900/85"
+          dangerouslySetInnerHTML={{ __html: message }}
+        />
       </div>
     </motion.div>
   );

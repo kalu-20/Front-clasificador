@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Entornos virtuales
+env/
+venv/
+.venv/
+
+# Modelo ONNX (se descarga en build / runtime)
+*.onnx
+*.onnx.data
+
+# Env locales
+.env
+.env.local

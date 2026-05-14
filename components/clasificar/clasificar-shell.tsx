@@ -11,6 +11,7 @@ import { UploadDropzone } from './upload-dropzone';
 import { ResultPanel } from './result-panel';
 
 import {
+  ApiError,
   DEFAULT_API_URL,
   getStoredApiUrl,
   setStoredApiUrl,
@@ -58,13 +59,27 @@ export function ClasificarShell() {
       const data = await predictImage(apiUrl, file);
       setStatus({ kind: 'success', data });
     } catch (err) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : 'Error desconocido al consultar la API.';
+      let title = 'No pude conectar con la API';
+      let detail =
+        err instanceof Error ? err.message : 'Error desconocido al consultar la API.';
+
+      if (err instanceof ApiError) {
+        if (err.kind === 'mixed_content') {
+          title = 'Mixed content bloqueado por el navegador';
+          detail =
+            'Estás en una página HTTPS llamando a una API HTTP. Cambiá la URL a una <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">https://</code> (o ejecutá la web localmente en http://localhost:3000).';
+        } else if (err.kind === 'network') {
+          title = 'API offline o sin CORS';
+          detail = `Verificá que la API esté online en <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">${apiUrl}</code> y tenga CORS habilitado.<br/><br/><strong>Detalle:</strong> ${err.message}`;
+        } else if (err.kind === 'http') {
+          title = `La API devolvió ${err.status ?? 'un error'}`;
+          detail = err.message;
+        }
+      }
+
       setStatus({
         kind: 'error',
-        message: `Verificá que la API esté corriendo en <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">${apiUrl}</code>.<br/><br/><strong class="text-red-800">Detalle:</strong> ${message}`,
+        message: `<strong class="block text-[14px] text-red-800">${title}</strong><div class="mt-1.5">${detail}</div>`,
       });
     }
   };

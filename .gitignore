@@ -34,3 +34,16 @@ next-env.d.ts
 .claude/
 CLAUDE.md
 memory/
+
+# Python (backend/)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+backend/env/
+backend/venv/
+backend/.venv/
+backend/*.onnx
+backend/*.onnx.data
+backend/.env
+backend/.env.local
