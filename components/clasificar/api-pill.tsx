@@ -1,16 +1,46 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { pingApi } from '@/lib/api';
+import { cn } from '@/lib/cn';
 
 type Props = {
   apiUrl: string;
   onChange: (url: string) => void;
 };
 
+type Status = 'checking' | 'online' | 'offline';
+
+const STATUS_LABEL: Record<Status, string> = {
+  checking: 'verificando…',
+  online: 'online',
+  offline: 'offline',
+};
+
+const STATUS_DOT: Record<Status, string> = {
+  checking: 'bg-amber-400',
+  online: 'bg-olive',
+  offline: 'bg-red-500',
+};
+
 export function ApiPill({ apiUrl, onChange }: Props) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(apiUrl);
+  const [status, setStatus] = useState<Status>('checking');
+
+  useEffect(() => {
+    let cancelled = false;
+    const ctrl = new AbortController();
+    setStatus('checking');
+    pingApi(apiUrl, ctrl.signal).then((ok) => {
+      if (!cancelled) setStatus(ok ? 'online' : 'offline');
+    });
+    return () => {
+      cancelled = true;
+      ctrl.abort();
+    };
+  }, [apiUrl]);
 
   return (
     <motion.div
@@ -19,12 +49,25 @@ export function ApiPill({ apiUrl, onChange }: Props) {
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
       className="mx-auto inline-flex max-w-full flex-wrap items-center gap-3 rounded-full border border-wine/15 bg-cream px-4 py-2 shadow-card sm:flex-nowrap"
     >
-      <span className="relative inline-flex h-2 w-2 shrink-0">
-        <span className="absolute inset-0 animate-ping rounded-full bg-olive" />
-        <span className="relative h-2 w-2 rounded-full bg-olive" />
+      <span
+        className={cn(
+          'relative inline-flex h-2 w-2 shrink-0 rounded-full transition-colors',
+          STATUS_DOT[status],
+        )}
+        aria-label={`Estado de la API: ${STATUS_LABEL[status]}`}
+      >
+        {status === 'online' && (
+          <span className="absolute inset-0 animate-ping rounded-full bg-olive opacity-70" />
+        )}
       </span>
-      <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-wine">
-        API
+      <span
+        className={cn(
+          'font-mono text-[11px] uppercase tracking-[0.22em]',
+          status === 'online' ? 'text-olive' :
+          status === 'offline' ? 'text-red-700' : 'text-wine',
+        )}
+      >
+        API · {STATUS_LABEL[status]}
       </span>
       {!editing ? (
         <>
@@ -57,7 +100,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
             onChange={(e) => setValue(e.target.value)}
             autoFocus
             className="w-full min-w-[240px] rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px]"
-            placeholder="https://api.midominio.com/api/v1/predict"
+            placeholder="https://ecoclasificador-api-production.up.railway.app/api/v1/predict"
           />
           <button
             type="submit"

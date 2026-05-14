@@ -68,6 +68,29 @@ function detectMixedContent(apiUrl: string): boolean {
   return window.location.protocol === 'https:' && apiUrl.startsWith('http://');
 }
 
+/**
+ * Hace un ping al endpoint `/health` (o `/` como fallback) de la API.
+ * Devuelve `true` si está online, `false` si no.
+ * Toma como input la URL de `/api/v1/predict` y deriva el origin.
+ */
+export async function pingApi(apiUrl: string, signal?: AbortSignal): Promise<boolean> {
+  if (detectMixedContent(apiUrl)) return false;
+  try {
+    const origin = new URL(apiUrl).origin;
+    const resp = await fetch(`${origin}/health`, {
+      method: 'GET',
+      signal,
+      cache: 'no-store',
+    });
+    if (resp.ok) return true;
+    // fallback al root
+    const rootResp = await fetch(origin, { method: 'GET', signal, cache: 'no-store' });
+    return rootResp.ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function predictImage(
   apiUrl: string,
   file: File,
