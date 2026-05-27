@@ -1,42 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220" width="240" height="220">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Eco Clasificador">
   <defs>
     <style>
-      .label { font-family: Georgia, serif; font-weight: 700; fill: #7C1155; }
       .frame { fill: #FCF291; stroke: #7C1155; stroke-width: 4; }
       .leaf  { fill: #447A00; }
-      .bottle { fill: #447A00; }
-      .recycle { fill: #7C1155; }
+      .leaf-dark { fill: #355C00; }
+      .wine  { fill: #7C1155; }
+      .cream { fill: #FFF6C2; }
+      .label { font-family: 'Alice', Georgia, serif; font-weight: 700; fill: #7C1155; }
     </style>
   </defs>
 
-  <!-- marco redondeado tipo etiqueta -->
-  <rect x="20" y="14" width="200" height="160" rx="40" ry="40" class="frame"/>
+  <!-- Marco etiqueta -->
+  <rect x="20" y="20" width="200" height="180" rx="36" ry="36" class="frame"/>
 
-  <!-- hojas decorativas a los lados -->
-  <path class="leaf" d="M20 90 q-18 -10 -16 -34 q24 -2 32 18 q-4 12 -16 16 z"/>
-  <path class="leaf" d="M220 90 q18 -10 16 -34 q-24 -2 -32 18 q4 12 16 16 z"/>
-
-  <!-- botella reciclaje (izquierda) -->
-  <path class="bottle" d="M78 60 v-10 h12 v10 c0 4 6 6 6 14 v44 c0 6 -4 8 -8 8 h-10 c-4 0 -8 -2 -8 -8 v-44 c0 -8 6 -10 8 -14 z"/>
-
-  <!-- contenedor + flecha reciclaje central -->
-  <g transform="translate(120 96)">
-    <!-- triángulo reciclaje -->
-    <path class="recycle" d="M0 -28 l24 14 l-8 0 l-4 8 l-12 -6 l-12 6 l-4 -8 l-8 0 z"/>
-    <circle cx="0" cy="-2" r="8" fill="#FCF291"/>
-    <path class="recycle" d="M-4 -4 l4 -6 l4 6 z"/>
+  <!-- Hojas decorativas exteriores (izq) -->
+  <g class="leaf">
+    <path d="M22,76 C8,72 4,58 8,46 C22,46 32,58 30,72 Z"/>
+    <path class="leaf-dark" d="M14,58 C18,62 24,66 28,68" stroke="#355C00" stroke-width="1.5" fill="none"/>
+  </g>
+  <!-- Hojas decorativas exteriores (der) -->
+  <g class="leaf">
+    <path d="M218,76 C232,72 236,58 232,46 C218,46 208,58 210,72 Z"/>
+    <path class="leaf-dark" d="M226,58 C222,62 216,66 212,68" stroke="#355C00" stroke-width="1.5" fill="none"/>
   </g>
 
-  <!-- cartón derecho -->
-  <rect class="bottle" x="148" y="60" width="32" height="58" rx="4"/>
-  <line x1="164" y1="60" x2="164" y2="118" stroke="#FCF291" stroke-width="2"/>
+  <!-- Símbolo central: flechas de reciclaje formando triángulo -->
+  <g transform="translate(120 95)">
+    <!-- flecha superior -->
+    <path class="leaf" d="M-8,-30 L8,-30 L16,-16 L4,-16 L4,-6 L-4,-6 L-4,-16 L-16,-16 Z"/>
+    <!-- flecha inferior izquierda -->
+    <g transform="rotate(120)">
+      <path class="leaf" d="M-8,-30 L8,-30 L16,-16 L4,-16 L4,-6 L-4,-6 L-4,-16 L-16,-16 Z"/>
+    </g>
+    <!-- flecha inferior derecha -->
+    <g transform="rotate(240)">
+      <path class="leaf" d="M-8,-30 L8,-30 L16,-16 L4,-16 L4,-6 L-4,-6 L-4,-16 L-16,-16 Z"/>
+    </g>
+    <!-- centro -->
+    <circle r="6" class="cream" stroke="#7C1155" stroke-width="2"/>
+  </g>
 
-  <!-- texto ECO -->
-  <text class="label" x="120" y="146" font-size="34" text-anchor="middle">ECO</text>
-  <!-- texto CLASIFICADOR -->
-  <text class="label" x="120" y="204" font-size="22" text-anchor="middle" letter-spacing="2">CLASIFICADOR</text>
+  <!-- Texto ECO -->
+  <text x="120" y="158" class="label" font-size="22" letter-spacing="3" text-anchor="middle">ECO</text>
+  <!-- Texto CLASIFICADOR -->
+  <text x="120" y="184" class="label" font-size="14" letter-spacing="4" text-anchor="middle">CLASIFICADOR</text>
 
-  <!-- coronitas pequeñas -->
-  <path class="leaf" d="M55 200 q-6 -8 -12 -8 q4 6 6 10 z"/>
-  <path class="leaf" d="M185 200 q6 -8 12 -8 q-4 6 -6 10 z"/>
+  <!-- Hojitas debajo del marco -->
+  <g class="leaf">
+    <path d="M84,212 C78,206 70,206 64,212 C70,222 80,222 84,212 Z"/>
+    <path d="M156,212 C162,206 170,206 176,212 C170,222 160,222 156,212 Z"/>
+    <ellipse cx="120" cy="212" rx="8" ry="6"/>
+  </g>
 </svg>
