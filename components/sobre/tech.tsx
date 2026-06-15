@@ -4,32 +4,29 @@ import { motion } from 'framer-motion';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
 import { fadeUp, staggerContainer } from '@/lib/motion';
-
-const SPECS = [
-  { k: 'Arquitectura', v: 'ResNet50 + cabeza fine-tuned' },
-  { k: 'Estrategia',   v: 'Transfer Learning' },
-  { k: 'Runtime',      v: 'ONNX · CPU edge' },
-  { k: 'Dataset',      v: 'RealWaste · UCI ML Repo' },
-  { k: 'Categorías',   v: '9 clases de residuo' },
-  { k: 'API',          v: 'FastAPI · REST · multipart' },
-];
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function Tech() {
+  const { t, lang } = useI18n();
+  const specs = (t('about.techSpecs') as Array<{ k: string; v: string }>) || [];
+
   return (
     <section className="relative py-24 sm:py-32">
       <div className="container-app">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <SectionLabel number="03">Tecnología</SectionLabel>
+            <SectionLabel number="03">{t('about.techLabel') as string}</SectionLabel>
             <div className="mt-6">
               <SplitText
-                text="Visión computacional"
+                key={`tt1-${lang}`}
+                text={t('about.techTitle1') as string}
                 as="h2"
                 splitBy="word"
                 className="block font-display text-display-md font-bold tracking-tight text-wine"
               />
               <SplitText
-                text="entrenada con datos abiertos."
+                key={`tt2-${lang}`}
+                text={t('about.techTitle2') as string}
                 as="span"
                 splitBy="word"
                 delay={0.2}
@@ -44,9 +41,7 @@ export function Tech() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 max-w-md text-[16px] leading-relaxed text-ink-dim"
             >
-              El motor es una red neuronal convolucional ResNet50 fine-tuned
-              sobre RealWaste (UCI). La API REST recibe la imagen y devuelve la
-              clase + distribución de probabilidades.
+              {t('about.techBody') as string}
             </motion.p>
 
             <motion.div
@@ -56,9 +51,8 @@ export function Tech() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
               className="mt-8 rounded-2xl border border-wine/15 bg-cream/60 p-5 text-[13px] leading-relaxed text-ink-dim"
             >
-              <strong className="font-semibold text-ink">Referencia: </strong>
-              Single, S., Iranmanesh, S., &amp; Raad, R. (2023). RealWaste
-              [Dataset]. UCI Machine Learning Repository.{' '}
+              <strong className="font-semibold text-ink">{t('about.techReferenceLabel') as string} </strong>
+              {t('about.techReferenceBody') as string}{' '}
               <a
                 href="https://doi.org/10.24432/C5SS4G"
                 target="_blank"
@@ -77,7 +71,7 @@ export function Tech() {
             viewport={{ once: true, margin: '-80px' }}
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7"
           >
-            {SPECS.map((s) => (
+            {specs.map((s) => (
               <motion.div
                 key={s.k}
                 variants={fadeUp}

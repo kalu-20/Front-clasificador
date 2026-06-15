@@ -19,8 +19,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['framer-motion', 'gsap', 'swiper'],
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
   },
   // Build estático: encoding del flag para skip lint/type-check sólo si
   // el orquestador / CI ya los corrió en otro paso. En CI normal, dejá false.

@@ -4,16 +4,18 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/motion';
 import { EcoLogo } from '@/components/ui/eco-logo';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 const LINKS = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Sobre nosotros', href: '/sobre' },
-  { label: 'Clasificar', href: '/clasificar' },
+  { key: 'nav.home' as const, href: '/' },
+  { key: 'nav.about' as const, href: '/sobre' },
+  { key: 'nav.classify' as const, href: '/clasificar' },
 ];
 
 const SOCIAL = ['Instagram', 'TikTok', 'Facebook', 'GitHub'];
 
 export function SiteFooter() {
+  const { t } = useI18n();
   return (
     <footer className="relative mt-28 overflow-hidden card-deep">
       <motion.div
@@ -31,14 +33,13 @@ export function SiteFooter() {
             </span>
           </div>
           <p className="mt-5 max-w-sm text-balance text-[15px] leading-relaxed text-cream/75">
-            Inteligencia artificial al servicio del reciclaje. Separar hoy,
-            preservar mañana.
+            {t('footer.tagline') as string}
           </p>
         </motion.div>
 
         <motion.div variants={fadeUp} className="md:col-span-3">
           <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream/60">
-            Navegación
+            {t('footer.navHeading') as string}
           </h4>
           <ul className="mt-5 space-y-3">
             {LINKS.map((l) => (
@@ -47,8 +48,8 @@ export function SiteFooter() {
                   href={l.href}
                   className="group inline-flex items-center gap-2 text-[15px] text-cream/85 transition-colors hover:text-cream"
                 >
-                  <span className="h-[1px] w-3 bg-cream/30 transition-all duration-300 group-hover:w-6 group-hover:bg-cream" />
-                  {l.label}
+                  <span aria-hidden="true" className="h-[1px] w-3 bg-cream/30 transition-all duration-300 group-hover:w-6 group-hover:bg-cream" />
+                  {t(l.key) as string}
                 </Link>
               </li>
             ))}
@@ -57,7 +58,7 @@ export function SiteFooter() {
 
         <motion.div variants={fadeUp} className="md:col-span-2">
           <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream/60">
-            Contacto
+            {t('footer.contactHeading') as string}
           </h4>
           <a
             href="mailto:hola@ecoclasificador.es"
@@ -65,12 +66,12 @@ export function SiteFooter() {
           >
             hola@ecoclasificador.es
           </a>
-          <p className="mt-2 text-[13px] text-cream/55">UPATecO Salta · 2026</p>
+          <p className="mt-2 text-[13px] text-cream/55">{t('footer.contactPlace') as string}</p>
         </motion.div>
 
         <motion.div variants={fadeUp} className="md:col-span-2">
           <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream/60">
-            Redes
+            {t('footer.socialHeading') as string}
           </h4>
           <ul className="mt-5 space-y-3">
             {SOCIAL.map((s) => (
@@ -88,10 +89,10 @@ export function SiteFooter() {
         <div className="h-px w-full bg-cream/15" />
         <div className="flex flex-col items-start justify-between gap-3 py-7 sm:flex-row sm:items-center">
           <p className="text-[12px] tracking-wide text-cream/60">
-            © 2026 EcoClasificador · Todos los derechos reservados
+            {t('footer.copyright') as string}
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream/60">
-            v1.0 · made with care
+            {t('footer.version') as string}
           </p>
         </div>
       </div>

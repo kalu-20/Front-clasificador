@@ -1,32 +1,17 @@
 'use client';
 
 import { Marquee } from '@/components/ui/marquee';
-
-const TOP = [
-  'Reciclá mejor',
-  'IA accesible',
-  'Educación abierta',
-  'Visión computacional',
-  'RealWaste · UCI',
-  'ResNet50',
-  'FastAPI',
-  'Open data',
-];
-
-const BOTTOM = [
-  '9 categorías',
-  'Predicción en <1s',
-  'Sin instalación',
-  'Hecho en Salta',
-  'UPATecO 2026',
-  'Top-1 94%',
-];
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function MarqueeBand() {
+  const { t } = useI18n();
+  const top = t('marquee.top') as string[];
+  const bottom = t('marquee.bottom') as string[];
+
   return (
     <section className="relative isolate py-14">
-      <Marquee items={TOP} speed={45} />
-      <Marquee items={BOTTOM} speed={55} reverse className="mt-1" />
+      <Marquee items={top} speed={45} />
+      <Marquee items={bottom} speed={55} reverse className="mt-1" />
     </section>
   );
 }

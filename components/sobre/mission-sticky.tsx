@@ -3,21 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { SectionLabel } from '@/components/ui/section-label';
-
-const BLOCKS = [
-  {
-    title: 'El primer paso',
-    copy: 'La correcta separación en origen es el primer paso para que un residuo pueda volver al ciclo productivo en lugar de terminar en un vertedero.',
-  },
-  {
-    title: 'Tecnología útil',
-    copy: 'Reducir el impacto ambiental de los residuos urbanos ofreciendo una guía visual y automática, accesible desde cualquier dispositivo.',
-  },
-  {
-    title: 'Aprendizaje abierto',
-    copy: 'Código y datos abiertos. Pensado para que estudiantes, docentes y municipios puedan replicarlo y mejorarlo.',
-  },
-];
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function MissionSticky() {
   const ref = useRef<HTMLDivElement>(null);
@@ -26,20 +12,20 @@ export function MissionSticky() {
     offset: ['start start', 'end end'],
   });
   const trackScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const { t } = useI18n();
+  const blocks = (t('about.blocks') as Array<{ title: string; copy: string }>) || [];
 
   return (
     <section ref={ref} className="relative">
       <div className="container-app grid grid-cols-1 gap-12 py-20 lg:grid-cols-12 lg:py-28">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-32">
-            <SectionLabel number="01">Misión</SectionLabel>
+            <SectionLabel number="01">{t('about.missionLabel') as string}</SectionLabel>
             <h2 className="mt-6 font-display text-display-md font-bold tracking-tight text-wine">
-              Reducir el impacto, una foto a la vez.
+              {t('about.missionTitle') as string}
             </h2>
             <p className="mt-6 text-[16px] leading-relaxed text-ink-dim">
-              Nuestra misión es bajar la fricción de hacer las cosas bien. No
-              hace falta un curso ni una app pesada: un navegador, una foto, una
-              respuesta clara.
+              {t('about.missionBody') as string}
             </p>
 
             <div className="mt-10 hidden h-1 w-32 overflow-hidden rounded-full bg-wine/10 lg:block">
@@ -53,8 +39,8 @@ export function MissionSticky() {
 
         <div className="lg:col-span-7">
           <div className="space-y-8">
-            {BLOCKS.map((b, i) => (
-              <Block key={b.title} index={i} {...b} />
+            {blocks.map((b, i) => (
+              <Block key={b.title} index={i} title={b.title} copy={b.copy} />
             ))}
           </div>
         </div>

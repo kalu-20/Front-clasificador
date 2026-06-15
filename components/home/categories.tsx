@@ -9,22 +9,26 @@ import 'swiper/css/free-mode';
 import { WASTE_CATEGORIES } from '@/lib/data';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function Categories() {
+  const { t, lang } = useI18n();
   return (
     <section className="relative py-24 sm:py-32">
       <div className="container-app">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <SectionLabel number="02">Categorías soportadas</SectionLabel>
+            <SectionLabel number="02">{t('categories.label') as string}</SectionLabel>
             <SplitText
-              text="Nueve tipos de residuo,"
+              key={`c1-${lang}`}
+              text={t('categories.title1') as string}
               as="h2"
               splitBy="word"
               className="mt-6 block font-display text-display-md font-bold tracking-tight text-wine"
             />
             <SplitText
-              text="una decisión correcta."
+              key={`c2-${lang}`}
+              text={t('categories.title2') as string}
               as="span"
               splitBy="word"
               className="block font-display text-display-md font-bold tracking-tight text-olive"
@@ -39,8 +43,7 @@ export function Categories() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-md text-[15px] leading-relaxed text-ink-dim"
           >
-            Cada predicción viene acompañada del contenedor correcto y una
-            recomendación práctica. Arrastrá el carrusel para explorar.
+            {t('categories.intro') as string}
           </motion.p>
         </div>
       </div>
@@ -55,22 +58,28 @@ export function Categories() {
           grabCursor
           className="!px-5 sm:!px-12"
         >
-          {WASTE_CATEGORIES.map((c, i) => (
-            <SwiperSlide
-              key={c.id}
-              className="!w-[280px] sm:!w-[320px] lg:!w-[340px]"
-            >
-              <CategoryCard
-                index={i}
-                emoji={c.emoji}
-                name={c.name}
-                bin={c.bin}
-                binColor={c.binColor}
-                description={c.description}
-                tip={c.tip}
-              />
-            </SwiperSlide>
-          ))}
+          {WASTE_CATEGORIES.map((c, i) => {
+            const name = (t(`waste.${c.id === 'food-organics' ? 'organic' : c.id}.name`) as string) || c.name;
+            const bin = (t(`waste.${c.id === 'food-organics' ? 'organic' : c.id}.bin`) as string) || c.bin;
+            const description = (t(`waste.${c.id === 'food-organics' ? 'organic' : c.id}.description`) as string) || c.description;
+            const tip = (t(`waste.${c.id === 'food-organics' ? 'organic' : c.id}.tip`) as string) || c.tip;
+            return (
+              <SwiperSlide
+                key={c.id}
+                className="!w-[280px] sm:!w-[320px] lg:!w-[340px]"
+              >
+                <CategoryCard
+                  index={i}
+                  emoji={c.emoji}
+                  name={name}
+                  bin={bin}
+                  binColor={c.binColor}
+                  description={description}
+                  tip={tip}
+                />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </section>
@@ -101,6 +110,7 @@ function CategoryCard({ index, emoji, name, bin, binColor, description, tip }: C
           <div
             className="grid h-14 w-14 place-items-center rounded-2xl border border-wine/10 text-2xl"
             style={{ background: `${binColor}1A` }}
+            aria-hidden="true"
           >
             <span>{emoji}</span>
           </div>
@@ -121,11 +131,12 @@ function CategoryCard({ index, emoji, name, bin, binColor, description, tip }: C
             <span
               className="h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: binColor }}
+              aria-hidden="true"
             />
             <span className="text-[13px] font-semibold text-ink">{bin}</span>
           </div>
           <p className="rounded-xl border border-wine/10 bg-canvas/70 px-3 py-2.5 text-[12px] leading-relaxed text-ink-dim">
-            💡 {tip}
+            <span aria-hidden="true">💡</span> {tip}
           </p>
         </div>
       </div>

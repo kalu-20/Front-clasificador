@@ -9,6 +9,7 @@ import { MagneticButton } from '@/components/ui/magnetic-button';
 import { ApiPill } from './api-pill';
 import { UploadDropzone } from './upload-dropzone';
 import { ResultPanel } from './result-panel';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 import {
   ApiError,
@@ -30,6 +31,7 @@ export function ClasificarShell() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>({ kind: 'empty' });
+  const { t, lang } = useI18n();
 
   useEffect(() => {
     setApiUrl(getStoredApiUrl());
@@ -59,20 +61,19 @@ export function ClasificarShell() {
       const data = await predictImage(apiUrl, file);
       setStatus({ kind: 'success', data });
     } catch (err) {
-      let title = 'No pude conectar con la API';
+      let title = t('classify.errorTitleDefault') as string;
       let detail =
         err instanceof Error ? err.message : 'Error desconocido al consultar la API.';
 
       if (err instanceof ApiError) {
         if (err.kind === 'mixed_content') {
-          title = 'Mixed content bloqueado por el navegador';
-          detail =
-            'Estás en una página HTTPS llamando a una API HTTP. Cambiá la URL a una <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">https://</code> (o ejecutá la web localmente en http://localhost:3000).';
+          title = t('classify.errorTitleMixed') as string;
+          detail = t('classify.errorMixedDetail') as string;
         } else if (err.kind === 'network') {
-          title = 'API offline o sin CORS';
-          detail = `Verificá que la API esté online en <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">${apiUrl}</code> y tenga CORS habilitado.<br/><br/><strong>Detalle:</strong> ${err.message}`;
+          title = t('classify.errorTitleNetwork') as string;
+          detail = `${t('classify.errorNetworkDetailA') as string} <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">${apiUrl}</code> ${t('classify.errorNetworkDetailB') as string}<br/><br/><strong>${t('classify.errorDetailLabel') as string}:</strong> ${err.message}`;
         } else if (err.kind === 'http') {
-          title = `La API devolvió ${err.status ?? 'un error'}`;
+          title = `${t('classify.errorTitleHttp') as string} ${err.status ?? ''}`;
           detail = err.message;
         }
       }
@@ -93,19 +94,21 @@ export function ClasificarShell() {
 
         <div className="container-app text-center">
           <div className="flex justify-center">
-            <SectionLabel number="✦">Clasificá tu residuo</SectionLabel>
+            <SectionLabel number="✦">{t('classify.label') as string}</SectionLabel>
           </div>
 
           <h1 className="mx-auto mt-7 max-w-4xl font-display text-display-lg font-bold tracking-tight">
             <SplitText
-              text="Subí una foto."
+              key={`cl1-${lang}`}
+              text={t('classify.title1') as string}
               as="span"
               splitBy="word"
               className="block text-wine"
               delay={0.15}
             />
             <SplitText
-              text="Recibí la respuesta correcta."
+              key={`cl2-${lang}`}
+              text={t('classify.title2') as string}
               as="span"
               splitBy="word"
               className="block text-olive"
@@ -119,8 +122,7 @@ export function ClasificarShell() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
             className="mx-auto mt-6 max-w-2xl text-balance text-[16px] leading-relaxed text-ink-dim sm:text-[18px]"
           >
-            JPG, JPEG o PNG. El modelo te dice a cuál de las 9 categorías
-            pertenece y en qué contenedor debería ir.
+            {t('classify.intro') as string}
           </motion.p>
 
           <div className="mt-8 flex justify-center">
@@ -139,7 +141,7 @@ export function ClasificarShell() {
           >
             <div className="relative">
               <div className="flex items-center gap-3">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-olive text-cream">
+                <div className="grid h-9 w-9 place-items-center rounded-xl bg-olive text-cream" aria-hidden="true">
                   <span className="text-base">📸</span>
                 </div>
                 <div>
@@ -147,7 +149,7 @@ export function ClasificarShell() {
                     /upload
                   </p>
                   <h2 className="font-display text-lg font-bold tracking-tight text-wine">
-                    Subí la foto
+                    {t('classify.uploadHeading') as string}
                   </h2>
                 </div>
               </div>
@@ -163,14 +165,16 @@ export function ClasificarShell() {
 
               <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
                 <p className="text-[12px] text-ink-muted">
-                  Idealmente con fondo plano y buena luz.
+                  {t('classify.uploadTip') as string}
                 </p>
                 <MagneticButton
                   onClick={handlePredict}
                   disabled={!canPredict}
                   variant="primary"
                 >
-                  {status.kind === 'loading' ? 'Analizando…' : 'Clasificar residuo'}
+                  {status.kind === 'loading'
+                    ? (t('classify.analyzing') as string)
+                    : (t('classify.classifyCta') as string)}
                   {status.kind !== 'loading' && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -182,6 +186,7 @@ export function ClasificarShell() {
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      aria-hidden="true"
                     >
                       <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
@@ -211,24 +216,21 @@ export function ClasificarShell() {
             className="rounded-3xl border border-wine/15 bg-cream p-7 sm:p-9"
           >
             <div className="flex items-start gap-4">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-wine/15 bg-canvas text-base">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-wine/15 bg-canvas text-base" aria-hidden="true">
                 ⚠️
               </div>
               <div>
                 <h3 className="font-display text-lg font-bold tracking-tight text-wine">
-                  Antes de empezar
+                  {t('classify.noteHeading') as string}
                 </h3>
                 <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-ink-dim">
-                  Esta interfaz necesita que la API de clasificación esté
-                  corriendo. Si la API está apagada o no responde, vas a ver un
-                  mensaje de error en el panel de resultado. La URL por defecto
-                  es{' '}
+                  {t('classify.noteBody1') as string}{' '}
                   <code className="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">
                     http://127.0.0.1:8000
                   </code>{' '}
-                  (FastAPI local). Si la tenés desplegada en otro lado, usá el
-                  botón <strong className="text-wine">Cambiar URL</strong> de
-                  arriba.
+                  {t('classify.noteBody2') as string}{' '}
+                  <strong className="text-wine">{t('classify.noteChangeUrl') as string}</strong>{' '}
+                  {t('classify.noteBody3') as string}
                 </p>
               </div>
             </div>

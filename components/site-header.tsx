@@ -6,17 +6,21 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/cn';
 import { EcoLogo } from '@/components/ui/eco-logo';
+import { LangToggle } from '@/components/ui/LangToggle';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
-const NAV = [
-  { href: '/', label: 'Inicio' },
-  { href: '/sobre', label: 'Sobre nosotros' },
-  { href: '/clasificar', label: 'Clasificar' },
+const NAV_HREFS = [
+  { href: '/', key: 'nav.home' as const },
+  { href: '/sobre', key: 'nav.about' as const },
+  { href: '/clasificar', key: 'nav.classify' as const },
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -44,7 +48,7 @@ export function SiteHeader() {
       <Link
         href="/"
         className="group flex items-center gap-2.5 rounded-xl px-2 py-1.5"
-        aria-label="EcoClasificador — Inicio"
+        aria-label={t('nav.homeAriaLabel') as string}
       >
         <EcoLogo size={36} priority className="transition-transform duration-300 group-hover:scale-105" />
         <span className="hidden font-display text-[15px] font-semibold tracking-tight text-wine sm:inline">
@@ -52,8 +56,8 @@ export function SiteHeader() {
         </span>
       </Link>
 
-      <nav className="hidden items-center gap-1 md:flex">
-        {NAV.map((item) => {
+      <nav className="hidden items-center gap-1 md:flex" aria-label={t('nav.home') as string}>
+        {NAV_HREFS.map((item) => {
           const active =
             item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
@@ -64,6 +68,7 @@ export function SiteHeader() {
                 'relative rounded-xl px-3.5 py-2 text-[13px] font-semibold tracking-wide transition-colors duration-200',
                 active ? 'text-cream' : 'text-wine hover:text-wine/80',
               )}
+              aria-current={active ? 'page' : undefined}
             >
               {active && (
                 <motion.span
@@ -72,18 +77,20 @@ export function SiteHeader() {
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
-              <span className="relative">{item.label}</span>
+              <span className="relative">{t(item.key) as string}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="hidden md:flex">
+      <div className="hidden items-center gap-2 md:flex">
+        <LangToggle />
+        <ThemeToggle />
         <Link
           href="/clasificar"
           className="group relative inline-flex items-center gap-2 rounded-xl bg-olive px-4 py-2 text-[13px] font-semibold text-cream shadow-soft transition-transform duration-200 hover:-translate-y-[1px]"
         >
-          Probar
+          {t('nav.tryClassifier') as string}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"
@@ -95,32 +102,37 @@ export function SiteHeader() {
             strokeLinecap="round"
             strokeLinejoin="round"
             className="transition-transform duration-300 group-hover:translate-x-0.5"
+            aria-hidden="true"
           >
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
         </Link>
       </div>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Abrir menú"
-        aria-expanded={open}
-        className="relative grid h-9 w-9 place-items-center rounded-xl border border-wine/15 bg-cream text-wine md:hidden"
-      >
-        <span
-          className={cn(
-            'block h-[2px] w-4 bg-current transition-all duration-300',
-            open ? 'translate-y-[3px] rotate-45' : '-translate-y-[3px]',
-          )}
-        />
-        <span
-          className={cn(
-            'absolute block h-[2px] w-4 bg-current transition-all duration-300',
-            open ? '-translate-y-[3px] -rotate-45' : 'translate-y-[3px]',
-          )}
-        />
-      </button>
+      <div className="flex items-center gap-2 md:hidden">
+        <LangToggle />
+        <ThemeToggle />
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={t('common.menu') as string}
+          aria-expanded={open}
+          className="relative grid h-9 w-9 place-items-center rounded-xl border border-wine/15 bg-cream text-wine"
+        >
+          <span
+            className={cn(
+              'block h-[2px] w-4 bg-current transition-all duration-300',
+              open ? 'translate-y-[3px] rotate-45' : '-translate-y-[3px]',
+            )}
+          />
+          <span
+            className={cn(
+              'absolute block h-[2px] w-4 bg-current transition-all duration-300',
+              open ? '-translate-y-[3px] -rotate-45' : 'translate-y-[3px]',
+            )}
+          />
+        </button>
+      </div>
 
       <AnimatePresence>
         {open && (
@@ -132,7 +144,7 @@ export function SiteHeader() {
             className="absolute left-2 right-2 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl border border-wine/10 bg-cream p-2 shadow-card md:hidden"
           >
             <ul className="flex flex-col">
-              {NAV.map((item) => {
+              {NAV_HREFS.map((item) => {
                 const active =
                   item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
                 return (
@@ -145,9 +157,10 @@ export function SiteHeader() {
                           ? 'bg-wine text-cream'
                           : 'text-wine hover:bg-wine/10',
                       )}
+                      aria-current={active ? 'page' : undefined}
                     >
-                      {item.label}
-                      <span>→</span>
+                      {t(item.key) as string}
+                      <span aria-hidden="true">→</span>
                     </Link>
                   </li>
                 );
