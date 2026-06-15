@@ -6,30 +6,80 @@
   :root {
     --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 
-    --canvas:  #FCF291;
-    --cream:   #FFF6C2;
-    --olive:   #447A00;
-    --wine:    #7C1155;
-    --magenta: #820F52;
-    --ink:     #2A0312;
+    /*
+     * Paleta light (modo claro) — ÚNICA fuente de verdad para los colores
+     * institucionales. Tailwind consume las triadas R G B a través de
+     * tailwind.config.ts (`canvas: 'rgb(var(--canvas-rgb) / <alpha-value>)'`)
+     * de modo que TODAS las utility classes — incluyendo modificadores de
+     * opacidad como `bg-cream/80` — reaccionan automáticamente al cambio
+     * de tema.
+     *
+     * También exponemos las versiones HEX (--canvas, --cream, …) porque
+     * el resto del CSS (body, card-paper, grid-paper, focus-visible) las
+     * consume como `var(--canvas)` directamente sin pasar por Tailwind.
+     */
+    --canvas-rgb:    252 242 145;
+    --cream-rgb:     255 246 194;
+    --olive-rgb:     68  122  0;
+    --wine-rgb:      124 17  85;
+    --magenta-rgb:   130 15  82;
+    --ink-rgb:       42  3   18;
+    --ink-dim-rgb:   110 64  84;
+    --ink-muted-rgb: 138 101 115;
+
+    --canvas:    rgb(var(--canvas-rgb));
+    --cream:     rgb(var(--cream-rgb));
+    --olive:     rgb(var(--olive-rgb));
+    --wine:      rgb(var(--wine-rgb));
+    --magenta:   rgb(var(--magenta-rgb));
+    --ink:       rgb(var(--ink-rgb));
+    --ink-dim:   rgb(var(--ink-dim-rgb));
+    --ink-muted: rgb(var(--ink-muted-rgb));
 
     color-scheme: light;
   }
 
   /*
    * Dark mode (data-theme="dark" en <html>).
-   * Mantiene el vino (--wine) como acento de acciones.
-   * "canvas" se invierte al morado profundo y el "ink" pasa a crema claro.
+   * - --canvas pasa a un morado muy profundo (lectura de noche).
+   * - --ink (texto base) se aclara a la crema institucional para mantener
+   *   la armonía cálida sin pasar al blanco puro.
+   * - --cream se oscurece (es la "superficie crema" en componentes como
+   *   header / tarjetas / pills) para no chocar con el canvas oscuro.
+   * - --olive se aclara al amarillo canvas para mantener contraste sobre
+   *   dark (sirve de "accent verde" → "accent solar" en dark).
+   * - --wine se conserva: funciona como acento de acción tanto en light
+   *   como en dark sobre el canvas profundo.
+   *
+   * Para casos puntuales donde `text-cream` se usa COMO texto claro sobre
+   * un fondo oscuro (card-deep, bg-wine, bg-olive en CTAs), reabrimos el
+   * scope más abajo y reseteamos --cream-rgb al valor light dentro de esos
+   * contenedores, así `text-cream/85` etc. siguen leyéndose como crema
+   * legible. Ver bloques [data-theme="dark"] .card-deep y .bg-wine de abajo.
    */
   [data-theme="dark"] {
-    --canvas:  #1a1224;
-    --cream:   #fff6c2;
-    --olive:   #8AC81F;
-    --wine:    #7C1155;
-    --magenta: #820F52;
-    --ink:     #fff6c2;
+    --canvas-rgb:    26  18  36;
+    --cream-rgb:     42  27  52;
+    --olive-rgb:     252 242 145;
+    --wine-rgb:      124 17  85;
+    --magenta-rgb:   130 15  82;
+    --ink-rgb:       255 246 194;
+    --ink-dim-rgb:   216 199 154;
+    --ink-muted-rgb: 168 148 106;
 
     color-scheme: dark;
+  }
+
+  /*
+   * Reseteo localizado de la "crema" en superficies donde se usa como
+   * highlight de texto/borde sobre fondos oscuros. Mantiene la legibilidad
+   * sin tocar componentes uno por uno.
+   */
+  [data-theme="dark"] .card-deep,
+  [data-theme="dark"] .bg-wine,
+  [data-theme="dark"] [class*="bg-wine/"],
+  [data-theme="dark"] [class*="bg-olive"]:not(body) {
+    --cream-rgb: 255 246 194;
   }
 
   [data-theme="dark"] body {
@@ -117,7 +167,10 @@
     border-radius: 6px;
   }
   [data-theme="dark"] :focus-visible {
-    outline-color: var(--cream);
+    /* En dark el vino se ve plano sobre el morado profundo: usamos --ink
+       (que en dark es la crema clara #fff6c2) para que el anillo sea
+       siempre visible. */
+    outline-color: var(--ink);
   }
 
   /* main no debe mostrar outline cuando lo enfocamos por skip-link */

@@ -10,18 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Paleta institucional EcoClasificador
-        canvas: '#FCF291',      // amarillo pastel (fondo principal)
-        cream:  '#FFF6C2',      // crema (texto sobre morado, highlights)
-        olive:  '#447A00',      // verde oliva (header, accents)
-        wine:   '#7C1155',      // morado vino (botones, títulos, footer)
-        magenta:'#820F52',      // magenta footer (alt wine)
+        // Paleta institucional EcoClasificador.
+        // Las CSS vars subyacentes se definen en app/globals.css como triadas
+        // R G B (space-separated) — `--canvas-rgb`, `--cream-rgb`, etc. — y
+        // cambian entre :root (light) y [data-theme="dark"] (dark). De esta
+        // forma, todas las utility classes (incluyendo modificadores de
+        // opacidad como `bg-cream/80`) reaccionan automáticamente al cambio
+        // de tema.
+        canvas:  'rgb(var(--canvas-rgb) / <alpha-value>)',
+        cream:   'rgb(var(--cream-rgb) / <alpha-value>)',
+        olive:   'rgb(var(--olive-rgb) / <alpha-value>)',
+        wine:    'rgb(var(--wine-rgb) / <alpha-value>)',
+        magenta: 'rgb(var(--magenta-rgb) / <alpha-value>)',
 
-        // Tonos derivados
+        // Tonos derivados de texto
         ink: {
-          DEFAULT: '#2A0312',   // marrón-morado muy oscuro (texto base)
-          dim:     '#6E4054',   // morado tenue (subtítulos)
-          muted:   '#8A6573',   // muy tenue (microcopy)
+          DEFAULT: 'rgb(var(--ink-rgb) / <alpha-value>)',
+          dim:     'rgb(var(--ink-dim-rgb) / <alpha-value>)',
+          muted:   'rgb(var(--ink-muted-rgb) / <alpha-value>)',
         },
         leaf: {
           50:  '#F2FBD9',
