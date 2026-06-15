@@ -1,0 +1,259 @@
+{
+  "lang": {
+    "name": "Español",
+    "code": "es",
+    "switchTo": "Cambiar a inglés"
+  },
+  "common": {
+    "open": "Abrir",
+    "close": "Cerrar",
+    "menu": "Abrir menú",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "loading": "Cargando…",
+    "tryIt": "Probar",
+    "next": "Siguiente"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre nosotros",
+    "classify": "Clasificar",
+    "tryClassifier": "Probar",
+    "homeAriaLabel": "EcoClasificador — Inicio"
+  },
+  "theme": {
+    "toLight": "Cambiar a modo claro",
+    "toDark": "Cambiar a modo oscuro",
+    "label": "Tema"
+  },
+  "skipLink": "Saltar al contenido principal",
+  "site": {
+    "title": "EcoClasificador",
+    "tagline": "Separar hoy, preservar mañana."
+  },
+  "hero": {
+    "pill": "ResNet50 · RealWaste · 9 categorías",
+    "title1": "Separar hoy,",
+    "title2": "preservar mañana.",
+    "subtitle": "Si hoy clasificamos y reciclamos correctamente los residuos, ayudamos a proteger el medio ambiente y conservar los recursos para el futuro.",
+    "ctaPrimary": "Probá el clasificador",
+    "ctaSecondary": "Cómo funciona"
+  },
+  "stats": {
+    "categoriesLabel": "Categorías",
+    "categoriesSub": "tipos de residuo soportados",
+    "precisionLabel": "Precisión",
+    "precisionSub": "top-1 en validación",
+    "latencyLabel": "Latencia",
+    "latencySub": "predicción en edge",
+    "openDataLabel": "Open data",
+    "openDataSub": "dataset UCI · ResNet50"
+  },
+  "marquee": {
+    "top": [
+      "Reciclá mejor",
+      "IA accesible",
+      "Educación abierta",
+      "Visión computacional",
+      "RealWaste · UCI",
+      "ResNet50",
+      "FastAPI",
+      "Open data"
+    ],
+    "bottom": [
+      "9 categorías",
+      "Predicción en <1s",
+      "Sin instalación",
+      "Hecho en Salta",
+      "UPATecO 2026",
+      "Top-1 94%"
+    ]
+  },
+  "bins": {
+    "label": "Aprendé a separar",
+    "title1": "Cada residuo,",
+    "title2": "su color.",
+    "intro": "El primer paso del reciclaje es saber dónde va cada cosa. El sistema de contenedores por color es una guía universal: una mirada al color y ya sabés qué residuos van adentro.",
+    "footerLeft": "· guía universal de contenedores",
+    "footerRight": "6 colores · 9 categorías",
+    "imageAlt": "Contenedores de reciclaje: papel, vidrio, plástico, e-waste, metal y orgánico",
+    "items": {
+      "paper": "Papel",
+      "paperSub": "Azul",
+      "glass": "Vidrio",
+      "glassSub": "Verde",
+      "plastic": "Plástico",
+      "plasticSub": "Naranja",
+      "ewaste": "E-Waste",
+      "ewasteSub": "Rojo",
+      "metal": "Metal",
+      "metalSub": "Amarillo",
+      "organic": "Orgánico",
+      "organicSub": "Gris"
+    }
+  },
+  "how": {
+    "label": "Cómo funciona",
+    "title1": "Una foto. Tres pasos.",
+    "title2": "Cero fricción.",
+    "intro": "Detrás de la simplicidad hay una red neuronal convolucional fine-tuned sobre el dataset RealWaste de UCI ML Repository.",
+    "stepLabel": "paso",
+    "step1Title": "Capturá la imagen",
+    "step1Desc": "Tomá una foto del residuo en buena luz o subila desde tu galería. Funciona con JPG, JPEG y PNG.",
+    "step2Title": "El modelo analiza",
+    "step2Desc": "ResNet50 con Transfer Learning extrae 2048 features de tu foto y las pasa por una cabeza fine-tuned sobre RealWaste.",
+    "step3Title": "Recibís la guía",
+    "step3Desc": "Categoría predicha, distribución de probabilidades por clase y la recomendación de reciclaje correcta.",
+    "predict": "/predict",
+    "ok": "200 OK · 870ms",
+    "topClass": "Plástico",
+    "conf": "conf 92.0%"
+  },
+  "categories": {
+    "label": "Categorías soportadas",
+    "title1": "Nueve tipos de residuo,",
+    "title2": "una decisión correcta.",
+    "intro": "Cada predicción viene acompañada del contenedor correcto y una recomendación práctica. Arrastrá el carrusel para explorar."
+  },
+  "waste": {
+    "cardboard": { "name": "Cartón", "bin": "Contenedor azul", "description": "Cajas, embalajes y láminas de cartón limpio.", "tip": "Aplastá las cajas para ahorrar espacio en el contenedor." },
+    "organic":   { "name": "Orgánico", "bin": "Contenedor marrón", "description": "Restos de comida, cáscaras y residuos compostables.", "tip": "Sin plásticos ni envoltorios: composta directa." },
+    "glass":     { "name": "Vidrio", "bin": "Contenedor verde", "description": "Botellas, frascos y envases de vidrio enjuagados.", "tip": "Sin tapas ni corchos; van por otro circuito." },
+    "metal":     { "name": "Metal", "bin": "Contenedor amarillo / gris", "description": "Latas, aluminio y pequeñas piezas metálicas.", "tip": "Aplastá las latas para reducir su volumen." },
+    "misc":      { "name": "Misceláneo", "bin": "Contenedor gris", "description": "Residuos que no encajan en otra categoría.", "tip": "Si dudás, no contamines reciclables válidos." },
+    "paper":     { "name": "Papel", "bin": "Contenedor azul", "description": "Hojas, periódicos, revistas y documentos.", "tip": "Sin grasa, sin comida pegada, sin plásticos." },
+    "plastic":   { "name": "Plástico", "bin": "Contenedor amarillo", "description": "Envases, botellas y film plástico reciclable.", "tip": "Verificá el código de reciclaje en la base." },
+    "textile":   { "name": "Textil", "bin": "Punto verde textil", "description": "Ropa, sábanas y telas en general.", "tip": "Si está en buen estado, considerá donarlo." },
+    "vegetation":{ "name": "Vegetación", "bin": "Composta", "description": "Hojas, ramas y restos verdes del jardín.", "tip": "Cortá las ramas grandes antes de compostar." }
+  },
+  "pillars": {
+    "label": "Nuestro enfoque",
+    "title1": "Tecnología útil,",
+    "title2": "con un propósito claro.",
+    "items": [
+      { "title": "Separación en origen", "copy": "El primer paso para que un residuo vuelva al ciclo productivo. Lo que se mezcla, se contamina." },
+      { "title": "IA accesible",         "copy": "Una foto basta. Sin formularios complejos: una herramienta lista para usar desde el celular." },
+      { "title": "Educación abierta",    "copy": "Proyecto académico con código y datos públicos. Pensado para aprender y replicar." }
+    ]
+  },
+  "cta": {
+    "pill": "Listo para usar · gratis",
+    "title1": "Empezá a clasificar",
+    "title2": "en menos de un minuto.",
+    "intro": "Subí una imagen, recibí la categoría, aprendé el contenedor correcto. Una herramienta que entra en cualquier bolsillo.",
+    "primary": "Abrir el clasificador",
+    "secondary": "Ver el equipo"
+  },
+  "classify": {
+    "metaTitle": "Clasificar residuo",
+    "metaDescription": "Subí una foto y un modelo ResNet50 te dice a qué contenedor pertenece tu residuo. 9 categorías, predicción en <1s.",
+    "label": "Clasificá tu residuo",
+    "title1": "Subí una foto.",
+    "title2": "Recibí la respuesta correcta.",
+    "intro": "JPG, JPEG o PNG. El modelo te dice a cuál de las 9 categorías pertenece y en qué contenedor debería ir.",
+    "uploadHeading": "Subí la foto",
+    "uploadTip": "Idealmente con fondo plano y buena luz.",
+    "analyzing": "Analizando…",
+    "classifyCta": "Clasificar residuo",
+    "noteHeading": "Antes de empezar",
+    "noteBody1": "Esta interfaz necesita que la API de clasificación esté corriendo. Si la API está apagada o no responde, vas a ver un mensaje de error en el panel de resultado. La URL por defecto es",
+    "noteBody2": "(FastAPI local). Si la tenés desplegada en otro lado, usá el botón",
+    "noteChangeUrl": "Cambiar URL",
+    "noteBody3": "de arriba.",
+    "dropHere": "Arrastrá una imagen aquí",
+    "dropNow": "¡Soltá la imagen!",
+    "openExplorer": "o hacé click para abrir el explorador",
+    "fileFormats": "JPG · JPEG · PNG · fondo plano recomendado",
+    "preview": "preview",
+    "changeImage": "Cambiar imagen",
+    "previewAlt": "Vista previa",
+    "resultHeading": "Resultado",
+    "emptyMessage": "Subí una imagen y presioná",
+    "emptyClassify": "Clasificar",
+    "emptyMessageTail": "para ver acá la categoría predicha y la distribución de probabilidades.",
+    "analyzingMessage": "Analizando imagen…",
+    "confidence": "confianza",
+    "probsHeading": "Probabilidades por clase",
+    "recommendation": "Recomendación",
+    "errorTitleDefault": "No pude conectar con la API",
+    "errorTitleMixed": "Mixed content bloqueado por el navegador",
+    "errorTitleNetwork": "API offline o sin CORS",
+    "errorTitleHttp": "La API devolvió",
+    "errorMixedDetail": "Estás en una página HTTPS llamando a una API HTTP. Cambiá la URL a una <code class=\"rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine\">https://</code> (o ejecutá la web localmente en http://localhost:3000).",
+    "errorNetworkDetailA": "Verificá que la API esté online en",
+    "errorNetworkDetailB": "y tenga CORS habilitado.",
+    "errorDetailLabel": "Detalle",
+    "statusIdle": "idle",
+    "statusAnalyzing": "analyzing",
+    "statusError": "error",
+    "statusDone": "done",
+    "apiStatusChecking": "verificando…",
+    "apiStatusOnline": "online",
+    "apiStatusOffline": "offline",
+    "apiLabel": "API",
+    "apiChangeUrl": "Cambiar URL",
+    "apiUrlPlaceholder": "https://ecoclasificador-api-production.up.railway.app/api/v1/predict",
+    "apiAria": "Estado de la API"
+  },
+  "about": {
+    "metaTitle": "Sobre nosotros",
+    "metaDescription": "Conocé el equipo y la tecnología detrás de EcoClasificador: ResNet50 + RealWaste, una herramienta educativa para reciclar mejor.",
+    "introLabel": "Sobre EcoClasificador",
+    "introTitle1": "Un proyecto educativo",
+    "introTitle2": "que une IA y ambiente.",
+    "introBody": "Facilitamos la separación correcta de residuos en origen con una herramienta accesible: una foto basta para saber a qué contenedor va.",
+    "missionLabel": "Misión",
+    "missionTitle": "Reducir el impacto, una foto a la vez.",
+    "missionBody": "Nuestra misión es bajar la fricción de hacer las cosas bien. No hace falta un curso ni una app pesada: un navegador, una foto, una respuesta clara.",
+    "blocks": [
+      { "title": "El primer paso",     "copy": "La correcta separación en origen es el primer paso para que un residuo pueda volver al ciclo productivo en lugar de terminar en un vertedero." },
+      { "title": "Tecnología útil",    "copy": "Reducir el impacto ambiental de los residuos urbanos ofreciendo una guía visual y automática, accesible desde cualquier dispositivo." },
+      { "title": "Aprendizaje abierto","copy": "Código y datos abiertos. Pensado para que estudiantes, docentes y municipios puedan replicarlo y mejorarlo." }
+    ],
+    "teamLabel": "El equipo",
+    "teamTitle": "Personas reales detrás del modelo.",
+    "teamFooter": "← arrastrá · UPATecO · Salta · 2026 →",
+    "techLabel": "Tecnología",
+    "techTitle1": "Visión computacional",
+    "techTitle2": "entrenada con datos abiertos.",
+    "techBody": "El motor es una red neuronal convolucional ResNet50 fine-tuned sobre RealWaste (UCI). La API REST recibe la imagen y devuelve la clase + distribución de probabilidades.",
+    "techReferenceLabel": "Referencia:",
+    "techReferenceBody": "Single, S., Iranmanesh, S., & Raad, R. (2023). RealWaste [Dataset]. UCI Machine Learning Repository.",
+    "techSpecs": [
+      { "k": "Arquitectura", "v": "ResNet50 + cabeza fine-tuned" },
+      { "k": "Estrategia",   "v": "Transfer Learning" },
+      { "k": "Runtime",      "v": "ONNX · CPU edge" },
+      { "k": "Dataset",      "v": "RealWaste · UCI ML Repo" },
+      { "k": "Categorías",   "v": "9 clases de residuo" },
+      { "k": "API",          "v": "FastAPI · REST · multipart" }
+    ],
+    "ethicsLabel": "Aviso ético",
+    "ethicsTitle": "Una herramienta de apoyo.",
+    "ethicsBody1Part1": "EcoClasificador es un proyecto educativo y experimental. Sus predicciones tienen un margen de error y ",
+    "ethicsBody1Strong": "no reemplazan la normativa local de reciclaje",
+    "ethicsBody1Part2": " ni la decisión de un operador profesional.",
+    "ethicsBody2": "Para decisiones críticas — residuos peligrosos, RAEE, materiales especiales — consultá siempre la regulación vigente en tu municipio.",
+    "ethicsChips": [
+      { "k": "Uso", "v": "Educativo" },
+      { "k": "Margen", "v": "Probabilístico" },
+      { "k": "Decisión final", "v": "Humana" }
+    ]
+  },
+  "footer": {
+    "tagline": "Inteligencia artificial al servicio del reciclaje. Separar hoy, preservar mañana.",
+    "navHeading": "Navegación",
+    "contactHeading": "Contacto",
+    "contactPlace": "UPATecO Salta · 2026",
+    "socialHeading": "Redes",
+    "copyright": "© 2026 EcoClasificador · Todos los derechos reservados",
+    "version": "v1.0 · made with care"
+  },
+  "notFound": {
+    "metaTitle": "Página no encontrada",
+    "tag": "404 · página no encontrada",
+    "title": "Acá no hay nada que reciclar.",
+    "body": "La URL que buscás no existe o se mudó. Volvé al inicio o probá el clasificador.",
+    "home": "Volver al inicio",
+    "classify": "Probar el clasificador"
+  }
+}
