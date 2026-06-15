@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import es from './es.json';
 import en from './en.json';
 
@@ -13,6 +13,12 @@ const DICTIONARIES: Record<Lang, Dict> = {
   en: en as unknown as Dict,
 };
 
+/**
+ * Tipo de valores que puede devolver `t()`. Strings en su mayoría, pero
+ * algunas claves devuelven arrays/objetos (listas, blocks de marquee, …).
+ */
+export type TranslationValue = string | string[] | Record<string, unknown> | Record<string, unknown>[];
+
 type I18nContextValue = {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -20,8 +26,12 @@ type I18nContextValue = {
    * Resuelve una clave anidada por puntos (ej: "nav.home").
    * Si la clave devuelve un objeto/array, lo devuelve tal cual (útil para listas).
    * Si no encuentra la clave, devuelve la key tal cual (fail-soft).
+   *
+   * Por default tipa el retorno como `string` (el caso más común). Para
+   * obtener listas u objetos, pasá el genérico:
+   *   const items = t<string[]>('marquee.list');
    */
-  t: (key: string) => any;
+  t: <T extends TranslationValue = string>(key: string) => T;
 };
 
 const I18nContext = createContext<I18nContextValue | null>(null);
@@ -49,15 +59,26 @@ function resolveKey(dict: any, path: string): any {
   return current;
 }
 
+// useLayoutEffect en SSR genera un warning; alias a useEffect en server.
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  // Siempre arrancamos en 'es' (default) para que SSR y primer render del cliente coincidan.
-  // Después de montar leemos localStorage y, si difiere, actualizamos.
+  // Arrancamos en 'es' (default) para que SSR y primer render del cliente
+  // coincidan. Antes del primer paint, useLayoutEffect lee el idioma del
+  // bootstrap inline (ya aplicado a <html lang>) o de localStorage, lo cual
+  // minimiza el micro-flicker al cargar con lang=en guardado.
   const [lang, setLangState] = useState<Lang>('es');
 
-  useEffect(() => {
-    const stored = readStoredLang();
-    if (stored !== lang) {
-      setLangState(stored);
+  useIsomorphicLayoutEffect(() => {
+    // El bootstrap inline (app/layout.tsx) ya escribió document.documentElement.lang
+    // si había un valor válido en localStorage. Lo usamos como source of truth
+    // antes que tocar storage para evitar dos reads.
+    const fromDom = typeof document !== 'undefined' ? document.documentElement.lang : '';
+    const candidate: Lang =
+      fromDom === 'es' || fromDom === 'en' ? fromDom : readStoredLang();
+    if (candidate !== lang) {
+      setLangState(candidate);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -78,15 +99,15 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (key: string) => {
+    <T extends TranslationValue = string>(key: string): T => {
       const dict = DICTIONARIES[lang];
       const value = resolveKey(dict, key);
       if (value === undefined) {
         // fallback: probamos en español, sino devolvemos la key.
         const fallback = resolveKey(DICTIONARIES.es, key);
-        return fallback ?? key;
+        return (fallback ?? key) as T;
       }
-      return value;
+      return value as T;
     },
     [lang],
   );
@@ -104,7 +125,8 @@ export function useI18n(): I18nContextValue {
     return {
       lang: 'es',
       setLang: () => {},
-      t: (key: string) => resolveKey(DICTIONARIES.es, key) ?? key,
+      t: <T extends TranslationValue = string>(key: string): T =>
+        (resolveKey(DICTIONARIES.es, key) ?? key) as T,
     };
   }
   return ctx;

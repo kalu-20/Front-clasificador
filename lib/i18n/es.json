@@ -19,7 +19,8 @@
     "about": "Sobre nosotros",
     "classify": "Clasificar",
     "tryClassifier": "Probar",
-    "homeAriaLabel": "EcoClasificador — Inicio"
+    "homeAriaLabel": "EcoClasificador — Inicio",
+    "primaryNav": "Navegación principal"
   },
   "theme": {
     "toLight": "Cambiar a modo claro",
@@ -183,6 +184,7 @@
     "errorNetworkDetailA": "Verificá que la API esté online en",
     "errorNetworkDetailB": "y tenga CORS habilitado.",
     "errorDetailLabel": "Detalle",
+    "errorUnknown": "Error desconocido al consultar la API.",
     "statusIdle": "idle",
     "statusAnalyzing": "analyzing",
     "statusError": "error",

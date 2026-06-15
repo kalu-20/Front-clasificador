@@ -63,7 +63,7 @@ export function ClasificarShell() {
     } catch (err) {
       let title = t('classify.errorTitleDefault') as string;
       let detail =
-        err instanceof Error ? err.message : 'Error desconocido al consultar la API.';
+        err instanceof Error ? err.message : (t('classify.errorUnknown') as string);
 
       if (err instanceof ApiError) {
         if (err.kind === 'mixed_content') {
