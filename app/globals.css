@@ -72,13 +72,17 @@
 
   /*
    * Reseteo localizado de la "crema" en superficies donde se usa como
-   * highlight de texto/borde sobre fondos oscuros. Mantiene la legibilidad
-   * sin tocar componentes uno por uno.
+   * highlight claro sobre fondos OSCUROS (card-deep y bg-wine). Mantiene
+   * la legibilidad sin tocar componentes uno por uno.
+   *
+   * Importante: NO incluimos bg-olive aquí porque en dark mode --olive
+   * pasa a ser el amarillo canvas (#FCF291). Sobre ese amarillo claro,
+   * `text-cream` debe seguir resolviendo al cream-rgb DARK (42 27 52) =
+   * texto oscuro sobre amarillo, contraste correcto.
    */
   [data-theme="dark"] .card-deep,
   [data-theme="dark"] .bg-wine,
-  [data-theme="dark"] [class*="bg-wine/"],
-  [data-theme="dark"] [class*="bg-olive"]:not(body) {
+  [data-theme="dark"] [class*="bg-wine/"] {
     --cream-rgb: 255 246 194;
   }
 
