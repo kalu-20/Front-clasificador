@@ -56,7 +56,7 @@ export function SiteHeader() {
         </span>
       </Link>
 
-      <nav className="hidden items-center gap-1 md:flex" aria-label={t('nav.home') as string}>
+      <nav className="hidden items-center gap-1 md:flex" aria-label={t('nav.primaryNav') as string}>
         {NAV_HREFS.map((item) => {
           const active =
             item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);

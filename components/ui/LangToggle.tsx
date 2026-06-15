@@ -19,7 +19,9 @@ export function LangToggle({ className }: Props) {
   return (
     <div
       role="group"
-      aria-label={t('theme.label') === 'Theme' ? 'Language' : 'Idioma'}
+      // Usamos directamente el `lang` del context en lugar de comparar strings
+      // traducidos (frágil si alguien edita la clave en EN/ES).
+      aria-label={lang === 'en' ? 'Language' : 'Idioma'}
       className={cn(
         'inline-flex items-center gap-0.5 rounded-full border border-wine/15 bg-cream/70 p-0.5 font-mono text-[11px] uppercase tracking-[0.18em]',
         className,
