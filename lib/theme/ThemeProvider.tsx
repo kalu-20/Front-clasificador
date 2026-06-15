@@ -39,37 +39,37 @@ function applyTheme(theme: Theme) {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // SSR-safe default: light. Después del montaje leemos storage / media.
   const [theme, setThemeState] = useState<Theme>('light');
+  // Marcamos cuando ya hicimos la lectura inicial: el primer useEffect del
+  // `theme` no debe escribir a storage si todavía no leímos nada (eso
+  // sobreescribiría el valor del bootstrap en una primera carga incógnita).
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const initial = readInitialTheme();
     setThemeState(initial);
     applyTheme(initial);
+    setHydrated(true);
   }, []);
 
-  // Aplicamos cada vez que cambia
+  // Única fuente de verdad para storage + DOM cuando cambia `theme`:
+  // - aplica el atributo a <html>
+  // - persiste a localStorage (sólo después del primer paint hidratado).
   useEffect(() => {
     applyTheme(theme);
-  }, [theme]);
+    if (!hydrated) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      // ignore (storage deshabilitado / incógnito estricto)
+    }
+  }, [theme, hydrated]);
 
   const setTheme = useCallback((t: Theme) => {
     setThemeState(t);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, t);
-    } catch {
-      // ignore
-    }
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setThemeState((prev) => {
-      const next: Theme = prev === 'dark' ? 'light' : 'dark';
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        // ignore
-      }
-      return next;
-    });
+    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
   const value = useMemo<ThemeContextValue>(

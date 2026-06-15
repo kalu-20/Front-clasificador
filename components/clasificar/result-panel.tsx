@@ -12,10 +12,15 @@ type Status =
   | { kind: 'success'; data: PredictionResponse };
 
 /**
- * Devuelve los campos traducidos para una categoría a partir de su id.
- * Si no hay diccionario, cae al texto del data.ts (es).
+ * Custom hook que devuelve los campos i18n de una `WasteCategory` resueltos
+ * en el idioma activo. Si `cat` es undefined, devuelve `null`. Si una clave
+ * no existe en el diccionario, cae al texto en español embebido en data.ts.
+ *
+ * Es un hook (usa `useI18n`) por lo que debe llamarse en el top-level del
+ * componente, no dentro de condicionales. La rama de early-return por `cat`
+ * undefined está OK porque ocurre DESPUÉS de invocar `useI18n`.
  */
-function useTranslatedCategory(cat: WasteCategory | undefined) {
+function useCategoryLabel(cat: WasteCategory | undefined) {
   const { t } = useI18n();
   if (!cat) return null;
   const slug = cat.id === 'food-organics' ? 'organic' : cat.id;
@@ -167,7 +172,7 @@ function Success({ data }: { data: PredictionResponse }) {
   const { t } = useI18n();
   const cls = data.predicted_class;
   const baseCategory = CATEGORY_BY_API[cls];
-  const category = useTranslatedCategory(baseCategory);
+  const category = useCategoryLabel(baseCategory);
 
   const sorted = [...(data.probabilities ?? [])].sort(
     (a, b) => b.probability - a.probability,
