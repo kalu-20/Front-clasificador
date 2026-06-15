@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { CATEGORY_BY_API, WASTE_CATEGORIES, type WasteCategory } from '@/lib/data';
+import { CATEGORY_BY_API, type WasteCategory } from '@/lib/data';
 import type { PredictionResponse } from '@/lib/api';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 
