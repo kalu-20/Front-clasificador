@@ -6,6 +6,10 @@ import { LoadingScreen } from '@/components/loading-screen';
 import { ScrollProgress } from '@/components/scroll-progress';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { I18nProvider } from '@/lib/i18n/I18nProvider';
+import { ThemeProvider } from '@/lib/theme/ThemeProvider';
+import { SkipLink } from '@/components/ui/SkipLink';
+import { MotionConfigProvider } from '@/components/providers/motion-config';
 
 const alice = Alice({
   weight: '400',
@@ -54,19 +58,42 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
+// Script inline ejecutado ANTES de la hidratación: aplica data-theme leyendo
+// localStorage / prefers-color-scheme para evitar flash de tema incorrecto.
+const themeBootstrapScript = `
+(function(){try{
+  var s=localStorage.getItem('theme');
+  var t=(s==='light'||s==='dark')?s:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  document.documentElement.setAttribute('data-theme',t);
+  document.documentElement.style.colorScheme=t;
+  var l=localStorage.getItem('lang');
+  if(l==='en'||l==='es'){document.documentElement.lang=l;}
+}catch(e){}})();
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning className={alice.variable}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+      </head>
       <body className="font-sans">
-        <LoadingScreen />
-        <ScrollProgress />
-        <SmoothScroll>
-          <SiteHeader />
-          <main id="main" className="relative">
-            {children}
-          </main>
-          <SiteFooter />
-        </SmoothScroll>
+        <I18nProvider>
+          <ThemeProvider>
+            <MotionConfigProvider>
+              <SkipLink />
+              <LoadingScreen />
+              <ScrollProgress />
+              <SmoothScroll>
+                <SiteHeader />
+                <main id="main" tabIndex={-1} className="relative">
+                  {children}
+                </main>
+                <SiteFooter />
+              </SmoothScroll>
+            </MotionConfigProvider>
+          </ThemeProvider>
+        </I18nProvider>
       </body>
     </html>
   );

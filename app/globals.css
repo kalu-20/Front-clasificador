@@ -16,6 +16,42 @@
     color-scheme: light;
   }
 
+  /*
+   * Dark mode (data-theme="dark" en <html>).
+   * Mantiene el vino (--wine) como acento de acciones.
+   * "canvas" se invierte al morado profundo y el "ink" pasa a crema claro.
+   */
+  [data-theme="dark"] {
+    --canvas:  #1a1224;
+    --cream:   #fff6c2;
+    --olive:   #8AC81F;
+    --wine:    #7C1155;
+    --magenta: #820F52;
+    --ink:     #fff6c2;
+
+    color-scheme: dark;
+  }
+
+  [data-theme="dark"] body {
+    background:
+      radial-gradient(900px 600px at 85% -8%, rgba(138, 200, 31, 0.10), transparent 60%),
+      radial-gradient(700px 500px at -10% 35%, rgba(124, 17, 85, 0.18), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(252, 242, 145, 0.06), transparent 60%),
+      var(--canvas);
+  }
+
+  [data-theme="dark"] ::selection {
+    background: rgba(252, 242, 145, 0.25);
+    color: var(--ink);
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(252, 242, 145, 0.22);
+  }
+  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(252, 242, 145, 0.4);
+  }
+
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -74,12 +110,25 @@
     overflow: clip;
   }
 
+  /* Focus ring accesible: outline 3px sólido vino */
   :focus-visible {
-    outline: 2px solid rgba(68, 122, 0, 0.7);
+    outline: 3px solid var(--wine);
     outline-offset: 3px;
     border-radius: 6px;
   }
+  [data-theme="dark"] :focus-visible {
+    outline-color: var(--cream);
+  }
 
+  /* main no debe mostrar outline cuando lo enfocamos por skip-link */
+  #main:focus,
+  #main:focus-visible {
+    outline: none;
+  }
+
+  /* prefers-reduced-motion: silenciar animaciones, transiciones y scroll suave.
+     Lenis ya respeta este flag a nivel de hook (no se monta).
+     Framer Motion respeta useReducedMotion en su MotionConfig por defecto. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -104,6 +153,13 @@
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.6) inset,
       0 24px 60px -32px rgba(68, 122, 0, 0.18);
+  }
+  [data-theme="dark"] .card-paper {
+    background-color: #261936;
+    border-color: rgba(255, 246, 194, 0.10);
+    box-shadow:
+      0 1px 0 rgba(255, 246, 194, 0.05) inset,
+      0 24px 60px -32px rgba(0, 0, 0, 0.6);
   }
 
   /* Carta oscura (morado vino) */
@@ -165,6 +221,11 @@
     background-size: 72px 72px;
     -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 30%, transparent 80%);
             mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 30%, transparent 80%);
+  }
+  [data-theme="dark"] .grid-paper {
+    background-image:
+      linear-gradient(rgba(255, 246, 194, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 246, 194, 0.06) 1px, transparent 1px);
   }
 
   .text-balance {
