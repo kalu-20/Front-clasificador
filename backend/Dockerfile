@@ -9,8 +9,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Dependencias del sistema (Pillow + onnxruntime las usan, además de wget para fallback)
+# Nota: en las bases Debian recientes de python:3.12-slim el paquete
+# libgl1-mesa-glx fue reemplazado por libgl1 (el nombre viejo ya no existe y
+# rompe el build). Usamos libgl1.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgl1-mesa-glx \
+        libgl1 \
         libglib2.0-0 \
         wget \
         ca-certificates \
@@ -31,9 +34,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 ARG MODEL_ID=12vOZKjBJ_2XhtSDgNPVNjkijKscUKK7O
 ARG MODEL_DATA_ID=1u4q5QCdn2PjFiZX4mHyY9ED3S6kxbOYu
 
-RUN python -m gdown --id ${MODEL_ID}      -O /app/model.onnx \
- && python -m gdown --id ${MODEL_DATA_ID} -O /app/model.onnx.data \
- && ls -lh /app/model.onnx /app/model.onnx.data
+# gdown 5.x eliminó la opción --id; ahora se pasa la URL de Drive (o el id posicional).
+# IMPORTANTE: el .onnx referencia su data externa por el nombre
+# "waste_classifier_resnet50.onnx.data" (ruta relativa embebida en el modelo),
+# así que el archivo de datos DEBE llamarse exactamente así y estar junto al .onnx.
+RUN python -m gdown "https://drive.google.com/uc?id=${MODEL_ID}"      -O /app/waste_classifier_resnet50.onnx \
+ && python -m gdown "https://drive.google.com/uc?id=${MODEL_DATA_ID}" -O /app/waste_classifier_resnet50.onnx.data \
+ && ls -lh /app/waste_classifier_resnet50.onnx /app/waste_classifier_resnet50.onnx.data
 
 # 3. Copiar el código de la app
 COPY . .
