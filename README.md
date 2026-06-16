@@ -6,154 +6,63 @@
 
 **Reciclá mejor. Una foto basta.**
 
+Aplicación web que clasifica residuos a partir de una foto usando visión computacional, para fomentar el reciclaje correcto. Subís una imagen del residuo y el sistema la clasifica en una de las **9 categorías del dataset RealWaste** y recomienda el contenedor adecuado.
+
 Proyecto integrador universitario · **UPATecO Salta · 2026**.
-Plataforma full-stack que clasifica residuos en 9 categorías usando una red neuronal **ResNet50** entrenada sobre el dataset abierto **RealWaste**.
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![ONNX](https://img.shields.io/badge/ONNX-Runtime-005CED?logo=onnx&logoColor=white)](https://onnxruntime.ai/)
+[![Vercel](https://img.shields.io/badge/Vercel-deploy-000?logo=vercel)](https://clasificadorresiduo.lat)
+[![Railway](https://img.shields.io/badge/Railway-API-0B0D0E?logo=railway)](https://railway.app/)
 [![License](https://img.shields.io/badge/license-MIT-A21CAF.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-14-000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
-🌐 **Demo:** https://clasificadorresiduo.lat &nbsp;·&nbsp; [GitHub Pages mirror](https://kalu-20.github.io/Front-clasificador/) &nbsp;·&nbsp; [API docs](https://ecoclasificador-api-production.up.railway.app/docs)
+Demo: **https://clasificadorresiduo.lat**
 
 </div>
 
 ---
 
-## 🧬 Visión general
+## Visión general
 
-EcoClasificador es un **proyecto académico integrador** desarrollado en la cátedra de Ciencia de Datos e IA Aplicada (UPATecO Salta). Demuestra cómo bajar la fricción del reciclaje doméstico usando visión computacional. El usuario sube una foto del residuo y el sistema:
+EcoClasificador es un **proyecto académico integrador** que demuestra cómo reducir la fricción del reciclaje doméstico mediante visión computacional. El flujo es simple:
 
-1. **Procesa la imagen** (resize 224×224, normalización ImageNet).
-2. **Infiere** sobre un modelo ResNet50 fine-tuned (ONNX Runtime, CPU).
-3. **Devuelve** la clase predicha + distribución de probabilidades sobre 9 categorías.
-4. **Recomienda** el contenedor de reciclaje correcto.
+1. El usuario sube una foto del residuo.
+2. La imagen se preprocesa (resize 224×224, normalización ImageNet).
+3. Un modelo **ResNet50** con transfer learning infiere la categoría sobre **ONNX Runtime**.
+4. La aplicación devuelve la clase predicha, la distribución de probabilidades sobre las 9 categorías y recomienda el contenedor de reciclaje correcto.
 
-Detrás hay una **arquitectura monorepo**: el frontend está hecho en Next.js con animaciones cinematográficas, y el backend en FastAPI con Docker, desplegado en Railway.
+El repositorio es un **monorepo**: el frontend está hecho en Next.js con animaciones fluidas, y el backend en FastAPI dentro de un contenedor Docker.
 
----
-
-## 🗂️ Estructura del monorepo
-
-```
-.
-├── app/                    # Next.js App Router — páginas
-├── components/             # UI por feature (home/, sobre/, clasificar/, ui/)
-├── hooks/                  # React hooks reutilizables (lenis, parallax, tilt, glow)
-├── lib/                    # api client, motion variants, data mock, cn()
-├── public/                 # assets estáticos (logo, canecas, fonts)
-│
-├── backend/                # 🐍 FastAPI + ONNX (ResNet50)
-│   ├── handler/            # routers
-│   ├── service/            # carga del modelo + preprocesado
-│   ├── main.py             # entrypoint
-│   ├── requirements.txt
-│   ├── Dockerfile          # build prod para Railway
-│   └── README.md
-│
-├── .github/workflows/      # CI/CD — deploy a GitHub Pages
-└── README.md
-```
+> **Nota sobre métricas**: las métricas de exactitud del modelo (accuracy, F1, matriz de confusión) están **pendientes de medición sobre el conjunto de test**. No se reportan valores en este documento para no afirmar resultados aún no verificados.
 
 ---
 
-## 🎨 Diseño
+## Stack tecnológico
 
-| Color           | Hex       | Uso                                    |
-| --------------- | --------- | -------------------------------------- |
-| Verde oliva     | `#447A00` | Header, accents, indicadores           |
-| Amarillo pastel | `#FCF291` | Fondo principal                        |
-| Morado vino     | `#7C1155` | Botones primarios, títulos             |
-| Crema           | `#FFF6C2` | Texto sobre superficies oscuras        |
-| Magenta footer  | `#820F52` | Variante del morado                    |
+### Frontend
+- **Next.js 14** (App Router)
+- **React 18** + **TypeScript**
+- **Tailwind CSS 3.4**
+- **Framer Motion 11** (animaciones)
+- **Lenis** (smooth scroll)
+- **Swiper** (carruseles)
+- Deploy en **Vercel** → https://clasificadorresiduo.lat
 
-- **Tipografía**: [Alice](https://fonts.google.com/specimen/Alice) (serif clásica, transmite formalidad y conexión con la naturaleza).
-- **Animaciones**: Framer Motion + Lenis smooth scroll + Swiper.
-- **Accesibilidad**: respeta `prefers-reduced-motion`, focus rings visibles, contraste AA.
+### Backend
+- **FastAPI 0.111**
+- **ONNX Runtime** (inferencia)
+- **Python 3.12**
+- **Docker**
+- Deploy en **Railway**
 
----
+Endpoints:
 
-## 🚀 Cómo correrlo localmente
+| Método | Ruta | Descripción | Respuesta |
+| ------ | ---- | ----------- | --------- |
+| `GET`  | `/health` | Healthcheck | `{"status":"ok"}` |
+| `POST` | `/api/v1/predict` | Clasifica una imagen (`multipart/form-data`, campo `file`) | `{predicted_class, probabilities:[{class_name, probability}]}` |
 
-### Prerequisitos
-
-- Node.js ≥ 18
-- Python ≥ 3.10
-- Docker (opcional, para el backend)
-
-### Frontend (Next.js)
-
-```bash
-npm install
-npm run dev          # http://localhost:3000
-```
-
-### Backend (FastAPI)
-
-```bash
-cd backend
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-# Descargar el modelo (~250 MB)
-python -m gdown --id 12vOZKjBJ_2XhtSDgNPVNjkijKscUKK7O -O model.onnx
-python -m gdown --id 1u4q5QCdn2PjFiZX4mHyY9ED3S6kxbOYu -O model.onnx.data
-
-uvicorn main:app --reload   # http://127.0.0.1:8000/docs
-```
-
-### O todo con Docker (solo backend)
-
-```bash
-cd backend
-docker build -t ecoclasificador-api .
-docker run -p 8000:8000 --rm ecoclasificador-api
-```
-
----
-
-## ☁️ Despliegue
-
-| Capa     | Proveedor      | URL                                                                |
-| -------- | -------------- | ------------------------------------------------------------------ |
-| Frontend | **Vercel**     | https://clasificadorresiduo.lat (custom domain via Namecheap)      |
-| Frontend | GitHub Pages   | https://kalu-20.github.io/Front-clasificador/ (mirror)             |
-| Backend  | **Railway**    | https://ecoclasificador-api-production.up.railway.app              |
-| Dominio  | Namecheap      | `clasificadorresiduo.lat` apuntando a Vercel                       |
-
-### Build estático del frontend
-
-```bash
-npm run build           # Vercel y self-hosting (root)
-npm run build:pages     # GitHub Pages (basePath /Front-clasificador)
-```
-
-### Deploy del backend en Railway
-
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template?template=https%3A%2F%2Fgithub.com%2Fkalu-20%2FFront-clasificador&rootDirectory=backend)
-
-Ver guía paso a paso en [`backend/README.md`](backend/README.md#-desplegar-en-railway-recomendado). Resumen:
-
-1. `railway.app/new` → Deploy from GitHub repo.
-2. **Root Directory**: `backend`.
-3. Railway detecta el `Dockerfile` y el `railway.json`, buildea, descarga el modelo, expone la API.
-4. Settings → Networking → **Generate Domain**.
-
----
-
-## 📡 API
-
-### `POST /api/v1/predict`
-
-```http
-Content-Type: multipart/form-data
-file: <imagen JPG / JPEG / PNG>
-```
-
-Respuesta:
+Ejemplo de respuesta de `POST /api/v1/predict`:
 
 ```json
 {
@@ -165,61 +74,145 @@ Respuesta:
 }
 ```
 
-Documentación interactiva: **`/docs`** (Swagger UI).
-
-### Categorías (9)
-
-| Emoji | Clase                | Contenedor               |
-| ----- | -------------------- | ------------------------ |
-| 📦    | Cardboard            | Azul (papel/cartón)      |
-| 🍎    | Food Organics        | Marrón (compost)         |
-| 🍾    | Glass                | Verde                    |
-| 🥫    | Metal                | Amarillo / Gris          |
-| 🗑️    | Miscellaneous Trash  | Gris                     |
-| 📄    | Paper                | Azul                     |
-| 🥤    | Plastic              | Amarillo                 |
-| 👕    | Textile Trash        | Punto verde textil       |
-| 🌿    | Vegetation           | Compost                  |
+### Modelo
+- **ResNet50** con **transfer learning** sobre el dataset **RealWaste** (UCI Machine Learning Repository, licencia CC BY 4.0).
+- 9 categorías: Cardboard, Food Organics, Glass, Metal, Miscellaneous Trash, Paper, Plastic, Textile Trash, Vegetation.
 
 ---
 
-## 👥 Equipo
+## Cómo correrlo en local
 
-| Rol         | Persona                                  |
-| ----------- | ---------------------------------------- |
-| **Frontend** | María Claudia Fabián                     |
-| **Frontend** | Fátima Isabel Sumbaine                   |
-| **Backend**  | Daniel Marcelo Chachagua Garrido         |
-| **Backend**  | Victoria Macarena Alvarez                |
+### Prerequisitos
+- Node.js ≥ 18
+- Python 3.12
+- Docker (opcional, para el backend)
 
-**Contexto académico**: Proyecto integrador de la cátedra de Ciencia de Datos e Inteligencia Artificial Aplicada — **UPATecO Salta · 2026**.
-
----
-
-## 📚 Dataset y referencia académica
-
-> Single, S., Iranmanesh, S., & Raad, R. (2023). **RealWaste** [Dataset].
-> UCI Machine Learning Repository.
-> https://doi.org/10.24432/C5SS4G
-
-El dataset RealWaste tiene **4 752 imágenes** etiquetadas en 9 categorías recolectadas en un centro real de manejo de residuos en Australia. Se usó como base para el fine-tuning de ResNet50 vía transfer learning.
-
----
-
-## 🤝 Contribuir
-
-Pull Requests bienvenidos. Para cambios mayores, abrí primero un issue para discutirlo.
+### Frontend (Next.js)
 
 ```bash
-# Workflow recomendado
-git checkout -b feature/mi-cambio
-git commit -m "feat: descripción corta"
-git push origin feature/mi-cambio
-# Después abrir PR en GitHub
+npm install
+npm run dev          # http://localhost:3000
+```
+
+Configurá la variable de entorno copiando el ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+```env
+# .env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api/v1/predict
+```
+
+`NEXT_PUBLIC_API_URL` debe apuntar al endpoint `/api/v1/predict` del backend (local o en Railway).
+
+### Backend (FastAPI)
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload   # http://127.0.0.1:8000
+```
+
+Documentación interactiva de la API en `http://127.0.0.1:8000/docs` (Swagger UI).
+
+### Backend con Docker
+
+```bash
+docker build -t eco-api backend/
+docker run -p 8000:8000 eco-api
 ```
 
 ---
 
-## 📄 Licencia
+## Internacionalización (i18n)
 
-[MIT](LICENSE) — libre uso educativo y comercial con atribución.
+La aplicación es bilingüe **Español / Inglés** con un `I18nProvider` casero (sin dependencias externas de i18n):
+
+- Diccionarios en `lib/i18n/es.json` y `lib/i18n/en.json` (**211 claves** cada uno).
+- Botón **LangToggle** en el header para cambiar de idioma.
+- Persistencia de la preferencia en **localStorage**.
+
+---
+
+## Modo oscuro (Dark mode)
+
+- `ThemeProvider` con tres modos: **light**, **dark** y **system** (sigue la preferencia del sistema operativo).
+- Botón **ThemeToggle** con íconos de sol y luna.
+- Paleta oscura definida mediante **variables CSS** en formato `R G B`.
+- Estrategia **anti-FOUC** (flash of unstyled content) para evitar el parpadeo al cargar.
+
+---
+
+## Accesibilidad
+
+El proyecto apunta al nivel **WCAG AA**:
+
+- **Skip-link** para saltar directo al contenido.
+- `<main id="main" tabIndex={-1}>` como destino de foco.
+- **`aria-live="polite"`** en el bloque de resultado de la clasificación.
+- **Focus rings** visibles de 3px.
+- **MotionConfig** con `reducedMotion` para respetar `prefers-reduced-motion`.
+- Texto **`alt`** descriptivo en todas las imágenes.
+
+---
+
+## Estructura del repositorio
+
+```
+.
+├── app/            # Next.js App Router — páginas
+├── components/     # UI por feature (home/, sobre/, clasificar/, ui/)
+├── lib/            # api client, i18n, motion, utilidades
+├── hooks/          # React hooks reutilizables
+├── backend/        # FastAPI + ONNX Runtime (ResNet50) + Dockerfile
+├── docs/           # documentación del proyecto
+├── public/         # assets estáticos (logo, canecas, fuentes)
+└── README.md
+```
+
+---
+
+## Equipo
+
+Proyecto integrador de **UPATecO Salta · 2026**.
+
+| Persona | Rol | GitHub |
+| ------- | --- | ------ |
+| **María Claudia Fabián** | Líder de frontend · Project Manager | [@kalu-20](https://github.com/kalu-20) |
+| **Fátima Isabel Sumbaine** | Frontend · Diseño | — |
+| **Daniel Chachagua Garrido** | Backend · Modelo | — |
+| **Victoria Macarena Alvarez** | Testing · Demo | — |
+
+---
+
+## Dataset y referencia académica
+
+> Single, S., Iranmanesh, S., & Raad, R. (2023). **RealWaste** [Dataset].
+> UCI Machine Learning Repository. Licencia CC BY 4.0.
+> https://doi.org/10.24432/C5SS4G
+
+El dataset RealWaste reúne imágenes etiquetadas en 9 categorías, recolectadas en un centro real de manejo de residuos. Se usó como base para el fine-tuning de ResNet50 mediante transfer learning.
+
+---
+
+## Paleta del proyecto
+
+| Color | Hex |
+| ----- | --- |
+| Vino | `#7C1155` |
+| Crema | `#FFF6C2` |
+| Acento amarillo | `#FCF291` |
+
+---
+
+## Contribuir
+
+Las contribuciones son bienvenidas. Para cambios mayores, abrí primero un issue para discutirlo. Consultá la guía completa en [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+---
+
+## Licencia
+
+Distribuido bajo licencia **MIT**. Ver [`LICENSE`](LICENSE) para más detalles.
