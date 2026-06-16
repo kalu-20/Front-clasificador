@@ -9,6 +9,7 @@ import 'swiper/css/free-mode';
 import { TEAM } from '@/lib/data';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 const TAG_STYLES: Record<
   'Frontend' | 'Backend',
@@ -29,13 +30,15 @@ const TAG_STYLES: Record<
 };
 
 export function TeamScroll() {
+  const { t, lang } = useI18n();
   return (
     <section className="relative py-24 sm:py-28">
       <div className="container-app">
-        <SectionLabel number="02">El equipo</SectionLabel>
+        <SectionLabel number="02">{t('about.teamLabel') as string}</SectionLabel>
         <div className="mt-5">
           <SplitText
-            text="Personas reales detrás del modelo."
+            key={`team-${lang}`}
+            text={t('about.teamTitle') as string}
             as="h2"
             splitBy="word"
             className="block font-display text-display-md font-bold tracking-tight text-wine"
@@ -53,12 +56,12 @@ export function TeamScroll() {
           grabCursor
           className="!px-5 sm:!px-12"
         >
-          {TEAM.map((t, i) => (
+          {TEAM.map((m, i) => (
             <SwiperSlide
-              key={t.name}
+              key={m.name}
               className="!w-[300px] sm:!w-[360px] lg:!w-[420px]"
             >
-              <TeamCard index={i} {...t} />
+              <TeamCard index={i} {...m} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -66,7 +69,7 @@ export function TeamScroll() {
 
       <div className="container-app mt-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-muted">
-          ← arrastrá · UPATecO · Salta · 2026 →
+          {t('about.teamFooter') as string}
         </p>
       </div>
     </section>
@@ -123,6 +126,7 @@ function TeamCard({
           <div
             className="grid h-36 w-36 place-items-center rounded-full text-5xl font-bold text-cream shadow-glow"
             style={{ backgroundColor: style.avatarBg }}
+            aria-hidden="true"
           >
             {initials}
           </div>

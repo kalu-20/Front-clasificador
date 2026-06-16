@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function Intro() {
+  const { t, lang } = useI18n();
   return (
     <section className="relative isolate flex min-h-[70svh] items-center pt-36 pb-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 grid-paper opacity-70" />
@@ -15,18 +17,20 @@ export function Intro() {
       />
 
       <div className="container-app">
-        <SectionLabel number="00">Sobre EcoClasificador</SectionLabel>
+        <SectionLabel number="00">{t('about.introLabel') as string}</SectionLabel>
 
         <h1 className="mt-8 max-w-5xl font-display text-display-xl font-bold tracking-tight">
           <SplitText
-            text="Un proyecto educativo"
+            key={`it1-${lang}`}
+            text={t('about.introTitle1') as string}
             as="span"
             splitBy="word"
             className="block text-wine"
             delay={0.15}
           />
           <SplitText
-            text="que une IA y ambiente."
+            key={`it2-${lang}`}
+            text={t('about.introTitle2') as string}
             as="span"
             splitBy="word"
             className="block text-olive"
@@ -40,8 +44,7 @@ export function Intro() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
           className="mt-10 max-w-2xl text-balance text-[18px] leading-relaxed text-ink-dim sm:text-[20px]"
         >
-          Facilitamos la separación correcta de residuos en origen con una
-          herramienta accesible: una foto basta para saber a qué contenedor va.
+          {t('about.introBody') as string}
         </motion.p>
       </div>
     </section>

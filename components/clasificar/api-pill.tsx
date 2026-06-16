@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { pingApi } from '@/lib/api';
 import { cn } from '@/lib/cn';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type Props = {
   apiUrl: string;
@@ -11,12 +12,6 @@ type Props = {
 };
 
 type Status = 'checking' | 'online' | 'offline';
-
-const STATUS_LABEL: Record<Status, string> = {
-  checking: 'verificando…',
-  online: 'online',
-  offline: 'offline',
-};
 
 const STATUS_DOT: Record<Status, string> = {
   checking: 'bg-amber-400',
@@ -28,6 +23,13 @@ export function ApiPill({ apiUrl, onChange }: Props) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(apiUrl);
   const [status, setStatus] = useState<Status>('checking');
+  const { t } = useI18n();
+
+  const STATUS_LABEL: Record<Status, string> = {
+    checking: t('classify.apiStatusChecking') as string,
+    online: t('classify.apiStatusOnline') as string,
+    offline: t('classify.apiStatusOffline') as string,
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -54,10 +56,10 @@ export function ApiPill({ apiUrl, onChange }: Props) {
           'relative inline-flex h-2 w-2 shrink-0 rounded-full transition-colors',
           STATUS_DOT[status],
         )}
-        aria-label={`Estado de la API: ${STATUS_LABEL[status]}`}
+        aria-label={`${t('classify.apiAria') as string}: ${STATUS_LABEL[status]}`}
       >
         {status === 'online' && (
-          <span className="absolute inset-0 animate-ping rounded-full bg-olive opacity-70" />
+          <span className="absolute inset-0 animate-ping rounded-full bg-olive opacity-70" aria-hidden="true" />
         )}
       </span>
       <span
@@ -67,7 +69,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
           status === 'offline' ? 'text-red-700' : 'text-wine',
         )}
       >
-        API · {STATUS_LABEL[status]}
+        {t('classify.apiLabel') as string} · {STATUS_LABEL[status]}
       </span>
       {!editing ? (
         <>
@@ -82,7 +84,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
             }}
             className="rounded-full border border-wine/20 px-3 py-1 text-[12px] font-semibold text-wine transition-colors hover:bg-wine hover:text-cream"
           >
-            Cambiar URL
+            {t('classify.apiChangeUrl') as string}
           </button>
         </>
       ) : (
@@ -99,21 +101,22 @@ export function ApiPill({ apiUrl, onChange }: Props) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             autoFocus
+            aria-label={t('classify.apiChangeUrl') as string}
             className="w-full min-w-[240px] rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px]"
-            placeholder="https://ecoclasificador-api-production.up.railway.app/api/v1/predict"
+            placeholder={t('classify.apiUrlPlaceholder') as string}
           />
           <button
             type="submit"
             className="rounded-full bg-wine px-3 py-1 text-[12px] font-semibold text-cream"
           >
-            Guardar
+            {t('common.save') as string}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
             className="rounded-full border border-wine/20 px-3 py-1 text-[12px] font-semibold text-wine hover:bg-wine/5"
           >
-            Cancelar
+            {t('common.cancel') as string}
           </button>
         </form>
       )}

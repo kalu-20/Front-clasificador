@@ -4,9 +4,18 @@ import { motion } from 'framer-motion';
 import { SplitText } from '@/components/ui/split-text';
 import { MagneticButton } from '@/components/ui/magnetic-button';
 import { EcoLogo } from '@/components/ui/eco-logo';
-import { STATS } from '@/lib/data';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function Hero() {
+  const { t, lang } = useI18n();
+
+  const stats = [
+    { label: t('stats.categoriesLabel') as string, value: '9', sub: t('stats.categoriesSub') as string },
+    { label: t('stats.precisionLabel') as string, value: '94%', sub: t('stats.precisionSub') as string },
+    { label: t('stats.latencyLabel') as string, value: '<1s', sub: t('stats.latencySub') as string },
+    { label: t('stats.openDataLabel') as string, value: 'RealWaste', sub: t('stats.openDataSub') as string },
+  ];
+
   return (
     <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-20 pt-32 sm:pt-40">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 grid-paper opacity-80" />
@@ -24,18 +33,19 @@ export function Hero() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             className="inline-flex items-center gap-2 rounded-full border border-wine/15 bg-cream px-3.5 py-1.5 shadow-card"
           >
-            <span className="relative inline-flex h-1.5 w-1.5">
+            <span className="relative inline-flex h-1.5 w-1.5" aria-hidden="true">
               <span className="absolute inset-0 animate-ping rounded-full bg-olive" />
               <span className="relative h-1.5 w-1.5 rounded-full bg-olive" />
             </span>
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-wine">
-              ResNet50 · RealWaste · 9 categorías
+              {t('hero.pill') as string}
             </span>
           </motion.div>
 
           <h1 className="mt-6 font-display text-display-xl font-bold tracking-tight">
             <SplitText
-              text="Separar hoy,"
+              key={`h1-${lang}`}
+              text={t('hero.title1') as string}
               as="span"
               splitBy="word"
               className="block text-wine"
@@ -43,7 +53,8 @@ export function Hero() {
               delay={0.3}
             />
             <SplitText
-              text="preservar mañana."
+              key={`h2-${lang}`}
+              text={t('hero.title2') as string}
               as="span"
               splitBy="word"
               className="block text-olive"
@@ -58,9 +69,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
             className="mt-7 max-w-xl text-balance text-[17px] leading-relaxed text-ink-dim sm:text-[19px]"
           >
-            Si hoy clasificamos y reciclamos correctamente los residuos,
-            ayudamos a proteger el medio ambiente y conservar los recursos para
-            el futuro.
+            {t('hero.subtitle') as string}
           </motion.p>
 
           <motion.div
@@ -70,11 +79,11 @@ export function Hero() {
             className="mt-9 flex flex-wrap items-center gap-3"
           >
             <MagneticButton href="/clasificar" variant="primary">
-              Probá el clasificador
+              {t('hero.ctaPrimary') as string}
               <Arrow />
             </MagneticButton>
             <MagneticButton href="/sobre" variant="outline">
-              Cómo funciona
+              {t('hero.ctaSecondary') as string}
             </MagneticButton>
           </motion.div>
 
@@ -87,7 +96,7 @@ export function Hero() {
             }}
             className="mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4"
           >
-            {STATS.map((s) => (
+            {stats.map((s) => (
               <motion.div
                 key={s.label}
                 variants={{
@@ -147,7 +156,7 @@ function HeroArt() {
         </svg>
 
         {/* Iconos en órbita (estáticos, CSS rotate único contenedor) */}
-        <div className="absolute inset-0 [animation:spin_60s_linear_infinite] will-change-transform">
+        <div className="absolute inset-0 [animation:spin_60s_linear_infinite] will-change-transform" aria-hidden="true">
           {ORBIT_ICONS.map((icon, i) => {
             const angle = (i / ORBIT_ICONS.length) * Math.PI * 2;
             const x = 50 + Math.cos(angle) * 42;
@@ -177,14 +186,14 @@ function HeroArt() {
         </div>
 
         {/* HUD */}
-        <div className="absolute left-5 right-5 top-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-wine/70">
+        <div className="absolute left-5 right-5 top-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-wine/70" aria-hidden="true">
           <span>· resnet50</span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-olive" />
             live
           </span>
         </div>
-        <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-wine/60">
+        <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-wine/60" aria-hidden="true">
           <span>9 / classes</span>
           <span>94% / acc</span>
         </div>
@@ -207,6 +216,7 @@ function Arrow() {
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>

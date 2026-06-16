@@ -5,14 +5,15 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
-const BINS = [
-  { color: '#2563EB', label: 'Papel',    sub: 'Azul'     },
-  { color: '#16A34A', label: 'Vidrio',   sub: 'Verde'    },
-  { color: '#F59E0B', label: 'Plástico', sub: 'Naranja'  },
-  { color: '#DC2626', label: 'E-Waste',  sub: 'Rojo'     },
-  { color: '#EAB308', label: 'Metal',    sub: 'Amarillo' },
-  { color: '#6B7280', label: 'Orgánico', sub: 'Gris'     },
+const BIN_DEFS = [
+  { color: '#2563EB', labelKey: 'bins.items.paper',   subKey: 'bins.items.paperSub'   },
+  { color: '#16A34A', labelKey: 'bins.items.glass',   subKey: 'bins.items.glassSub'   },
+  { color: '#F59E0B', labelKey: 'bins.items.plastic', subKey: 'bins.items.plasticSub' },
+  { color: '#DC2626', labelKey: 'bins.items.ewaste',  subKey: 'bins.items.ewasteSub'  },
+  { color: '#EAB308', labelKey: 'bins.items.metal',   subKey: 'bins.items.metalSub'   },
+  { color: '#6B7280', labelKey: 'bins.items.organic', subKey: 'bins.items.organicSub' },
 ];
 
 export function BinsBanner() {
@@ -22,22 +23,25 @@ export function BinsBanner() {
     offset: ['start end', 'end start'],
   });
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const { t, lang } = useI18n();
 
   return (
     <section ref={ref} className="relative py-24 sm:py-32">
       <div className="container-app">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <SectionLabel number="✦">Aprendé a separar</SectionLabel>
+            <SectionLabel number="✦">{t('bins.label') as string}</SectionLabel>
             <div className="mt-6">
               <SplitText
-                text="Cada residuo,"
+                key={`b1-${lang}`}
+                text={t('bins.title1') as string}
                 as="h2"
                 splitBy="word"
                 className="block font-display text-display-md font-bold tracking-tight text-wine"
               />
               <SplitText
-                text="su color."
+                key={`b2-${lang}`}
+                text={t('bins.title2') as string}
                 as="span"
                 splitBy="word"
                 delay={0.2}
@@ -51,9 +55,7 @@ export function BinsBanner() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 max-w-md text-[16px] leading-relaxed text-ink-dim"
             >
-              El primer paso del reciclaje es saber dónde va cada cosa. El
-              sistema de contenedores por color es una guía universal: una
-              mirada al color y ya sabés qué residuos van adentro.
+              {t('bins.intro') as string}
             </motion.p>
 
             <motion.ul
@@ -66,9 +68,9 @@ export function BinsBanner() {
               }}
               className="mt-8 grid grid-cols-2 gap-3"
             >
-              {BINS.map((b) => (
+              {BIN_DEFS.map((b) => (
                 <motion.li
-                  key={b.label}
+                  key={b.labelKey}
                   variants={{
                     hidden: { opacity: 0, y: 10 },
                     show: { opacity: 1, y: 0 },
@@ -79,14 +81,15 @@ export function BinsBanner() {
                   <span
                     className="grid h-7 w-7 shrink-0 place-items-center rounded-md"
                     style={{ backgroundColor: b.color }}
+                    aria-hidden="true"
                   >
                     <span className="text-[14px] text-white">♻</span>
                   </span>
                   <div className="min-w-0">
                     <p className="truncate text-[13px] font-semibold text-wine">
-                      {b.label}
+                      {t(b.labelKey) as string}
                     </p>
-                    <p className="text-[11px] text-ink-muted">{b.sub}</p>
+                    <p className="text-[11px] text-ink-muted">{t(b.subKey) as string}</p>
                   </div>
                 </motion.li>
               ))}
@@ -108,7 +111,7 @@ export function BinsBanner() {
               />
               <Image
                 src="/canecas.png"
-                alt="Contenedores de reciclaje: papel, vidrio, plástico, e-waste, metal y orgánico"
+                alt={t('bins.imageAlt') as string}
                 width={1600}
                 height={500}
                 className="h-full w-full object-contain"
@@ -117,8 +120,8 @@ export function BinsBanner() {
             </div>
 
             <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              <span>· guía universal de contenedores</span>
-              <span>6 colores · 9 categorías</span>
+              <span>{t('bins.footerLeft') as string}</span>
+              <span>{t('bins.footerRight') as string}</span>
             </div>
           </motion.div>
         </div>

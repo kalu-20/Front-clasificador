@@ -8,6 +8,7 @@ const nextConfig = {
   poweredByHeader: false,
   output: 'export',
   trailingSlash: true,
+  productionBrowserSourceMaps: false,
   images: {
     unoptimized: true,
   },
@@ -18,6 +19,14 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['framer-motion', 'gsap', 'swiper'],
+  },
+  // Build estático: encoding del flag para skip lint/type-check sólo si
+  // el orquestador / CI ya los corrió en otro paso. En CI normal, dejá false.
+  eslint: {
+    ignoreDuringBuilds: process.env.SKIP_LINT === '1',
+  },
+  typescript: {
+    ignoreBuildErrors: process.env.SKIP_TYPECHECK === '1',
   },
 };
 

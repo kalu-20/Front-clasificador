@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { useMemo } from 'react';
 import { cn } from '@/lib/cn';
 
@@ -43,6 +43,20 @@ export function SplitText({
   }, [text, splitBy]);
 
   const MotionTag = motion[as] as typeof motion.h2;
+
+  // Respetamos prefers-reduced-motion: si el usuario lo activó, renderizamos
+  // el texto estático sin animación de entrada (ni re-animación al cambiar
+  // de idioma cuando el padre pasa key={lang}).
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    const Tag = (as ?? 'h2') as keyof JSX.IntrinsicElements;
+    return (
+      <Tag className={cn('inline-block', className)} aria-label={text}>
+        {text}
+      </Tag>
+    );
+  }
 
   const animationProps = immediate
     ? { initial: 'hidden' as const, animate: 'show' as const }

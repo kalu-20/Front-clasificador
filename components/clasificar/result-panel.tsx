@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { CATEGORY_BY_API } from '@/lib/data';
+import { CATEGORY_BY_API, type WasteCategory } from '@/lib/data';
 import type { PredictionResponse } from '@/lib/api';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type Status =
   | { kind: 'empty' }
@@ -10,12 +11,35 @@ type Status =
   | { kind: 'error'; message: string }
   | { kind: 'success'; data: PredictionResponse };
 
+/**
+ * Custom hook que devuelve los campos i18n de una `WasteCategory` resueltos
+ * en el idioma activo. Si `cat` es undefined, devuelve `null`. Si una clave
+ * no existe en el diccionario, cae al texto en español embebido en data.ts.
+ *
+ * Es un hook (usa `useI18n`) por lo que debe llamarse en el top-level del
+ * componente, no dentro de condicionales. La rama de early-return por `cat`
+ * undefined está OK porque ocurre DESPUÉS de invocar `useI18n`.
+ */
+function useCategoryLabel(cat: WasteCategory | undefined) {
+  const { t } = useI18n();
+  if (!cat) return null;
+  const slug = cat.id === 'food-organics' ? 'organic' : cat.id;
+  return {
+    ...cat,
+    name: (t(`waste.${slug}.name`) as string) || cat.name,
+    bin: (t(`waste.${slug}.bin`) as string) || cat.bin,
+    tip: (t(`waste.${slug}.tip`) as string) || cat.tip,
+    description: (t(`waste.${slug}.description`) as string) || cat.description,
+  };
+}
+
 export function ResultPanel({ status }: { status: Status }) {
+  const { t } = useI18n();
   return (
     <div className="relative h-full min-h-[480px] overflow-hidden rounded-3xl card-paper p-7 sm:p-9">
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-wine text-cream">
+          <div className="grid h-9 w-9 place-items-center rounded-xl bg-wine text-cream" aria-hidden="true">
             <span className="text-base">📊</span>
           </div>
           <div>
@@ -23,14 +47,20 @@ export function ResultPanel({ status }: { status: Status }) {
               /predict
             </p>
             <h2 className="font-display text-lg font-bold tracking-tight text-wine">
-              Resultado
+              {t('classify.resultHeading') as string}
             </h2>
           </div>
         </div>
         <StatusIndicator status={status} />
       </div>
 
-      <div className="relative mt-7">
+      {/* Región viva: anuncia a lectores de pantalla cuando aparece un resultado, error o estado de carga */}
+      <div
+        className="relative mt-7"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <AnimatePresence mode="wait">
           {status.kind === 'empty' && <Empty key="empty" />}
           {status.kind === 'loading' && <Loading key="loading" />}
@@ -43,16 +73,17 @@ export function ResultPanel({ status }: { status: Status }) {
 }
 
 function StatusIndicator({ status }: { status: Status }) {
+  const { t } = useI18n();
   const map = {
-    empty:   { color: 'bg-wine/30',                label: 'idle' },
-    loading: { color: 'bg-olive animate-pulse',    label: 'analyzing' },
-    error:   { color: 'bg-red-500',                label: 'error' },
-    success: { color: 'bg-olive',                  label: 'done' },
+    empty:   { color: 'bg-wine/30',                label: t('classify.statusIdle') as string },
+    loading: { color: 'bg-olive animate-pulse',    label: t('classify.statusAnalyzing') as string },
+    error:   { color: 'bg-red-500',                label: t('classify.statusError') as string },
+    success: { color: 'bg-olive',                  label: t('classify.statusDone') as string },
   } as const;
   const c = map[status.kind];
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-wine/15 bg-canvas/70 px-3 py-1">
-      <span className={`h-1.5 w-1.5 rounded-full ${c.color}`} />
+      <span className={`h-1.5 w-1.5 rounded-full ${c.color}`} aria-hidden="true" />
       <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-wine">
         {c.label}
       </span>
@@ -61,6 +92,7 @@ function StatusIndicator({ status }: { status: Status }) {
 }
 
 function Empty() {
+  const { t } = useI18n();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -69,19 +101,20 @@ function Empty() {
       transition={{ duration: 0.3 }}
       className="flex flex-col items-center gap-5 py-12 text-center"
     >
-      <div className="grid h-24 w-24 place-items-center rounded-3xl border-2 border-wine/10 bg-canvas text-5xl">
+      <div className="grid h-24 w-24 place-items-center rounded-3xl border-2 border-wine/10 bg-canvas text-5xl" aria-hidden="true">
         ♻️
       </div>
       <p className="max-w-sm text-[15px] leading-relaxed text-ink-dim">
-        Subí una imagen y presioná{' '}
-        <span className="font-semibold text-wine">Clasificar</span> para ver acá
-        la categoría predicha y la distribución de probabilidades.
+        {t('classify.emptyMessage') as string}{' '}
+        <span className="font-semibold text-wine">{t('classify.emptyClassify') as string}</span>{' '}
+        {t('classify.emptyMessageTail') as string}
       </p>
     </motion.div>
   );
 }
 
 function Loading() {
+  const { t } = useI18n();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -90,7 +123,7 @@ function Loading() {
       transition={{ duration: 0.3 }}
       className="space-y-4 py-2"
     >
-      <div className="flex items-center justify-center gap-2.5 py-6">
+      <div className="flex items-center justify-center gap-2.5 py-6" aria-hidden="true">
         {[0, 1, 2].map((i) => (
           <motion.span
             key={i}
@@ -106,7 +139,7 @@ function Loading() {
         ))}
       </div>
       <p className="text-center font-mono text-[12px] uppercase tracking-[0.22em] text-wine">
-        Analizando imagen…
+        {t('classify.analyzingMessage') as string}
       </p>
     </motion.div>
   );
@@ -120,9 +153,10 @@ function ErrorView({ message }: { message: string }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="rounded-2xl border border-red-400/40 bg-red-50 p-5"
+      role="alert"
     >
       <div className="flex items-start gap-3">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-red-100 text-base">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-red-100 text-base" aria-hidden="true">
           ⚠️
         </div>
         <div
@@ -135,8 +169,11 @@ function ErrorView({ message }: { message: string }) {
 }
 
 function Success({ data }: { data: PredictionResponse }) {
+  const { t } = useI18n();
   const cls = data.predicted_class;
-  const category = CATEGORY_BY_API[cls];
+  const baseCategory = CATEGORY_BY_API[cls];
+  const category = useCategoryLabel(baseCategory);
+
   const sorted = [...(data.probabilities ?? [])].sort(
     (a, b) => b.probability - a.probability,
   );
@@ -158,14 +195,14 @@ function Success({ data }: { data: PredictionResponse }) {
       >
         <div className="flex items-baseline justify-between gap-4">
           <div className="flex items-baseline gap-3">
-            <span className="text-4xl">{category?.emoji ?? '♻️'}</span>
+            <span className="text-4xl" aria-hidden="true">{category?.emoji ?? '♻️'}</span>
             <h3 className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-bold tracking-tight text-wine">
               {category?.name ?? cls}
             </h3>
           </div>
           <div className="text-right">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              confianza
+              {t('classify.confidence') as string}
             </p>
             <p className="font-display text-2xl font-bold tracking-tight text-olive">
               {(top.probability * 100).toFixed(1)}%
@@ -177,6 +214,7 @@ function Success({ data }: { data: PredictionResponse }) {
             <span
               className="h-2 w-2 rounded-full"
               style={{ backgroundColor: category.binColor }}
+              aria-hidden="true"
             />
             <span className="text-[13px] text-wine">{category.bin}</span>
           </div>
@@ -185,17 +223,19 @@ function Success({ data }: { data: PredictionResponse }) {
 
       <div>
         <h4 className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-          Probabilidades por clase
+          {t('classify.probsHeading') as string}
         </h4>
         <ul className="space-y-3">
           {sorted.map((p, i) => {
-            const cat = CATEGORY_BY_API[p.class_name];
+            const baseCat = CATEGORY_BY_API[p.class_name];
+            const slug = baseCat ? (baseCat.id === 'food-organics' ? 'organic' : baseCat.id) : null;
+            const name = slug ? ((t(`waste.${slug}.name`) as string) || baseCat?.name || p.class_name) : p.class_name;
             const pct = p.probability * 100;
             return (
               <li key={`${p.class_name}-${i}`} className="flex items-center gap-3">
-                <span className="w-7 text-[14px]">{cat?.emoji ?? '•'}</span>
+                <span className="w-7 text-[14px]" aria-hidden="true">{baseCat?.emoji ?? '•'}</span>
                 <span className="w-28 truncate text-[13px] text-wine">
-                  {cat?.name ?? p.class_name}
+                  {name}
                 </span>
                 <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-wine/10">
                   <motion.div
@@ -207,7 +247,7 @@ function Success({ data }: { data: PredictionResponse }) {
                       delay: 0.15 + Math.min(i, 6) * 0.05,
                     }}
                     className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ backgroundColor: cat?.binColor ?? '#447A00' }}
+                    style={{ backgroundColor: baseCat?.binColor ?? '#447A00' }}
                   />
                 </div>
                 <span className="w-12 text-right font-mono text-[11px] text-ink-dim">
@@ -227,11 +267,11 @@ function Success({ data }: { data: PredictionResponse }) {
           className="rounded-2xl border border-olive/30 bg-olive/[0.06] p-5"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-olive">
-            Recomendación
+            {t('classify.recommendation') as string}
           </p>
           <p className="mt-2 text-[15px] leading-relaxed text-ink">
             <strong className="font-bold text-wine">
-              {category.emoji} {category.name}.
+              <span aria-hidden="true">{category.emoji}</span> {category.name}.
             </strong>{' '}
             <span className="text-ink-dim">{category.tip}</span>
           </p>

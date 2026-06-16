@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/cn';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 type Props = {
   onFile: (file: File, previewUrl: string) => void;
@@ -14,6 +15,7 @@ type Props = {
 export function UploadDropzone({ onFile, previewUrl, fileName, onReset }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
+  const { t } = useI18n();
 
   const handleFiles = useCallback(
     (files: FileList | null) => {
@@ -93,13 +95,13 @@ export function UploadDropzone({ onFile, previewUrl, fileName, onReset }: Props)
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={previewUrl}
-                alt="Vista previa"
+                alt={t('classify.previewAlt') as string}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-wine/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-wine/60 via-transparent to-transparent" aria-hidden="true" />
               <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
                 <span className="rounded-full bg-cream px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-wine">
-                  preview
+                  {t('classify.preview') as string}
                 </span>
                 {onReset && (
                   <button
@@ -111,7 +113,7 @@ export function UploadDropzone({ onFile, previewUrl, fileName, onReset }: Props)
                     }}
                     className="rounded-full border border-cream/50 bg-wine/85 px-3 py-1 text-[11px] font-semibold text-cream transition-colors hover:bg-wine"
                   >
-                    Cambiar imagen
+                    {t('classify.changeImage') as string}
                   </button>
                 )}
               </div>
@@ -137,19 +139,20 @@ export function UploadDropzone({ onFile, previewUrl, fileName, onReset }: Props)
                     ? 'border-olive bg-olive/15'
                     : 'border-wine/20 bg-cream',
                 )}
+                aria-hidden="true"
               >
                 📤
               </div>
               <div>
                 <p className="font-display text-lg font-bold tracking-tight text-wine">
-                  {dragOver ? '¡Soltá la imagen!' : 'Arrastrá una imagen aquí'}
+                  {dragOver ? (t('classify.dropNow') as string) : (t('classify.dropHere') as string)}
                 </p>
                 <p className="mt-1.5 text-[13px] text-ink-dim">
-                  o hacé click para abrir el explorador
+                  {t('classify.openExplorer') as string}
                 </p>
               </div>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-                JPG · JPEG · PNG · fondo plano recomendado
+                {t('classify.fileFormats') as string}
               </p>
             </motion.div>
           )}

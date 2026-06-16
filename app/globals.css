@@ -6,14 +6,104 @@
   :root {
     --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 
-    --canvas:  #FCF291;
-    --cream:   #FFF6C2;
-    --olive:   #447A00;
-    --wine:    #7C1155;
-    --magenta: #820F52;
-    --ink:     #2A0312;
+    /*
+     * Paleta light (modo claro) — ÚNICA fuente de verdad para los colores
+     * institucionales. Tailwind consume las triadas R G B a través de
+     * tailwind.config.ts (`canvas: 'rgb(var(--canvas-rgb) / <alpha-value>)'`)
+     * de modo que TODAS las utility classes — incluyendo modificadores de
+     * opacidad como `bg-cream/80` — reaccionan automáticamente al cambio
+     * de tema.
+     *
+     * También exponemos las versiones HEX (--canvas, --cream, …) porque
+     * el resto del CSS (body, card-paper, grid-paper, focus-visible) las
+     * consume como `var(--canvas)` directamente sin pasar por Tailwind.
+     */
+    --canvas-rgb:    252 242 145;
+    --cream-rgb:     255 246 194;
+    --olive-rgb:     68  122  0;
+    --wine-rgb:      124 17  85;
+    --magenta-rgb:   130 15  82;
+    --ink-rgb:       42  3   18;
+    --ink-dim-rgb:   110 64  84;
+    --ink-muted-rgb: 138 101 115;
+
+    --canvas:    rgb(var(--canvas-rgb));
+    --cream:     rgb(var(--cream-rgb));
+    --olive:     rgb(var(--olive-rgb));
+    --wine:      rgb(var(--wine-rgb));
+    --magenta:   rgb(var(--magenta-rgb));
+    --ink:       rgb(var(--ink-rgb));
+    --ink-dim:   rgb(var(--ink-dim-rgb));
+    --ink-muted: rgb(var(--ink-muted-rgb));
 
     color-scheme: light;
+  }
+
+  /*
+   * Dark mode (data-theme="dark" en <html>).
+   * - --canvas pasa a un morado muy profundo (lectura de noche).
+   * - --ink (texto base) se aclara a la crema institucional para mantener
+   *   la armonía cálida sin pasar al blanco puro.
+   * - --cream se oscurece (es la "superficie crema" en componentes como
+   *   header / tarjetas / pills) para no chocar con el canvas oscuro.
+   * - --olive se aclara al amarillo canvas para mantener contraste sobre
+   *   dark (sirve de "accent verde" → "accent solar" en dark).
+   * - --wine se conserva: funciona como acento de acción tanto en light
+   *   como en dark sobre el canvas profundo.
+   *
+   * Para casos puntuales donde `text-cream` se usa COMO texto claro sobre
+   * un fondo oscuro (card-deep, bg-wine, bg-olive en CTAs), reabrimos el
+   * scope más abajo y reseteamos --cream-rgb al valor light dentro de esos
+   * contenedores, así `text-cream/85` etc. siguen leyéndose como crema
+   * legible. Ver bloques [data-theme="dark"] .card-deep y .bg-wine de abajo.
+   */
+  [data-theme="dark"] {
+    --canvas-rgb:    26  18  36;
+    --cream-rgb:     42  27  52;
+    --olive-rgb:     252 242 145;
+    --wine-rgb:      124 17  85;
+    --magenta-rgb:   130 15  82;
+    --ink-rgb:       255 246 194;
+    --ink-dim-rgb:   216 199 154;
+    --ink-muted-rgb: 168 148 106;
+
+    color-scheme: dark;
+  }
+
+  /*
+   * Reseteo localizado de la "crema" en superficies donde se usa como
+   * highlight claro sobre fondos OSCUROS (card-deep y bg-wine). Mantiene
+   * la legibilidad sin tocar componentes uno por uno.
+   *
+   * Importante: NO incluimos bg-olive aquí porque en dark mode --olive
+   * pasa a ser el amarillo canvas (#FCF291). Sobre ese amarillo claro,
+   * `text-cream` debe seguir resolviendo al cream-rgb DARK (42 27 52) =
+   * texto oscuro sobre amarillo, contraste correcto.
+   */
+  [data-theme="dark"] .card-deep,
+  [data-theme="dark"] .bg-wine,
+  [data-theme="dark"] [class*="bg-wine/"] {
+    --cream-rgb: 255 246 194;
+  }
+
+  [data-theme="dark"] body {
+    background:
+      radial-gradient(900px 600px at 85% -8%, rgba(138, 200, 31, 0.10), transparent 60%),
+      radial-gradient(700px 500px at -10% 35%, rgba(124, 17, 85, 0.18), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(252, 242, 145, 0.06), transparent 60%),
+      var(--canvas);
+  }
+
+  [data-theme="dark"] ::selection {
+    background: rgba(252, 242, 145, 0.25);
+    color: var(--ink);
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(252, 242, 145, 0.22);
+  }
+  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(252, 242, 145, 0.4);
   }
 
   * {
@@ -74,12 +164,28 @@
     overflow: clip;
   }
 
+  /* Focus ring accesible: outline 3px sólido vino */
   :focus-visible {
-    outline: 2px solid rgba(68, 122, 0, 0.7);
+    outline: 3px solid var(--wine);
     outline-offset: 3px;
     border-radius: 6px;
   }
+  [data-theme="dark"] :focus-visible {
+    /* En dark el vino se ve plano sobre el morado profundo: usamos --ink
+       (que en dark es la crema clara #fff6c2) para que el anillo sea
+       siempre visible. */
+    outline-color: var(--ink);
+  }
 
+  /* main no debe mostrar outline cuando lo enfocamos por skip-link */
+  #main:focus,
+  #main:focus-visible {
+    outline: none;
+  }
+
+  /* prefers-reduced-motion: silenciar animaciones, transiciones y scroll suave.
+     Lenis ya respeta este flag a nivel de hook (no se monta).
+     Framer Motion respeta useReducedMotion en su MotionConfig por defecto. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -104,6 +210,13 @@
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.6) inset,
       0 24px 60px -32px rgba(68, 122, 0, 0.18);
+  }
+  [data-theme="dark"] .card-paper {
+    background-color: #261936;
+    border-color: rgba(255, 246, 194, 0.10);
+    box-shadow:
+      0 1px 0 rgba(255, 246, 194, 0.05) inset,
+      0 24px 60px -32px rgba(0, 0, 0, 0.6);
   }
 
   /* Carta oscura (morado vino) */
@@ -165,6 +278,11 @@
     background-size: 72px 72px;
     -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 30%, transparent 80%);
             mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 30%, transparent 80%);
+  }
+  [data-theme="dark"] .grid-paper {
+    background-image:
+      linear-gradient(rgba(255, 246, 194, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 246, 194, 0.06) 1px, transparent 1px);
   }
 
   .text-balance {

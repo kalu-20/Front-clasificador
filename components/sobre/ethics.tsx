@@ -1,10 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
 export function Ethics() {
+  const { t, lang } = useI18n();
+  const chips = (t('about.ethicsChips') as Array<{ k: string; v: string }>) || [];
+
   return (
     <section className="relative py-24 sm:py-32">
       <div className="container-app">
@@ -17,11 +20,12 @@ export function Ethics() {
                 </span>
                 <span className="h-3 w-px bg-cream/30" />
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-cream">
-                  Aviso ético
+                  {t('about.ethicsLabel') as string}
                 </span>
               </div>
               <SplitText
-                text="Una herramienta de apoyo."
+                key={`et-${lang}`}
+                text={t('about.ethicsTitle') as string}
                 as="h2"
                 splitBy="word"
                 className="mt-6 block font-display text-display-md font-bold tracking-tight text-cream"
@@ -35,25 +39,18 @@ export function Ethics() {
               className="space-y-5 text-[16px] leading-relaxed text-cream/85 lg:col-span-8"
             >
               <p>
-                EcoClasificador es un proyecto educativo y experimental. Sus
-                predicciones tienen un margen de error y{' '}
+                {t('about.ethicsBody1Part1') as string}
                 <strong className="text-cream">
-                  no reemplazan la normativa local de reciclaje
-                </strong>{' '}
-                ni la decisión de un operador profesional.
+                  {t('about.ethicsBody1Strong') as string}
+                </strong>
+                {t('about.ethicsBody1Part2') as string}
               </p>
               <p>
-                Para decisiones críticas — residuos peligrosos, RAEE, materiales
-                especiales — consultá siempre la regulación vigente en tu
-                municipio.
+                {t('about.ethicsBody2') as string}
               </p>
 
               <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {[
-                  { k: 'Uso',           v: 'Educativo' },
-                  { k: 'Margen',        v: 'Probabilístico' },
-                  { k: 'Decisión final', v: 'Humana' },
-                ].map((b) => (
+                {chips.map((b) => (
                   <div
                     key={b.k}
                     className="rounded-xl border border-cream/20 bg-cream/5 px-4 py-3"
