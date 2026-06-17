@@ -8,6 +8,7 @@ import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { I18nProvider } from '@/lib/i18n/I18nProvider';
 import { ThemeProvider } from '@/lib/theme/ThemeProvider';
+import { ConfigProvider } from '@/lib/config/ConfigProvider';
 import { SkipLink } from '@/components/ui/SkipLink';
 import { MotionConfigProvider } from '@/components/providers/motion-config';
 
@@ -80,18 +81,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans">
         <I18nProvider>
           <ThemeProvider>
-            <MotionConfigProvider>
-              <SkipLink />
-              <LoadingScreen />
-              <ScrollProgress />
-              <SmoothScroll>
-                <SiteHeader />
-                <main id="main" tabIndex={-1} className="relative">
-                  {children}
-                </main>
-                <SiteFooter />
-              </SmoothScroll>
-            </MotionConfigProvider>
+            <ConfigProvider>
+              <MotionConfigProvider>
+                <SkipLink />
+                <LoadingScreen />
+                <ScrollProgress />
+                <SmoothScroll>
+                  <SiteHeader />
+                  <main id="main" tabIndex={-1} className="relative">
+                    {children}
+                  </main>
+                  <SiteFooter />
+                </SmoothScroll>
+              </MotionConfigProvider>
+            </ConfigProvider>
           </ThemeProvider>
         </I18nProvider>
       </body>
