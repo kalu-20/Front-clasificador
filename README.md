@@ -158,6 +158,28 @@ El proyecto apunta al nivel **WCAG AA**:
 
 ---
 
+## Personalización
+
+La ruta **`/configuracion`** ofrece un panel para personalizar la apariencia de la
+app **en vivo**, sin recargar y sin backend. Todo se persiste en `localStorage`.
+
+- **Colores:** 5 paletas predefinidas (incluida la institucional por defecto) más un
+  modo **Personalizado** con pickers por token (vino, crema, acento, fondo, etc.).
+  Se aplica vía variables CSS R G B, por lo que se propaga a todas las utilidades de
+  Tailwind. Respeta el modo claro/oscuro: las ediciones se guardan por separado para
+  cada tema (`custom.light` / `custom.dark`).
+- **Tipografía:** 4 familias seleccionables (incluida **Atkinson Hyperlegible**,
+  pensada para legibilidad), con vista previa.
+- **Favicon:** subida de un PNG propio (validación de tamaño y peso) que se inyecta
+  como Data URL en `<link rel="icon">`, con opción de restaurar el original.
+- **Restablecer:** vuelve todo a los valores por defecto y limpia `localStorage`.
+
+Implementación: `lib/config/ConfigProvider.tsx` (contexto + persistencia + aplicación
+al DOM), presets en `lib/config/presets.ts`, y la UI en `components/ui/ConfigPanel.tsx`.
+No agrega dependencias nuevas.
+
+---
+
 ## Estructura del repositorio
 
 ```
