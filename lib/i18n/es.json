@@ -20,7 +20,8 @@
     "classify": "Clasificar",
     "tryClassifier": "Probar",
     "homeAriaLabel": "EcoClasificador — Inicio",
-    "primaryNav": "Navegación principal"
+    "primaryNav": "Navegación principal",
+    "config": "Configuración"
   },
   "theme": {
     "toLight": "Cambiar a modo claro",
@@ -117,24 +118,78 @@
     "intro": "Cada predicción viene acompañada del contenedor correcto y una recomendación práctica. Arrastrá el carrusel para explorar."
   },
   "waste": {
-    "cardboard": { "name": "Cartón", "bin": "Contenedor azul", "description": "Cajas, embalajes y láminas de cartón limpio.", "tip": "Aplastá las cajas para ahorrar espacio en el contenedor." },
-    "organic":   { "name": "Orgánico", "bin": "Contenedor marrón", "description": "Restos de comida, cáscaras y residuos compostables.", "tip": "Sin plásticos ni envoltorios: composta directa." },
-    "glass":     { "name": "Vidrio", "bin": "Contenedor verde", "description": "Botellas, frascos y envases de vidrio enjuagados.", "tip": "Sin tapas ni corchos; van por otro circuito." },
-    "metal":     { "name": "Metal", "bin": "Contenedor amarillo / gris", "description": "Latas, aluminio y pequeñas piezas metálicas.", "tip": "Aplastá las latas para reducir su volumen." },
-    "misc":      { "name": "Misceláneo", "bin": "Contenedor gris", "description": "Residuos que no encajan en otra categoría.", "tip": "Si dudás, no contamines reciclables válidos." },
-    "paper":     { "name": "Papel", "bin": "Contenedor azul", "description": "Hojas, periódicos, revistas y documentos.", "tip": "Sin grasa, sin comida pegada, sin plásticos." },
-    "plastic":   { "name": "Plástico", "bin": "Contenedor amarillo", "description": "Envases, botellas y film plástico reciclable.", "tip": "Verificá el código de reciclaje en la base." },
-    "textile":   { "name": "Textil", "bin": "Punto verde textil", "description": "Ropa, sábanas y telas en general.", "tip": "Si está en buen estado, considerá donarlo." },
-    "vegetation":{ "name": "Vegetación", "bin": "Composta", "description": "Hojas, ramas y restos verdes del jardín.", "tip": "Cortá las ramas grandes antes de compostar." }
+    "cardboard": {
+      "name": "Cartón",
+      "bin": "Contenedor azul",
+      "description": "Cajas, embalajes y láminas de cartón limpio.",
+      "tip": "Aplastá las cajas para ahorrar espacio en el contenedor."
+    },
+    "organic": {
+      "name": "Orgánico",
+      "bin": "Contenedor marrón",
+      "description": "Restos de comida, cáscaras y residuos compostables.",
+      "tip": "Sin plásticos ni envoltorios: composta directa."
+    },
+    "glass": {
+      "name": "Vidrio",
+      "bin": "Contenedor verde",
+      "description": "Botellas, frascos y envases de vidrio enjuagados.",
+      "tip": "Sin tapas ni corchos; van por otro circuito."
+    },
+    "metal": {
+      "name": "Metal",
+      "bin": "Contenedor amarillo / gris",
+      "description": "Latas, aluminio y pequeñas piezas metálicas.",
+      "tip": "Aplastá las latas para reducir su volumen."
+    },
+    "misc": {
+      "name": "Misceláneo",
+      "bin": "Contenedor gris",
+      "description": "Residuos que no encajan en otra categoría.",
+      "tip": "Si dudás, no contamines reciclables válidos."
+    },
+    "paper": {
+      "name": "Papel",
+      "bin": "Contenedor azul",
+      "description": "Hojas, periódicos, revistas y documentos.",
+      "tip": "Sin grasa, sin comida pegada, sin plásticos."
+    },
+    "plastic": {
+      "name": "Plástico",
+      "bin": "Contenedor amarillo",
+      "description": "Envases, botellas y film plástico reciclable.",
+      "tip": "Verificá el código de reciclaje en la base."
+    },
+    "textile": {
+      "name": "Textil",
+      "bin": "Punto verde textil",
+      "description": "Ropa, sábanas y telas en general.",
+      "tip": "Si está en buen estado, considerá donarlo."
+    },
+    "vegetation": {
+      "name": "Vegetación",
+      "bin": "Composta",
+      "description": "Hojas, ramas y restos verdes del jardín.",
+      "tip": "Cortá las ramas grandes antes de compostar."
+    }
   },
   "pillars": {
     "label": "Nuestro enfoque",
     "title1": "Tecnología útil,",
     "title2": "con un propósito claro.",
     "items": [
-      { "title": "Separación en origen", "copy": "El primer paso para que un residuo vuelva al ciclo productivo. Lo que se mezcla, se contamina." },
-      { "title": "IA accesible",         "copy": "Una foto basta. Sin formularios complejos: una herramienta lista para usar desde el celular." },
-      { "title": "Educación abierta",    "copy": "Proyecto académico con código y datos públicos. Pensado para aprender y replicar." }
+      {
+        "title": "Separación en origen",
+        "copy": "El primer paso para que un residuo vuelva al ciclo productivo. Lo que se mezcla, se contamina."
+      },
+      {
+        "title": "IA accesible",
+        "copy": "Una foto basta. Sin formularios complejos: una herramienta lista para usar desde el celular."
+      },
+      {
+        "title": "Educación abierta",
+        "copy": "Proyecto académico con código y datos públicos. Pensado para aprender y replicar."
+      }
     ]
   },
   "cta": {
@@ -208,9 +263,18 @@
     "missionTitle": "Reducir el impacto, una foto a la vez.",
     "missionBody": "Nuestra misión es bajar la fricción de hacer las cosas bien. No hace falta un curso ni una app pesada: un navegador, una foto, una respuesta clara.",
     "blocks": [
-      { "title": "El primer paso",     "copy": "La correcta separación en origen es el primer paso para que un residuo pueda volver al ciclo productivo en lugar de terminar en un vertedero." },
-      { "title": "Tecnología útil",    "copy": "Reducir el impacto ambiental de los residuos urbanos ofreciendo una guía visual y automática, accesible desde cualquier dispositivo." },
-      { "title": "Aprendizaje abierto","copy": "Código y datos abiertos. Pensado para que estudiantes, docentes y municipios puedan replicarlo y mejorarlo." }
+      {
+        "title": "El primer paso",
+        "copy": "La correcta separación en origen es el primer paso para que un residuo pueda volver al ciclo productivo en lugar de terminar en un vertedero."
+      },
+      {
+        "title": "Tecnología útil",
+        "copy": "Reducir el impacto ambiental de los residuos urbanos ofreciendo una guía visual y automática, accesible desde cualquier dispositivo."
+      },
+      {
+        "title": "Aprendizaje abierto",
+        "copy": "Código y datos abiertos. Pensado para que estudiantes, docentes y municipios puedan replicarlo y mejorarlo."
+      }
     ],
     "teamLabel": "El equipo",
     "teamTitle": "Personas reales detrás del modelo.",
@@ -222,12 +286,30 @@
     "techReferenceLabel": "Referencia:",
     "techReferenceBody": "Single, S., Iranmanesh, S., & Raad, R. (2023). RealWaste [Dataset]. UCI Machine Learning Repository.",
     "techSpecs": [
-      { "k": "Arquitectura", "v": "ResNet50 + cabeza fine-tuned" },
-      { "k": "Estrategia",   "v": "Transfer Learning" },
-      { "k": "Runtime",      "v": "ONNX · CPU edge" },
-      { "k": "Dataset",      "v": "RealWaste · UCI ML Repo" },
-      { "k": "Categorías",   "v": "9 clases de residuo" },
-      { "k": "API",          "v": "FastAPI · REST · multipart" }
+      {
+        "k": "Arquitectura",
+        "v": "ResNet50 + cabeza fine-tuned"
+      },
+      {
+        "k": "Estrategia",
+        "v": "Transfer Learning"
+      },
+      {
+        "k": "Runtime",
+        "v": "ONNX · CPU edge"
+      },
+      {
+        "k": "Dataset",
+        "v": "RealWaste · UCI ML Repo"
+      },
+      {
+        "k": "Categorías",
+        "v": "9 clases de residuo"
+      },
+      {
+        "k": "API",
+        "v": "FastAPI · REST · multipart"
+      }
     ],
     "ethicsLabel": "Aviso ético",
     "ethicsTitle": "Una herramienta de apoyo.",
@@ -236,9 +318,18 @@
     "ethicsBody1Part2": " ni la decisión de un operador profesional.",
     "ethicsBody2": "Para decisiones críticas — residuos peligrosos, RAEE, materiales especiales — consultá siempre la regulación vigente en tu municipio.",
     "ethicsChips": [
-      { "k": "Uso", "v": "Educativo" },
-      { "k": "Margen", "v": "Probabilístico" },
-      { "k": "Decisión final", "v": "Humana" }
+      {
+        "k": "Uso",
+        "v": "Educativo"
+      },
+      {
+        "k": "Margen",
+        "v": "Probabilístico"
+      },
+      {
+        "k": "Decisión final",
+        "v": "Humana"
+      }
     ]
   },
   "footer": {
@@ -257,5 +348,85 @@
     "body": "La URL que buscás no existe o se mudó. Volvé al inicio o probá el clasificador.",
     "home": "Volver al inicio",
     "classify": "Probar el clasificador"
+  },
+  "config": {
+    "kicker": "Personalización",
+    "title": "Configuración del sitio",
+    "intro": "Ajustá los colores institucionales, la tipografía y el favicon. Los cambios se aplican en vivo y se guardan en tu navegador.",
+    "sections": {
+      "colors": "Colores",
+      "font": "Tipografía",
+      "favicon": "Favicon",
+      "preview": "Previsualización"
+    },
+    "colorsHint": "Elegí una paleta predefinida o pasá a modo personalizado para editar cada token.",
+    "fontHint": "La familia tipográfica se aplica a títulos y texto corrido.",
+    "faviconHint": "PNG o SVG, hasta 1 MB. Recomendado 512×512 px.",
+    "customEditingMode": "Editando paleta para modo {mode}. Cambiá el tema desde el toggle para editar el otro modo.",
+    "modes": {
+      "light": "claro",
+      "dark": "oscuro"
+    },
+    "colorPresets": {
+      "eco": "EcoClasificador (default)",
+      "forest": "Bosque",
+      "ocean": "Océano",
+      "sunset": "Atardecer",
+      "highContrast": "Alto contraste",
+      "custom": "Personalizado"
+    },
+    "fontPresets": {
+      "alice": "Alice + sans (default)",
+      "inter": "Inter (moderno)",
+      "serifClassic": "Serif clásica",
+      "atkinsonHyperlegible": "Atkinson Hyperlegible (baja visión)"
+    },
+    "tokens": {
+      "canvas": "Fondo principal",
+      "cream": "Superficie crema",
+      "ink": "Texto base",
+      "wine": "Vino (acento)",
+      "olive": "Olivo (verde)",
+      "magenta": "Magenta"
+    },
+    "tokenHints": {
+      "canvas": "Color del lienzo / fondo de la página.",
+      "cream": "Superficies suaves: header, tarjetas, pills.",
+      "ink": "Color de la tipografía principal.",
+      "wine": "Color institucional vino, usado en CTAs.",
+      "olive": "Verde olivo, usado en acentos y bordes.",
+      "magenta": "Acento magenta para detalles."
+    },
+    "favicon": {
+      "choose": "Subir imagen",
+      "clear": "Restaurar default",
+      "empty": "sin favicon",
+      "hint": "Aceptamos PNG y SVG. Máximo 1 MB. Recomendado 512×512.",
+      "success": "Favicon actualizado correctamente.",
+      "errors": {
+        "type": "Formato no soportado. Usá PNG o SVG.",
+        "size": "El archivo supera 1 MB.",
+        "read": "No se pudo leer el archivo."
+      },
+      "warnings": {
+        "dimensions": "Las dimensiones no son 512×512. El favicon puede verse pixelado."
+      }
+    },
+    "preview": {
+      "button": "Botón",
+      "card": "Tarjeta",
+      "cardTitle": "Tarjeta de muestra",
+      "cardBody": "Así se verá una tarjeta con tu nueva paleta.",
+      "input": "Campo de texto",
+      "placeholder": "Escribí algo…"
+    },
+    "previewShow": "Mostrar previsualización",
+    "previewHide": "Ocultar previsualización",
+    "actions": {
+      "apply": "Aplicar",
+      "reset": "Restablecer valores por defecto",
+      "resetConfirm": "¿Seguro? Se borrarán tus colores, tipografía y favicon personalizados.",
+      "savedMessage": "Cambios guardados."
+    }
   }
 }

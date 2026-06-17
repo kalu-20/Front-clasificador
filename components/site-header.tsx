@@ -14,6 +14,7 @@ const NAV_HREFS = [
   { href: '/', key: 'nav.home' as const },
   { href: '/sobre', key: 'nav.about' as const },
   { href: '/clasificar', key: 'nav.classify' as const },
+  { href: '/configuracion', key: 'nav.config' as const },
 ];
 
 export function SiteHeader() {
