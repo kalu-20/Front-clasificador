@@ -136,43 +136,44 @@ export function fileToDataUrl(file: File): Promise<string> {
 }
 
 /**
- * Reemplaza el <link rel="icon"> del <head> por `dataUrl`.
- * Si `dataUrl` es null, restaura el favicon "original" guardado al boot.
+ * Aplica un favicon personalizado sin pelearse con React.
+ *
+ * IMPORTANTE: Next.js renderiza los `<link rel="icon">` desde el `metadata`
+ * del layout, y esos nodos los controla React. Si los eliminamos a mano,
+ * React pierde la referencia y al reconciliar el <head> (p. ej. al navegar a
+ * una página con otro metadata) tira "Cannot read properties of null
+ * (reading 'removeChild')" y rompe la app en producción.
+ *
+ * Por eso acá gestionamos ÚNICAMENTE nuestro propio
+ * `<link rel="icon" data-config-favicon="true">`: nunca tocamos los que
+ * renderiza Next/React.
+ * - Con `dataUrl`: insertamos/actualizamos nuestro link (al ir último en el
+ *   <head>, el navegador lo prioriza sobre el del metadata).
+ * - Con `null`: removemos solo el nuestro; vuelven a regir los íconos del
+ *   metadata original.
  */
-let originalFaviconHref: string | null = null;
+const CONFIG_FAVICON_ATTR = 'data-config-favicon';
 
 export function rememberOriginalFavicon(): void {
-  if (typeof document === 'undefined') return;
-  if (originalFaviconHref !== null) return;
-  const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-  originalFaviconHref = link?.href ?? null;
+  // No-op: ya no manipulamos el favicon original del metadata (lo maneja React).
+  // Se mantiene exportado por compatibilidad con quienes lo importan.
 }
 
 export function applyFaviconToHead(dataUrl: string | null): void {
   if (typeof document === 'undefined') return;
-  rememberOriginalFavicon();
-  // Eliminamos todos los <link rel="icon"> existentes y agregamos uno nuevo.
   const head = document.head;
-  const existing = head.querySelectorAll('link[rel="icon"]');
-  existing.forEach((node) => node.parentNode?.removeChild(node));
+  // Removemos SOLO nuestro propio favicon previo (nunca los de React/metadata).
+  head
+    .querySelectorAll(`link[${CONFIG_FAVICON_ATTR}="true"]`)
+    .forEach((node) => node.parentNode?.removeChild(node));
+
+  if (!dataUrl) return; // restaurar = quitar el nuestro; quedan los del metadata.
 
   const link = document.createElement('link');
   link.rel = 'icon';
-  if (dataUrl) {
-    // Inferimos tipo por el prefijo del data URL.
-    if (dataUrl.startsWith('data:image/svg')) link.type = 'image/svg+xml';
-    else link.type = 'image/png';
-    link.href = dataUrl;
-  } else {
-    // Restaurar original.
-    if (originalFaviconHref) {
-      link.href = originalFaviconHref;
-    } else {
-      // No había original conocido: dejamos /logo-eco.png como fallback.
-      link.href = '/logo-eco.png';
-      link.type = 'image/png';
-    }
-  }
+  link.setAttribute(CONFIG_FAVICON_ATTR, 'true');
+  link.type = dataUrl.startsWith('data:image/svg') ? 'image/svg+xml' : 'image/png';
+  link.href = dataUrl;
   head.appendChild(link);
 }
 
