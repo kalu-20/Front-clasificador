@@ -20,7 +20,8 @@
     "classify": "Classify",
     "tryClassifier": "Try it",
     "homeAriaLabel": "EcoClasificador — Home",
-    "primaryNav": "Primary navigation"
+    "primaryNav": "Primary navigation",
+    "config": "Settings"
   },
   "theme": {
     "toLight": "Switch to light mode",
@@ -117,24 +118,78 @@
     "intro": "Each prediction comes with the right bin and a practical recommendation. Drag the carousel to explore."
   },
   "waste": {
-    "cardboard": { "name": "Cardboard", "bin": "Blue bin", "description": "Boxes, packaging and clean cardboard sheets.", "tip": "Flatten the boxes to save bin space." },
-    "organic":   { "name": "Organic", "bin": "Brown bin", "description": "Food scraps, peels and compostable waste.", "tip": "No plastics or wrappers: straight to compost." },
-    "glass":     { "name": "Glass", "bin": "Green bin", "description": "Bottles, jars and rinsed glass containers.", "tip": "No lids or corks; they go through a different stream." },
-    "metal":     { "name": "Metal", "bin": "Yellow / gray bin", "description": "Cans, aluminum and small metal pieces.", "tip": "Crush cans to reduce their volume." },
-    "misc":      { "name": "Miscellaneous", "bin": "Gray bin", "description": "Waste that doesn't fit other categories.", "tip": "When in doubt, don't contaminate valid recyclables." },
-    "paper":     { "name": "Paper", "bin": "Blue bin", "description": "Sheets, newspapers, magazines and documents.", "tip": "No grease, no stuck food, no plastics." },
-    "plastic":   { "name": "Plastic", "bin": "Yellow bin", "description": "Containers, bottles and recyclable plastic film.", "tip": "Check the recycling code on the bottom." },
-    "textile":   { "name": "Textile", "bin": "Textile green point", "description": "Clothes, sheets and fabrics in general.", "tip": "If still in good shape, consider donating it." },
-    "vegetation":{ "name": "Vegetation", "bin": "Compost", "description": "Leaves, branches and green garden waste.", "tip": "Cut large branches before composting." }
+    "cardboard": {
+      "name": "Cardboard",
+      "bin": "Blue bin",
+      "description": "Boxes, packaging and clean cardboard sheets.",
+      "tip": "Flatten the boxes to save bin space."
+    },
+    "organic": {
+      "name": "Organic",
+      "bin": "Brown bin",
+      "description": "Food scraps, peels and compostable waste.",
+      "tip": "No plastics or wrappers: straight to compost."
+    },
+    "glass": {
+      "name": "Glass",
+      "bin": "Green bin",
+      "description": "Bottles, jars and rinsed glass containers.",
+      "tip": "No lids or corks; they go through a different stream."
+    },
+    "metal": {
+      "name": "Metal",
+      "bin": "Yellow / gray bin",
+      "description": "Cans, aluminum and small metal pieces.",
+      "tip": "Crush cans to reduce their volume."
+    },
+    "misc": {
+      "name": "Miscellaneous",
+      "bin": "Gray bin",
+      "description": "Waste that doesn't fit other categories.",
+      "tip": "When in doubt, don't contaminate valid recyclables."
+    },
+    "paper": {
+      "name": "Paper",
+      "bin": "Blue bin",
+      "description": "Sheets, newspapers, magazines and documents.",
+      "tip": "No grease, no stuck food, no plastics."
+    },
+    "plastic": {
+      "name": "Plastic",
+      "bin": "Yellow bin",
+      "description": "Containers, bottles and recyclable plastic film.",
+      "tip": "Check the recycling code on the bottom."
+    },
+    "textile": {
+      "name": "Textile",
+      "bin": "Textile green point",
+      "description": "Clothes, sheets and fabrics in general.",
+      "tip": "If still in good shape, consider donating it."
+    },
+    "vegetation": {
+      "name": "Vegetation",
+      "bin": "Compost",
+      "description": "Leaves, branches and green garden waste.",
+      "tip": "Cut large branches before composting."
+    }
   },
   "pillars": {
     "label": "Our approach",
     "title1": "Useful technology,",
     "title2": "with a clear purpose.",
     "items": [
-      { "title": "Source separation", "copy": "The first step for waste to re-enter the productive cycle. What gets mixed gets contaminated." },
-      { "title": "Accessible AI",     "copy": "One photo is enough. No complex forms: a tool ready to use from your phone." },
-      { "title": "Open education",    "copy": "Academic project with public code and data. Designed to learn and replicate." }
+      {
+        "title": "Source separation",
+        "copy": "The first step for waste to re-enter the productive cycle. What gets mixed gets contaminated."
+      },
+      {
+        "title": "Accessible AI",
+        "copy": "One photo is enough. No complex forms: a tool ready to use from your phone."
+      },
+      {
+        "title": "Open education",
+        "copy": "Academic project with public code and data. Designed to learn and replicate."
+      }
     ]
   },
   "cta": {
@@ -208,9 +263,18 @@
     "missionTitle": "Reduce the impact, one photo at a time.",
     "missionBody": "Our mission is to lower the friction of doing things right. No course or heavy app required: a browser, a photo, a clear answer.",
     "blocks": [
-      { "title": "The first step",      "copy": "Correct source separation is the first step so waste can return to the productive cycle instead of ending up in a landfill." },
-      { "title": "Useful technology",   "copy": "Reducing urban waste impact by offering a visual, automatic guide accessible from any device." },
-      { "title": "Open learning",       "copy": "Open code and data. Designed so students, teachers and municipalities can replicate and improve it." }
+      {
+        "title": "The first step",
+        "copy": "Correct source separation is the first step so waste can return to the productive cycle instead of ending up in a landfill."
+      },
+      {
+        "title": "Useful technology",
+        "copy": "Reducing urban waste impact by offering a visual, automatic guide accessible from any device."
+      },
+      {
+        "title": "Open learning",
+        "copy": "Open code and data. Designed so students, teachers and municipalities can replicate and improve it."
+      }
     ],
     "teamLabel": "The team",
     "teamTitle": "Real people behind the model.",
@@ -222,12 +286,30 @@
     "techReferenceLabel": "Reference:",
     "techReferenceBody": "Single, S., Iranmanesh, S., & Raad, R. (2023). RealWaste [Dataset]. UCI Machine Learning Repository.",
     "techSpecs": [
-      { "k": "Architecture", "v": "ResNet50 + fine-tuned head" },
-      { "k": "Strategy",     "v": "Transfer Learning" },
-      { "k": "Runtime",      "v": "ONNX · CPU edge" },
-      { "k": "Dataset",      "v": "RealWaste · UCI ML Repo" },
-      { "k": "Categories",   "v": "9 waste classes" },
-      { "k": "API",          "v": "FastAPI · REST · multipart" }
+      {
+        "k": "Architecture",
+        "v": "ResNet50 + fine-tuned head"
+      },
+      {
+        "k": "Strategy",
+        "v": "Transfer Learning"
+      },
+      {
+        "k": "Runtime",
+        "v": "ONNX · CPU edge"
+      },
+      {
+        "k": "Dataset",
+        "v": "RealWaste · UCI ML Repo"
+      },
+      {
+        "k": "Categories",
+        "v": "9 waste classes"
+      },
+      {
+        "k": "API",
+        "v": "FastAPI · REST · multipart"
+      }
     ],
     "ethicsLabel": "Ethical notice",
     "ethicsTitle": "A support tool.",
@@ -236,9 +318,18 @@
     "ethicsBody1Part2": " nor the decision of a professional operator.",
     "ethicsBody2": "For critical decisions — hazardous waste, WEEE, special materials — always consult the current regulations in your municipality.",
     "ethicsChips": [
-      { "k": "Use",            "v": "Educational" },
-      { "k": "Margin",         "v": "Probabilistic" },
-      { "k": "Final decision", "v": "Human" }
+      {
+        "k": "Use",
+        "v": "Educational"
+      },
+      {
+        "k": "Margin",
+        "v": "Probabilistic"
+      },
+      {
+        "k": "Final decision",
+        "v": "Human"
+      }
     ]
   },
   "footer": {
@@ -257,5 +348,85 @@
     "body": "The URL you're looking for doesn't exist or has moved. Go back home or try the classifier.",
     "home": "Back to home",
     "classify": "Try the classifier"
+  },
+  "config": {
+    "kicker": "Personalization",
+    "title": "Site settings",
+    "intro": "Adjust the institutional colors, typography and favicon. Changes apply live and are saved in your browser.",
+    "sections": {
+      "colors": "Colors",
+      "font": "Typography",
+      "favicon": "Favicon",
+      "preview": "Preview"
+    },
+    "colorsHint": "Pick a predefined palette or switch to custom mode to edit each token.",
+    "fontHint": "The font family applies to headings and body text.",
+    "faviconHint": "PNG or SVG, up to 1 MB. Recommended 512×512 px.",
+    "customEditingMode": "Editing palette for {mode} mode. Toggle the theme to edit the other mode.",
+    "modes": {
+      "light": "light",
+      "dark": "dark"
+    },
+    "colorPresets": {
+      "eco": "EcoClasificador (default)",
+      "forest": "Forest",
+      "ocean": "Ocean",
+      "sunset": "Sunset",
+      "highContrast": "High contrast",
+      "custom": "Custom"
+    },
+    "fontPresets": {
+      "alice": "Alice + sans (default)",
+      "inter": "Inter (modern)",
+      "serifClassic": "Classic serif",
+      "atkinsonHyperlegible": "Atkinson Hyperlegible (low vision)"
+    },
+    "tokens": {
+      "canvas": "Main background",
+      "cream": "Cream surface",
+      "ink": "Base text",
+      "wine": "Wine (accent)",
+      "olive": "Olive (green)",
+      "magenta": "Magenta"
+    },
+    "tokenHints": {
+      "canvas": "Canvas / page background color.",
+      "cream": "Soft surfaces: header, cards, pills.",
+      "ink": "Base typography color.",
+      "wine": "Institutional wine, used on CTAs.",
+      "olive": "Olive green, used on accents and borders.",
+      "magenta": "Magenta accent for details."
+    },
+    "favicon": {
+      "choose": "Upload image",
+      "clear": "Restore default",
+      "empty": "no favicon",
+      "hint": "We accept PNG and SVG. Max 1 MB. Recommended 512×512.",
+      "success": "Favicon updated successfully.",
+      "errors": {
+        "type": "Unsupported format. Use PNG or SVG.",
+        "size": "File exceeds 1 MB.",
+        "read": "Could not read file."
+      },
+      "warnings": {
+        "dimensions": "Dimensions are not 512×512. Favicon may look pixelated."
+      }
+    },
+    "preview": {
+      "button": "Button",
+      "card": "Card",
+      "cardTitle": "Sample card",
+      "cardBody": "This is how a card looks with your new palette.",
+      "input": "Text field",
+      "placeholder": "Type something…"
+    },
+    "previewShow": "Show preview",
+    "previewHide": "Hide preview",
+    "actions": {
+      "apply": "Apply",
+      "reset": "Restore defaults",
+      "resetConfirm": "Are you sure? Your custom colors, typography and favicon will be erased.",
+      "savedMessage": "Changes saved."
+    }
   }
 }
