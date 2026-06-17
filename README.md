@@ -130,7 +130,7 @@ docker run -p 8000:8000 eco-api
 
 La aplicación es bilingüe **Español / Inglés** con un `I18nProvider` casero (sin dependencias externas de i18n):
 
-- Diccionarios en `lib/i18n/es.json` y `lib/i18n/en.json` (**213 claves** cada uno).
+- Diccionarios en `lib/i18n/es.json` y `lib/i18n/en.json` (**270 claves** cada uno).
 - Botón **LangToggle** en el header para cambiar de idioma.
 - Persistencia de la preferencia en **localStorage**.
 
