@@ -47,7 +47,7 @@ export function ImagePreview({ previewUrl, fileName, onReset }: Props) {
       </div>
 
       {fileName && (
-        <div className="absolute bottom-4 left-4 right-4 truncate rounded-xl bg-cream/90 px-3 py-2 text-[12px] text-wine">
+        <div className="absolute bottom-4 left-4 right-4 truncate rounded-xl bg-cream/90 px-3 py-2 text-[12px] text-ink">
           {fileName}
         </div>
       )}

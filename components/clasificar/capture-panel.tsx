@@ -88,7 +88,7 @@ function TabButton({
       aria-pressed={active}
       className={cn(
         'rounded-full px-4 py-2 text-[13px] font-semibold transition-colors',
-        active ? 'bg-wine text-cream shadow-soft' : 'text-wine/70 hover:text-wine',
+        active ? 'bg-wine text-cream shadow-soft' : 'text-ink-dim hover:text-wine',
       )}
     >
       {children}
