@@ -34,6 +34,8 @@ next-env.d.ts
 .claude/
 CLAUDE.md
 memory/
+claude-talk-to-figma-mcp/
+figma_atomic/
 
 # Python (backend/)
 __pycache__/

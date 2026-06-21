@@ -20,5 +20,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "legacy", "design_figma"]
+  "exclude": ["node_modules", "legacy", "design_figma", "claude-talk-to-figma-mcp", "figma_atomic"]
 }

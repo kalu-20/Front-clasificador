@@ -7,7 +7,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { SplitText } from '@/components/ui/split-text';
 import { MagneticButton } from '@/components/ui/magnetic-button';
 import { ApiPill } from './api-pill';
-import { UploadDropzone } from './upload-dropzone';
+import { CapturePanel } from './capture-panel';
 import { ResultPanel } from './result-panel';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 
@@ -146,7 +146,7 @@ export function ClasificarShell() {
                 </div>
                 <div>
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-                    /upload
+                    /capturar
                   </p>
                   <h2 className="font-display text-lg font-bold tracking-tight text-wine">
                     {t('classify.uploadHeading') as string}
@@ -155,7 +155,7 @@ export function ClasificarShell() {
               </div>
 
               <div className="mt-6">
-                <UploadDropzone
+                <CapturePanel
                   onFile={handleFile}
                   previewUrl={preview}
                   fileName={file?.name ?? null}
