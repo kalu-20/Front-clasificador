@@ -235,7 +235,7 @@
     "errorTitleMixed": "Mixed content bloqueado por el navegador",
     "errorTitleNetwork": "API offline o sin CORS",
     "errorTitleHttp": "La API devolvió",
-    "errorMixedDetail": "Estás en una página HTTPS llamando a una API HTTP. Cambiá la URL a una <code class=\"rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine\">https://</code> (o ejecutá la web localmente en http://localhost:3000).",
+    "errorMixedDetail": "Estás en una página HTTPS llamando a una API HTTP. Cambiá la URL a una <code class=\"rounded bg-wine/15 px-1.5 py-0.5 font-mono text-[12px] text-ink\">https://</code> (o ejecutá la web localmente en http://localhost:3000).",
     "errorNetworkDetailA": "Verificá que la API esté online en",
     "errorNetworkDetailB": "y tenga CORS habilitado.",
     "errorDetailLabel": "Detalle",

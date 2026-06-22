@@ -194,20 +194,50 @@ export function useCamera() {
 
   const capture = useCallback(async (): Promise<CaptureResult | null> => {
     const video = videoRef.current;
-    if (!video || !video.videoWidth || !video.videoHeight) return null;
+    const vw = video?.videoWidth ?? 0;
+    const vh = video?.videoHeight ?? 0;
+    if (!video || !vw || !vh) return null;
+
+    // Recortar la captura al MISMO encuadre 4:3 que muestra el visor
+    // (object-cover, centrado) para que lo que el usuario ve, lo que recibe la
+    // API y la vista previa coincidan exactamente (WYSIWYG).
+    const ratio = 4 / 3;
+    let sw: number;
+    let sh: number;
+    let sx: number;
+    let sy: number;
+    if (vw / vh > ratio) {
+      sh = vh;
+      sw = Math.round(vh * ratio);
+      sx = Math.round((vw - sw) / 2);
+      sy = 0;
+    } else {
+      sw = vw;
+      sh = Math.round(vw / ratio);
+      sx = 0;
+      sy = Math.round((vh - sh) / 2);
+    }
+
+    // Limitar el lado mayor del destino a 1280px (peso del File / memoria).
+    let dw = sw;
+    let dh = sh;
+    if (dw > 1280) {
+      dw = 1280;
+      dh = 960;
+    }
 
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = dw;
+    canvas.height = dh;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
 
     // Espejar la captura con la cámara frontal para que coincida con el preview.
     if (facingMode === 'user') {
-      ctx.translate(canvas.width, 0);
+      ctx.translate(dw, 0);
       ctx.scale(-1, 1);
     }
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, dw, dh);
 
     const previewUrl = canvas.toDataURL('image/jpeg', 0.92);
     const blob = await new Promise<Blob | null>((resolve) =>

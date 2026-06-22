@@ -235,7 +235,7 @@
     "errorTitleMixed": "Mixed content blocked by the browser",
     "errorTitleNetwork": "API offline or no CORS",
     "errorTitleHttp": "The API returned",
-    "errorMixedDetail": "You are on an HTTPS page calling an HTTP API. Change the URL to <code class=\"rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine\">https://</code> (or run the web locally at http://localhost:3000).",
+    "errorMixedDetail": "You are on an HTTPS page calling an HTTP API. Change the URL to <code class=\"rounded bg-wine/15 px-1.5 py-0.5 font-mono text-[12px] text-ink\">https://</code> (or run the web locally at http://localhost:3000).",
     "errorNetworkDetailA": "Check that the API is online at",
     "errorNetworkDetailB": "and has CORS enabled.",
     "errorDetailLabel": "Detail",

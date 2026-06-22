@@ -36,12 +36,12 @@ export function CapturePanel({ onFile, previewUrl, fileName, onReset }: Props) {
 
   return (
     <div>
-      <div className="mb-5 inline-flex rounded-full border border-wine/15 bg-canvas/60 p-1">
+      <div className="mb-5 grid grid-cols-2 gap-1 rounded-full border border-wine/15 bg-canvas/60 p-1 sm:inline-flex sm:w-auto">
         <TabButton active={mode === 'camera'} onClick={() => setMode('camera')}>
-          📸 {t('classify.camTab') as string}
+          {t('classify.camTab') as string}
         </TabButton>
         <TabButton active={mode === 'upload'} onClick={() => setMode('upload')}>
-          📤 {t('classify.uploadTab') as string}
+          {t('classify.uploadTab') as string}
         </TabButton>
       </div>
 
@@ -87,7 +87,7 @@ function TabButton({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'rounded-full px-4 py-2 text-[13px] font-semibold transition-colors',
+        'flex min-h-[44px] w-full items-center justify-center rounded-full px-4 py-2.5 text-center text-[13px] font-semibold transition-colors sm:w-auto',
         active ? 'bg-wine text-cream shadow-soft' : 'text-ink-dim hover:text-wine',
       )}
     >

@@ -152,15 +152,15 @@ function ErrorView({ message }: { message: string }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl border border-red-400/40 bg-red-50 p-5"
+      className="rounded-2xl border border-red-500/30 bg-red-500/10 p-5"
       role="alert"
     >
       <div className="flex items-start gap-3">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-red-100 text-base" aria-hidden="true">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-red-500/15 text-base" aria-hidden="true">
           ⚠️
         </div>
         <div
-          className="flex-1 text-[13px] leading-relaxed text-red-900/85"
+          className="flex-1 text-[13px] leading-relaxed text-ink-dim"
           dangerouslySetInnerHTML={{ __html: message }}
         />
       </div>
@@ -201,7 +201,7 @@ function Success({ data }: { data: PredictionResponse }) {
             </h3>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-dim">
               {t('classify.confidence') as string}
             </p>
             <p className="font-display text-2xl font-bold tracking-tight text-olive">
@@ -222,7 +222,7 @@ function Success({ data }: { data: PredictionResponse }) {
       </div>
 
       <div>
-        <h4 className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+        <h4 className="mb-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-dim">
           {t('classify.probsHeading') as string}
         </h4>
         <ul className="space-y-3">
@@ -266,7 +266,7 @@ function Success({ data }: { data: PredictionResponse }) {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           className="rounded-2xl border border-olive/30 bg-olive/[0.06] p-5"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-olive">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-olive">
             {t('classify.recommendation') as string}
           </p>
           <p className="mt-2 text-[15px] leading-relaxed text-ink">

@@ -12,14 +12,16 @@ type Props = {
   onCapture: (file: File, previewUrl: string) => void;
 };
 
+// CTA de la cámara: wine sólido (acción de marca, legible en ambos temas por el
+// reset de cream en .bg-wine). No usar olive: en dark se vuelve amarillo.
 const PRIMARY_BTN =
-  'inline-flex items-center justify-center gap-2 rounded-xl bg-olive px-5 py-2.5 text-[14px] font-semibold text-cream shadow-soft transition-transform duration-200 hover:-translate-y-[1px]';
+  'inline-flex items-center justify-center gap-2 rounded-xl bg-wine px-5 py-2.5 text-[14px] font-semibold text-cream shadow-soft transition-transform duration-200 hover:-translate-y-[1px]';
 const OUTLINE_BTN =
   'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-wine ring-1 ring-wine/25 transition-colors hover:bg-wine/5';
 // Controles sobre el video: color FIJO (glass oscuro + texto blanco), igual en
-// ambos temas porque el visor siempre es oscuro.
+// ambos temas porque el visor siempre es oscuro. 44px de área táctil.
 const ICON_BTN =
-  'grid h-10 w-10 place-items-center rounded-full bg-black/55 text-white shadow-soft backdrop-blur transition-colors hover:bg-black/75';
+  'grid h-11 w-11 place-items-center rounded-full bg-black/55 text-white shadow-soft backdrop-blur transition-colors hover:bg-black/75';
 
 const ERROR_KEY: Record<CameraErrorKind, string> = {
   unsupported: 'classify.camErrUnsupported',
@@ -189,7 +191,7 @@ export function CameraCapture({ onCapture }: Props) {
               </p>
             </div>
             <button type="button" onClick={() => start('environment')} className={PRIMARY_BTN}>
-              🎥 {t('classify.camEnable') as string}
+              {t('classify.camEnable') as string}
             </button>
             <button
               type="button"
@@ -252,10 +254,10 @@ export function CameraCapture({ onCapture }: Props) {
             <span className="sr-only">{t('classify.camLiveReady') as string}</span>
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25" />
 
-            <div className="absolute left-3 right-3 top-3 flex items-center justify-between">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white backdrop-blur">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" aria-hidden="true" />
-                {t('classify.camLive') as string}
+            <div className="absolute left-3 right-3 top-3 flex items-center justify-between gap-2">
+              <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white backdrop-blur">
+                <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-red-500" aria-hidden="true" />
+                <span className="truncate">{t('classify.camLive') as string}</span>
               </span>
               <div className="flex items-center gap-2">
                 {hasMultipleCameras && (
@@ -279,7 +281,7 @@ export function CameraCapture({ onCapture }: Props) {
               </div>
             </div>
 
-            <div className="absolute inset-x-0 bottom-5 flex flex-col items-center gap-2">
+            <div className="absolute inset-x-0 bottom-4 flex flex-col items-center gap-2">
               {!ready && (
                 <span className="rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-white backdrop-blur">
                   {t('classify.camFocusing') as string}
@@ -290,9 +292,9 @@ export function CameraCapture({ onCapture }: Props) {
                 onClick={handleShutter}
                 disabled={!ready || capturing}
                 aria-label={t('classify.camShutterAria') as string}
-                className="group grid h-[68px] w-[68px] place-items-center rounded-full border-4 border-white bg-white/25 backdrop-blur transition-transform duration-150 active:scale-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
+                className="group grid h-[60px] w-[60px] place-items-center rounded-full border-4 border-white bg-white/25 backdrop-blur transition-transform duration-150 active:scale-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 sm:h-[68px] sm:w-[68px]"
               >
-                <span className="h-12 w-12 rounded-full bg-white transition-colors group-hover:bg-olive group-disabled:bg-white/70" />
+                <span className="h-10 w-10 rounded-full bg-white transition-colors group-hover:bg-[#447A00] group-disabled:bg-white/70 sm:h-12 sm:w-12" />
               </button>
             </div>
           </motion.div>
@@ -309,7 +311,7 @@ export function CameraCapture({ onCapture }: Props) {
             transition={{ duration: 0.25 }}
             className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center"
           >
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-red-500/15 text-2xl" aria-hidden="true">
+            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-red-500/15 text-3xl" aria-hidden="true">
               📷
             </div>
             <p className="max-w-xs text-[13px] leading-relaxed text-ink-dim">
@@ -337,7 +339,7 @@ export function CameraCapture({ onCapture }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.25 }}
-            className="absolute inset-x-3 top-16 z-30 rounded-xl bg-wine/95 px-3 py-2 text-center text-[12px] font-medium text-white backdrop-blur"
+            className="absolute left-1/2 top-1/2 z-40 max-w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-wine/95 px-3 py-2 text-center text-[12px] font-medium text-white shadow-soft backdrop-blur"
           >
             {hint}
           </motion.div>

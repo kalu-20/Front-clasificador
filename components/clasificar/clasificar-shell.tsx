@@ -71,7 +71,7 @@ export function ClasificarShell() {
           detail = t('classify.errorMixedDetail') as string;
         } else if (err.kind === 'network') {
           title = t('classify.errorTitleNetwork') as string;
-          detail = `${t('classify.errorNetworkDetailA') as string} <code class="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">${apiUrl}</code> ${t('classify.errorNetworkDetailB') as string}<br/><br/><strong>${t('classify.errorDetailLabel') as string}:</strong> ${err.message}`;
+          detail = `${t('classify.errorNetworkDetailA') as string} <code class="rounded bg-wine/15 px-1.5 py-0.5 font-mono text-[12px] text-ink">${apiUrl}</code> ${t('classify.errorNetworkDetailB') as string}<br/><br/><strong>${t('classify.errorDetailLabel') as string}:</strong> ${err.message}`;
         } else if (err.kind === 'http') {
           title = `${t('classify.errorTitleHttp') as string} ${err.status ?? ''}`;
           detail = err.message;
@@ -80,7 +80,7 @@ export function ClasificarShell() {
 
       setStatus({
         kind: 'error',
-        message: `<strong class="block text-[14px] text-red-800">${title}</strong><div class="mt-1.5">${detail}</div>`,
+        message: `<strong class="block text-[14px] text-red-600 dark:text-red-300">${title}</strong><div class="mt-1.5">${detail}</div>`,
       });
     }
   };
@@ -89,7 +89,7 @@ export function ClasificarShell() {
 
   return (
     <>
-      <section className="relative isolate pt-36 pb-10">
+      <section className="relative isolate pt-28 pb-10 sm:pt-36">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 grid-paper opacity-60" />
 
         <div className="container-app text-center">
@@ -137,7 +137,7 @@ export function ClasificarShell() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="card-paper relative rounded-3xl p-7 sm:p-9"
+            className="card-paper relative rounded-3xl p-5 sm:p-9"
           >
             <div className="relative">
               <div className="flex items-center gap-3">
@@ -163,7 +163,7 @@ export function ClasificarShell() {
                 />
               </div>
 
-              <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
+              <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                 <p className="text-[12px] text-ink-muted">
                   {t('classify.uploadTip') as string}
                 </p>
@@ -213,7 +213,7 @@ export function ClasificarShell() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-3xl border border-wine/15 bg-cream p-7 sm:p-9"
+            className="rounded-3xl border border-wine/15 bg-cream p-5 sm:p-9"
           >
             <div className="flex items-start gap-4">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-wine/15 bg-canvas text-base" aria-hidden="true">
@@ -225,7 +225,7 @@ export function ClasificarShell() {
                 </h3>
                 <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-ink-dim">
                   {t('classify.noteBody1') as string}{' '}
-                  <code className="rounded bg-wine/10 px-1.5 py-0.5 font-mono text-[12px] text-wine">
+                  <code className="rounded bg-wine/15 px-1.5 py-0.5 font-mono text-[12px] text-ink">
                     http://127.0.0.1:8000
                   </code>{' '}
                   {t('classify.noteBody2') as string}{' '}

@@ -22,32 +22,32 @@ export function ImagePreview({ previewUrl, fileName, onReset }: Props) {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="relative aspect-[4/3] overflow-hidden rounded-3xl border-2 border-olive/40 shadow-glow"
+      className="relative aspect-[4/3] overflow-hidden rounded-3xl border-2 border-olive/40 bg-black shadow-glow"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={previewUrl}
         alt={t('classify.previewAlt') as string}
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-wine/60 via-transparent to-transparent" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/15" aria-hidden="true" />
 
-      <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-cream px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-olive">
-          <span className="h-1.5 w-1.5 rounded-full bg-olive" aria-hidden="true" />
+      <div className="absolute left-3 right-3 top-3 flex flex-wrap items-start justify-between gap-2">
+        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white backdrop-blur">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#447A00]" aria-hidden="true" />
           {t('classify.previewReady') as string}
         </span>
         <button
           type="button"
           onClick={onReset}
-          className="rounded-full border border-cream/50 bg-wine/85 px-3 py-1 text-[11px] font-semibold text-cream transition-colors hover:bg-wine"
+          className="shrink-0 rounded-full border border-white/70 bg-wine px-3 py-1.5 text-[12px] font-semibold text-cream transition-colors hover:bg-wine/90"
         >
           {t('classify.changeImage') as string}
         </button>
       </div>
 
       {fileName && (
-        <div className="absolute bottom-4 left-4 right-4 truncate rounded-xl bg-cream/90 px-3 py-2 text-[12px] text-ink">
+        <div className="absolute bottom-3 left-3 right-3 truncate rounded-xl bg-black/55 px-3 py-2 text-[12px] text-white backdrop-blur">
           {fileName}
         </div>
       )}

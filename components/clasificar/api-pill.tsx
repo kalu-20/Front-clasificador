@@ -49,7 +49,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-      className="mx-auto inline-flex max-w-full flex-wrap items-center gap-3 rounded-full border border-wine/15 bg-cream px-4 py-2 shadow-card sm:flex-nowrap"
+      className="mx-auto inline-flex max-w-full flex-wrap items-center gap-3 rounded-2xl border border-wine/15 bg-cream px-4 py-2 shadow-card sm:flex-nowrap sm:rounded-full"
     >
       <span
         className={cn(
@@ -73,7 +73,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
       </span>
       {!editing ? (
         <>
-          <code className="max-w-[260px] truncate rounded-md bg-canvas px-2 py-1 font-mono text-[12px] text-ink sm:max-w-[420px]">
+          <code className="min-w-0 max-w-full flex-1 truncate rounded-md bg-canvas px-2 py-1 font-mono text-[12px] text-ink ring-1 ring-wine/10 sm:max-w-[420px] sm:flex-none">
             {apiUrl}
           </code>
           <button
@@ -95,14 +95,14 @@ export function ApiPill({ apiUrl, onChange }: Props) {
             if (v.length > 0) onChange(v);
             setEditing(false);
           }}
-          className="flex w-full items-center gap-2 sm:w-auto"
+          className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap"
         >
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             autoFocus
             aria-label={t('classify.apiChangeUrl') as string}
-            className="w-full min-w-[240px] rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px]"
+            className="w-full min-w-0 rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px] sm:min-w-[240px]"
             placeholder={t('classify.apiUrlPlaceholder') as string}
           />
           <button
