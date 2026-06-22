@@ -249,7 +249,7 @@
     "apiStatusOffline": "offline",
     "apiLabel": "API",
     "apiChangeUrl": "Change URL",
-    "apiUrlPlaceholder": "https://ecoclasificador-api-production.up.railway.app/api/v1/predict",
+    "apiUrlPlaceholder": "https://saltaget.com.ar/api/v1/predict",
     "apiAria": "API status",
     "camTab": "Take photo",
     "uploadTab": "Upload image",

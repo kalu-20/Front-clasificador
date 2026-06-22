@@ -4,7 +4,7 @@
 **Cátedra:** Modelado de Sistemas de Inteligencia Artificial Aplicada — UPATecO Salta · 2026.
 **Defensa:** lunes 23 de junio de 2026.
 **Equipo:** María Claudia Fabián (MC) · Fátima Isabel Sumbaine (FS) · Daniel Marcelo Chachagua Garrido (DC) · Victoria Macarena Alvarez (VA).
-**Demo en vivo:** https://clasificadorresiduo.lat — API: https://ecoclasificador-api-production.up.railway.app/docs
+**Demo en vivo:** https://clasificadorresiduo.lat — API: https://saltaget.com.ar/docs
 **Duración objetivo total:** 3:00 ± 0:15.
 
 Este documento concentra la planificación de los dos ensayos previos a la defensa y el banco de preguntas probables del jurado.
@@ -54,7 +54,7 @@ Completar de arriba hacia abajo antes de empezar a cronometrar:
 Comando rápido para despertar y verificar el backend (correr 5 min antes):
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}\n" https://ecoclasificador-api-production.up.railway.app/health
+curl -s -o /dev/null -w "%{http_code}\n" https://saltaget.com.ar/
 ```
 
 Si devuelve `200`, el backend está despierto. Si tarda mucho o falla la primera vez, repetir: el primer request paga el cold start.

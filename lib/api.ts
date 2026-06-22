@@ -3,7 +3,7 @@
  *
  * La URL por defecto se resuelve en este orden:
  *   1. `NEXT_PUBLIC_API_URL` definida en build (Vercel / .env.local).
- *   2. Fallback hardcoded a la API pública de Railway.
+ *   2. Fallback hardcoded a la API pública en producción (saltaget.com.ar).
  *   3. localStorage `ecoApi` — sobreescribe ambas si el usuario tocó "Cambiar URL".
  */
 
@@ -12,7 +12,7 @@ const ENV_URL = process.env.NEXT_PUBLIC_API_URL?.trim();
 const PRODUCTION_API_URL =
   ENV_URL && ENV_URL.length > 0
     ? ENV_URL
-    : 'https://ecoclasificador-api-production.up.railway.app/api/v1/predict';
+    : 'https://saltaget.com.ar/api/v1/predict';
 
 const LOCAL_API_URL = 'http://127.0.0.1:8000/api/v1/predict';
 
