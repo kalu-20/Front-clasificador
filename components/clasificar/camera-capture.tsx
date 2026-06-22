@@ -127,7 +127,12 @@ export function CameraCapture({ onCapture }: Props) {
   const liveView = status === 'requesting' || status === 'streaming';
 
   return (
-    <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border-2 border-wine/20 bg-canvas/40">
+    <div
+      className={cn(
+        'relative aspect-[4/3] overflow-hidden rounded-3xl border-2 bg-canvas/40',
+        status === 'error' ? 'border-red-500/30' : 'border-wine/20',
+      )}
+    >
       {/* Input oculto que invoca la cámara del sistema (fallback robusto). */}
       <input
         ref={nativeInputRef}
@@ -294,7 +299,7 @@ export function CameraCapture({ onCapture }: Props) {
                 aria-label={t('classify.camShutterAria') as string}
                 className="group grid h-[60px] w-[60px] place-items-center rounded-full border-4 border-white bg-white/25 backdrop-blur transition-transform duration-150 active:scale-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 sm:h-[68px] sm:w-[68px]"
               >
-                <span className="h-10 w-10 rounded-full bg-white transition-colors group-hover:bg-[#447A00] group-disabled:bg-white/70 sm:h-12 sm:w-12" />
+                <span className="h-10 w-10 rounded-full bg-white transition-colors group-hover:bg-leaf-600 group-disabled:bg-white/70 sm:h-12 sm:w-12" />
               </button>
             </div>
           </motion.div>

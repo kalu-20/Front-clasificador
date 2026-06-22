@@ -33,14 +33,14 @@ export function ImagePreview({ previewUrl, fileName, onReset }: Props) {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/15" aria-hidden="true" />
 
       <div className="absolute left-3 right-3 top-3 flex flex-wrap items-start justify-between gap-2">
-        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#447A00]" aria-hidden="true" />
+        <span className="inline-flex min-h-[28px] shrink-0 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-white backdrop-blur">
+          <span className="h-1.5 w-1.5 rounded-full bg-leaf-600" aria-hidden="true" />
           {t('classify.previewReady') as string}
         </span>
         <button
           type="button"
           onClick={onReset}
-          className="shrink-0 rounded-full border border-white/70 bg-wine px-3 py-1.5 text-[12px] font-semibold text-cream transition-colors hover:bg-wine/90"
+          className="inline-flex min-h-[44px] shrink-0 items-center rounded-full border border-white/70 bg-wine px-4 text-[12px] font-semibold text-cream transition-colors hover:bg-wine/90"
         >
           {t('classify.changeImage') as string}
         </button>

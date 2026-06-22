@@ -105,7 +105,7 @@ cp .env.example .env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api/v1/predict
 ```
 
-`NEXT_PUBLIC_API_URL` debe apuntar al endpoint `/api/v1/predict` del backend (local o en Railway).
+`NEXT_PUBLIC_API_URL` debe apuntar al endpoint `/api/v1/predict` del backend (local en `127.0.0.1:8000`, o el backend público en `https://saltaget.com.ar`). Si no se define, el frontend usa `https://saltaget.com.ar/api/v1/predict` por defecto en producción.
 
 ### Backend (FastAPI)
 

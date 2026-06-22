@@ -84,7 +84,7 @@ export function UploadDropzone({ onFile }: Props) {
       <div className="relative z-10 flex flex-col items-center justify-center gap-4 px-6">
         <div
           className={cn(
-            'grid h-16 w-16 place-items-center rounded-2xl border-2 text-2xl transition-colors',
+            'grid h-16 w-16 place-items-center rounded-2xl border-2 text-3xl transition-colors',
             dragOver ? 'border-olive bg-olive/15' : 'border-wine/20 bg-cream',
           )}
           aria-hidden="true"

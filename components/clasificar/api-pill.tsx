@@ -82,7 +82,7 @@ export function ApiPill({ apiUrl, onChange }: Props) {
               setValue(apiUrl);
               setEditing(true);
             }}
-            className="rounded-full border border-wine/20 px-3 py-1 text-[12px] font-semibold text-wine transition-colors hover:bg-wine hover:text-cream"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-wine/20 px-4 text-[12px] font-semibold text-wine transition-colors hover:bg-wine hover:text-cream"
           >
             {t('classify.apiChangeUrl') as string}
           </button>
@@ -102,19 +102,19 @@ export function ApiPill({ apiUrl, onChange }: Props) {
             onChange={(e) => setValue(e.target.value)}
             autoFocus
             aria-label={t('classify.apiChangeUrl') as string}
-            className="w-full min-w-0 rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px] sm:min-w-[240px]"
+            className="min-h-[44px] w-full min-w-0 rounded-md border border-wine/20 bg-cream px-2.5 py-1.5 font-mono text-[12px] text-ink outline-none transition-colors focus:border-olive sm:w-[400px] sm:min-w-[240px]"
             placeholder={t('classify.apiUrlPlaceholder') as string}
           />
           <button
             type="submit"
-            className="rounded-full bg-wine px-3 py-1 text-[12px] font-semibold text-cream"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-wine px-4 text-[12px] font-semibold text-cream"
           >
             {t('common.save') as string}
           </button>
           <button
             type="button"
             onClick={() => setEditing(false)}
-            className="rounded-full border border-wine/20 px-3 py-1 text-[12px] font-semibold text-wine hover:bg-wine/5"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-wine/20 px-4 text-[12px] font-semibold text-wine hover:bg-wine/5"
           >
             {t('common.cancel') as string}
           </button>

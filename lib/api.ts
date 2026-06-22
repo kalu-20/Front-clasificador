@@ -125,5 +125,15 @@ export async function predictImage(
     );
   }
 
-  return (await response.json()) as PredictionResponse;
+  const data = (await response.json()) as PredictionResponse;
+  if (
+    typeof data?.predicted_class !== 'string' ||
+    !Array.isArray(data?.probabilities)
+  ) {
+    throw new ApiError(
+      'unknown',
+      'La API respondió en un formato inesperado (faltan predicted_class o probabilities).',
+    );
+  }
+  return data;
 }
