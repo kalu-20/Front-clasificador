@@ -153,28 +153,77 @@ export function fileToDataUrl(file: File): Promise<string> {
  *   metadata original.
  */
 const CONFIG_FAVICON_ATTR = 'data-config-favicon';
+const ORIG_HREF_ATTR = 'data-config-orig-href';
 
 export function rememberOriginalFavicon(): void {
   // No-op: ya no manipulamos el favicon original del metadata (lo maneja React).
   // Se mantiene exportado por compatibilidad con quienes lo importan.
 }
 
+/**
+ * Aplica (o restaura) el favicon sin pelearse con React.
+ *
+ * Next.js renderiza varios `<link rel="icon">` desde el `metadata` del layout
+ * (favicon-32x32, favicon-16x16, /icon.png, etc.), cada uno con su `sizes`.
+ * El navegador elige UNO de esos por tamaño, así que agregar un link nuevo
+ * sin `sizes` no alcanza: el icono no cambia. Tampoco podemos ELIMINAR esos
+ * nodos, porque los controla React y al reconciliar el <head> tira
+ * "removeChild" sobre null y rompe la app.
+ *
+ * Solución: NO removemos nodos. Apuntamos el `href` de TODOS los icon links
+ * existentes al `dataUrl` (guardando el href original en un data-attr), así
+ * cualquiera que elija el navegador muestra el icono nuevo. Mutar atributos
+ * es seguro (no dispara el removeChild). Para `null`, restauramos los href
+ * originales y quitamos solo nuestro link propio.
+ */
 export function applyFaviconToHead(dataUrl: string | null): void {
   if (typeof document === 'undefined') return;
   const head = document.head;
-  // Removemos SOLO nuestro propio favicon previo (nunca los de React/metadata).
-  head
-    .querySelectorAll(`link[${CONFIG_FAVICON_ATTR}="true"]`)
-    .forEach((node) => node.parentNode?.removeChild(node));
+  const iconLinks = Array.from(
+    head.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]'),
+  );
 
-  if (!dataUrl) return; // restaurar = quitar el nuestro; quedan los del metadata.
+  if (!dataUrl) {
+    // Restaurar: devolver href original a los links de React; quitar el nuestro.
+    iconLinks.forEach((link) => {
+      if (link.getAttribute(CONFIG_FAVICON_ATTR) === 'true') {
+        link.parentNode?.removeChild(link); // este es nuestro, sí podemos quitarlo
+        return;
+      }
+      const orig = link.getAttribute(ORIG_HREF_ATTR);
+      if (orig !== null) {
+        link.setAttribute('href', orig);
+        link.removeAttribute(ORIG_HREF_ATTR);
+      }
+    });
+    return;
+  }
 
-  const link = document.createElement('link');
-  link.rel = 'icon';
-  link.setAttribute(CONFIG_FAVICON_ATTR, 'true');
-  link.type = dataUrl.startsWith('data:image/svg') ? 'image/svg+xml' : 'image/png';
-  link.href = dataUrl;
-  head.appendChild(link);
+  // Override: apuntar todos los icon links existentes al nuevo dataUrl.
+  let ownLink: HTMLLinkElement | null = null;
+  iconLinks.forEach((link) => {
+    if (link.getAttribute(CONFIG_FAVICON_ATTR) === 'true') {
+      ownLink = link;
+      return;
+    }
+    if (!link.hasAttribute(ORIG_HREF_ATTR)) {
+      link.setAttribute(ORIG_HREF_ATTR, link.getAttribute('href') ?? '');
+    }
+    link.setAttribute('href', dataUrl);
+  });
+
+  // Link propio autoritativo (último en el <head>), creado una sola vez.
+  const type = dataUrl.startsWith('data:image/svg')
+    ? 'image/svg+xml'
+    : 'image/png';
+  if (!ownLink) {
+    ownLink = document.createElement('link');
+    ownLink.rel = 'icon';
+    ownLink.setAttribute(CONFIG_FAVICON_ATTR, 'true');
+    head.appendChild(ownLink);
+  }
+  ownLink.type = type;
+  ownLink.setAttribute('href', dataUrl);
 }
 
 /* ---------- Font helpers ---------------------------------------------- */
